@@ -71,26 +71,26 @@ mkdir %where_choco_cache%
 :: translations
 ::::::::::::::::::::::::::::
 
-CALL load-msg
+CALL REQUIRE load-msg.cmd
 
 ::::::::::::::::::::::::::::
 :: required utilities
 ::::::::::::::::::::::::::::
 
 :: syspin is used to pin programs to the taskbar and startmenu
-choco install -y syspin
+CALL REQUIRE apps\syspin.cmd
 
 :: everything is used by set-where.bat script
 call apps\everything.cmd
 
-choco install -y setdefaultbrowser
+CALL REQUIRE apps\setdefaultbrowser.cmd
 
-choco install -y git --params "/GitAndUnixToolsOnPath"
+CALL REQUIRE apps\git.cmd
 
 ::choco install -y wget
 
 :: should I install all vcredists? or only the needed ones?
-choco install vcredist-all
+CALL REQUIRE apps\vcredist.cmd
 
 ::::::::::::::::::::::::::::
 :: programs
@@ -99,25 +99,27 @@ choco install vcredist-all
 :: - create cmda.lnk command (cmd as administrator)
 CALL shortcut-create "%where_shortcuts%\cmda.lnk" %ComSpec% -wd "" -ra
 
-CALL REQUIRE apps\kdiff.cmd
-CALL REQUIRE apps\winmerge.cmd
-
-CALL REQUIRE apps\gitextensions.cmd
-
 CALL REQUIRE apps\grepwin.cmd
 
 CALL REQUIRE apps\freefonts.cmd
 CALL REQUIRE apps\notepad++.cmd
 
+CALL REQUIRE apps\kdiff.cmd
+CALL REQUIRE apps\winmerge.cmd
+
+CALL REQUIRE apps\gitextensions.cmd
+
 CALL REQUIRE apps\vscode.cmd
 CALL REQUIRE apps\vs.cmd
+
+CALL REQUIRE apps\node.cmd
+
+CALL REQUIRE apps\python.cmd
+CALL REQUIRE apps\jupyter.cmd
 
 CALL REQUIRE apps\google-chrome.cmd
 CALL REQUIRE apps\edge.cmd
 
 CALL REQUIRE apps\anydesk.cmd
-
-CALL REQUIRE apps\python.cmd
-CALL REQUIRE apps\jupyter.cmd
 
 CALL REQUIRE apps\telegram.cmd
