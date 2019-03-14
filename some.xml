@@ -1,0 +1,4 @@
+<div>
+    <button id="btn1">Cancel</button>
+    <button id="btn2">Ok</button>
+</div>

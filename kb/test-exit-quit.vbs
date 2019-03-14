@@ -1,0 +1,1 @@
+WScript.Quit WScript.Arguments(0)

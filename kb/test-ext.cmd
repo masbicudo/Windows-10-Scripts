@@ -1,0 +1,2 @@
+@ECHO OFF
+ECHO.%~x1

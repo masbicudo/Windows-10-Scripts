@@ -1,0 +1,38 @@
+<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" Version="1" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
+  <LayoutOptions StartTileGroupCellWidth="6" />
+  <DefaultLayoutOverride>
+    <StartLayoutCollection>
+      <defaultlayout:StartLayout GroupCellWidth="6">
+        <start:Group Name="Create">
+          <start:Tile Size="2x2" Column="0" Row="0" AppUserModelID="microsoft.windowscommunicationsapps_8wekyb3d8bbwe!Microsoft.WindowsLive.Calendar" />
+          <start:Tile Size="4x2" Column="2" Row="0" AppUserModelID="microsoft.windowscommunicationsapps_8wekyb3d8bbwe!Microsoft.WindowsLive.Mail" />
+          <start:Tile Size="2x2" Column="2" Row="2" AppUserModelID="Microsoft.MicrosoftOfficeHub_8wekyb3d8bbwe!Microsoft.MicrosoftOfficeHub" />
+          <start:Tile Size="2x2" Column="0" Row="2" AppUserModelID="CAF9E577.Plex_aam28m9va5cke!App" />
+          <start:Tile Size="2x2" Column="4" Row="2" AppUserModelID="Microsoft.Office.OneNote_8wekyb3d8bbwe!microsoft.onenoteim" />
+        </start:Group>
+        <start:Group Name="Play">
+          <start:Tile Size="2x2" Column="0" Row="2" AppUserModelID="king.com.CandyCrushFriends_kgqvnymyfvs32!App" />
+          <start:Tile Size="2x2" Column="2" Row="2" AppUserModelID="Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe!App" />
+          <start:Tile Size="2x2" Column="4" Row="0" AppUserModelID="Microsoft.Windows.Photos_8wekyb3d8bbwe!App" />
+          <start:Tile Size="2x2" Column="4" Row="4" AppUserModelID="Nordcurrent.CookingFever_m9bz608c1b9ra!App" />
+          <start:Tile Size="1x1" Column="3" Row="0" AppUserModelID="Microsoft.ZuneMusic_8wekyb3d8bbwe!Microsoft.ZuneMusic" />
+          <start:Tile Size="1x1" Column="3" Row="1" AppUserModelID="Microsoft.WindowsMaps_8wekyb3d8bbwe!App" />
+          <start:Tile Size="2x2" Column="4" Row="2" AppUserModelID="king.com.CandyCrushSaga_kgqvnymyfvs32!App" />
+          <start:Tile Size="1x1" Column="2" Row="0" AppUserModelID="Microsoft.ZuneVideo_8wekyb3d8bbwe!Microsoft.ZuneVideo" />
+          <start:Tile Size="1x1" Column="2" Row="1" AppUserModelID="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" />
+          <start:Tile Size="2x2" Column="0" Row="0" AppUserModelID="Microsoft.XboxApp_8wekyb3d8bbwe!Microsoft.XboxApp" />
+        </start:Group>
+        <start:Group Name="Explore">
+          <start:Tile Size="4x2" Column="0" Row="0" AppUserModelID="Microsoft.WindowsStore_8wekyb3d8bbwe!App" />
+          <start:Tile Size="2x2" Column="4" Row="0" AppUserModelID="Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge" />
+          <start:Tile Size="2x2" Column="0" Row="4" AppUserModelID="Microsoft.MSPaint_8wekyb3d8bbwe!Microsoft.MSPaint" />
+          <start:Tile Size="2x2" Column="0" Row="2" AppUserModelID="Microsoft.BingWeather_8wekyb3d8bbwe!App" />
+          <start:Tile Size="2x2" Column="2" Row="2" AppUserModelID="Microsoft.BingNews_8wekyb3d8bbwe!AppexNews" />
+          <start:Tile Size="2x2" Column="4" Row="2" AppUserModelID="Microsoft.SkypeApp_kzf8qxf38zg5c!App" />
+          <start:Tile Size="2x2" Column="2" Row="4" AppUserModelID="Fitbit.FitbitCoach_6mqt6hf9g46tw!App" />
+          <start:Tile Size="2x2" Column="4" Row="4" AppUserModelID="ThumbmunkeysLtd.PhototasticCollage_nfy108tqq3p12!App" />
+        </start:Group>
+      </defaultlayout:StartLayout>
+    </StartLayoutCollection>
+  </DefaultLayoutOverride>
+</LayoutModificationTemplate>

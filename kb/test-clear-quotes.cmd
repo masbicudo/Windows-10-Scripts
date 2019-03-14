@@ -1,0 +1,5 @@
+@ECHO OFF
+SETLOCAL
+SET _=%1
+SET _=%_:"=%
+ECHO.%_%
