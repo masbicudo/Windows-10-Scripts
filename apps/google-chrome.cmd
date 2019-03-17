@@ -1,11 +1,12 @@
+call require apps/choco.cmd
 choco install -y googlechrome
-CALL set-where where_chrome chrome.exe
-CALL MOVE "%where_public_desktop%\Google Chrome.lnk" "%where_shortcuts%\"
+call set-where where_chrome chrome.exe
+call MOVE "%where_public_desktop%\Google Chrome.lnk" "%where_shortcuts%\"
 :: chrome links
-CALL shortcut-create "%where_shortcuts%\chrome.lnk" "%where_chrome%" -d "%MSG[1]%"
+shortcut-create "%where_shortcuts%\chrome.lnk" "%where_chrome%" -d "%MSG[1]%"
 :: chrome profiles links ( old param --user-data-dir="%SystemDrive%\Chrome Users" removed, we will use the default location )
-CALL shortcut-create "%where_shortcuts%\chrome-masb.lnk" "%where_chrome%" -a --profile-directory="profile-masbicudo" --no-first-run --no-default-browser-check
-CALL shortcut-create "%where_shortcuts%\chrome-luiza.lnk" "%where_chrome%" -a --profile-directory="profile-luiza" --no-first-run --no-default-browser-check
+shortcut-create "%where_shortcuts%\chrome-masb.lnk" "%where_chrome%" -a --profile-directory="profile-masbicudo" --no-first-run --no-default-browser-check
+shortcut-create "%where_shortcuts%\chrome-luiza.lnk" "%where_chrome%" -a --profile-directory="profile-luiza" --no-first-run --no-default-browser-check
 :: http://kolbi.cz/blog/2017/11/10/setdefaultbrowser-set-the-default-browser-per-user-on-windows-10-and-server-2016-build-1607/
 setdefaultbrowser chrome
 :: c:5386  : Pin to taskbar

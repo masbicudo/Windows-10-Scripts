@@ -1,3 +1,4 @@
+call require app/choco.cmd
 choco install -y python3 --params "/InstallDir:C:\Python\Python37"
 python -m pip install --upgrade pip
 pip install pandas

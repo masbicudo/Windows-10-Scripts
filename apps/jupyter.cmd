@@ -1,6 +1,7 @@
+call require app/choco.cmd
 pip install jupyter
-CALL set-where where_jupyter "jupyter"
-CALL shortcut-create "%where_shortcuts%\jn.lnk" "%where_jupyter%" -wd "" -a notebook
+call set-where where_jupyter "jupyter"
+shortcut-create "%where_shortcuts%\jn.lnk" "%where_jupyter%" -wd "" -a notebook
 pip install jupyter_contrib_nbextensions
 jupyter contrib nbextension install --system
 jupyter nbextensions_configurator enable --system
