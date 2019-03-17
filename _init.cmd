@@ -5,11 +5,11 @@ SETLOCAL
 
 :: set working directory to the directory of the current batch file
 %~d0 & CD "%~dp0"
-CALL set-env
-CALL is-elevated || ( elevate "%~f0" %* & GOTO :EOF )
+call set-env
+call is-elevated || ( elevate "%~f0" %* & GOTO :EOF )
 :ELEVATED
 
-CALL set-colors
+call set-colors
 ECHO.Running in %R%ELEVATED%N% environment at %Y%%CD%%N%
 ECHO.%B%Proceed with caution!%N%
 
@@ -46,80 +46,70 @@ regedit /s "utils\cmda_here\Add_Shift+Open_command_window_here_as_administrator.
 :: remove Edge shortcut from desktop
 
 :: - add script: set-where variable filename
-:: - add script: set-user-special-folder variable special_folder
-:: - add script: set-common-special-folder variable special_folder
+:: - add script: set-special-folder variable special_folder
+:: - add script: set-special-folder variable special_folder
 
 :: - create global shortcuts folder and add it to the system PATH
-SET where_shortcuts=%SystemDrive%\Shortcuts
-mkdir "%where_shortcuts%" 2>nul
-:: TODO: add shortcuts folder to the system PATH
+call require shortcuts_folder
+call require projects_folder
 
 :: installing chocolatey (package manager for Windows)
-CALL REQUIRE app/choco.cmd
-
-CALL set-user-special-folder where_desktop desktop
-CALL set-common-special-folder where_public_desktop "common desktop"
-
-set where_choco_cache=c:\choco_cache
-mkdir %where_choco_cache%
-choco config set cacheLocation %where_choco_cache%
-
-CALL set-user-special-folder where_downloads desktop
-mkdir %where_choco_cache%
+call require apps/choco.cmd
+call require include/places.cmd
 
 ::::::::::::::::::::::::::::
 :: translations
 ::::::::::::::::::::::::::::
 
-CALL REQUIRE load-msg.cmd
+call require load-msg.cmd
 
 ::::::::::::::::::::::::::::
 :: required utilities
 ::::::::::::::::::::::::::::
 
 :: syspin is used to pin programs to the taskbar and startmenu
-CALL REQUIRE apps\syspin.cmd
+call require apps\syspin.cmd
 
 :: everything is used by set-where.bat script
 call apps\everything.cmd
 
-CALL REQUIRE apps\setdefaultbrowser.cmd
+call require apps\setdefaultbrowser.cmd
 
-CALL REQUIRE apps\git.cmd
+call require apps\git.cmd
 
 ::choco install -y wget
 
 :: should I install all vcredists? or only the needed ones?
-CALL REQUIRE apps\vcredist.cmd
+call require apps\vcredist.cmd
 
 ::::::::::::::::::::::::::::
 :: programs
 ::::::::::::::::::::::::::::
 
 :: - create cmda.lnk command (cmd as administrator)
-CALL shortcut-create "%where_shortcuts%\cmda.lnk" %ComSpec% -wd "" -ra
+shortcut-create "%where_shortcuts%\cmda.lnk" %ComSpec% -wd "" -ra
 
-CALL REQUIRE apps\grepwin.cmd
+call require apps\grepwin.cmd
 
-CALL REQUIRE apps\freefonts.cmd
-CALL REQUIRE apps\notepad++.cmd
+call require apps\freefonts.cmd
+call require apps\notepad++.cmd
 
-CALL REQUIRE apps\kdiff.cmd
-CALL REQUIRE apps\winmerge.cmd
+call require apps\kdiff.cmd
+call require apps\winmerge.cmd
 
-CALL REQUIRE apps\gitextensions.cmd
+call require apps\gitextensions.cmd
 
-CALL REQUIRE apps\vscode.cmd
-CALL REQUIRE apps\vs.cmd
+call require apps\vscode.cmd
+call require apps\vs.cmd
 
-CALL REQUIRE apps\node.cmd
+call require apps\node.cmd
 
-CALL REQUIRE apps\python.cmd
-CALL REQUIRE apps\jupyter.cmd
+call require apps\python.cmd
+call require apps\jupyter.cmd
 
-CALL REQUIRE apps\google-chrome.cmd
-CALL REQUIRE apps\edge.cmd
+call require apps\google-chrome.cmd
+call require apps\edge.cmd
 
-CALL REQUIRE apps\anydesk.cmd
+call require apps\anydesk.cmd
 
-CALL REQUIRE apps\telegram.cmd
+call require apps\telegram.cmd

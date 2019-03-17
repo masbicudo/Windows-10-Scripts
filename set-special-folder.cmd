@@ -21,8 +21,8 @@ GOTO :End_Main
   )
   %DL% Sub_Main
   SET "__VAR_NAME=%~1"
-  IF "%2"=="" SET __NO_SPEC_DIR=1
-  IF "%2"=="" (SET "__SPEC_DIR=%~1") ELSE (SET "__SPEC_DIR=%~2")
+  IF "%~2"=="" SET __NO_SPEC_DIR=1
+  IF "%~2"=="" (SET "__SPEC_DIR=%~1") ELSE (SET "__SPEC_DIR=%~2")
   SET "_=%__SPEC_DIR%"
   SET "_=%_:_=%"
   SET "_=%_: =%"
@@ -95,7 +95,7 @@ GOTO :End_Main
 :: HELP
 GOTO :END_HELP
 :SUB_HELP
-ECHO.%B%set-special-folder script v0.1.2 by MASBicudo%N%
+ECHO.%B%%0 script v0.1.2 by MASBicudo%N%
 ECHO.
 ECHO.This is a tool to locate special folders by name and assign it's location to a variable.
 ECHO.It will use multiple tools to accomplish it's job.

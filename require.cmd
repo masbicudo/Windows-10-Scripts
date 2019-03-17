@@ -14,5 +14,7 @@ goto :next
 :proc
 if defined __REQ_[%__name%] goto :eof
 set __REQ_[%__name%]=1
-if not errorlevel 1 %*
-endlocal & set __REQ_[%__name%]=1
+if errorlevel 1 goto :eof
+endlocal & (
+    %*
+) & set __REQ_[%__name%]=1
