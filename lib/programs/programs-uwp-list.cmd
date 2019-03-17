@@ -1,4 +1,4 @@
 @echo off
 setlocal
 
-cscript /nologo programs-uwp-list.js %* | findstr "!"
+cscript /nologo lib/programs/programs-uwp-list.js %* | findstr "!"
