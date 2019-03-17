@@ -1,5 +1,5 @@
 @ECHO OFF
-FOR /D %%D in (lib\*) DO CALL :Append_Path %%~fD
+FOR /D %%D in (lib\*) DO call :Append_Path %%~fD
 SET PATH=%PATH%;%CD%;%CD%\lib;%CD%\include
 FOR /D %%D in (include\*) DO call :Append_Path %%~fD
 GOTO :EOF

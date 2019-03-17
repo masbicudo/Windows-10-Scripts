@@ -79,15 +79,15 @@ SETLOCAL
   ECHO.%R%Unit tests:%N%
   ::Testing known target `cmd`, will be handled by `where` command, to find it in one of the pathes in %%PATH%% environment variable
   ECHO.%Y%where%N%
-  CALL set-where where_cmd cmd && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  call set-where where_cmd cmd && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
   IF /I "%where_cmd%"=="C:\Windows\System32\cmd.exe" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
   ::Testing known target `wordpad`, will be handled by `reg` command, to find it the registry inside the "App Paths" key
   ECHO.%Y%reg%N%
-  CALL set-where where_pbrush pbrush && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  call set-where where_pbrush pbrush && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
   IF /I "%where_pbrush%"=="%%SystemRoot%%\System32\mspaint.exe" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
-  CALL set-where where_wordpad_exe wordpad.exe && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  call set-where where_wordpad_exe wordpad.exe && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
   IF /I "%where_wordpad_exe%"=="%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
-  CALL set-where where_wordpad_exe_dpnx wordpad.exe dpnx && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  call set-where where_wordpad_exe_dpnx wordpad.exe dpnx && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
   IF /I "%where_wordpad_exe_dpnx%"=="%ProgramFiles%\Windows NT\Accessories\WORDPAD.EXE" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
   ::Testing known target `test-set-where-empty`, will be handled by `es` command from Everything by VoidTools
   ECHO.%Y%es%N%
@@ -95,11 +95,11 @@ SETLOCAL
   COPY NUL __test_set_where\test-set-where-file.exe
   rem misusing ping command to sleep for 1s
   ping 127.0.0.1 -n 2 > nul
-  CALL set-where where_some test-set-where-file && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
-  CALL set-where where_some_exe test-set-where-file.exe && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  call set-where where_some test-set-where-file && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  call set-where where_some_exe test-set-where-file.exe && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
   DEL __test_set_where\test-set-where-file.exe
   RMDIR __test_set_where
-  CALL set-where where_random kHuQQPTHZlswRR3J9jPz67sn-0-O0v09IkyaFGyJwyVbE5BkwTlnJPLr16IgFiLZPK3DarlhjGu9aCE5JJASww && ECHO.[%R%FAIL%N%] || ECHO.[%G% OK %N%]
+  call set-where where_random kHuQQPTHZlswRR3J9jPz67sn-0-O0v09IkyaFGyJwyVbE5BkwTlnJPLr16IgFiLZPK3DarlhjGu9aCE5JJASww && ECHO.[%R%FAIL%N%] || ECHO.[%G% OK %N%]
 ENDLOCAL
 GOTO :EOF
 :END_TESTS
@@ -150,7 +150,7 @@ IF "%~1"=="--verbose" (
 ) ELSE IF "%~1"=="-help"        ( SET "__HELP__=T"       & SHIFT
 ) ELSE IF "%~1"=="/?"           ( SET "__HELP__=T"       & SHIFT
 ) ELSE IF "%~1"=="--filter"     ( SET __FILTER__="%~2"   & SHIFT & SHIFT
-) ELSE IF "%~1"=="--colors"     ( CALL :SUB_SET_COLORS   & SHIFT
+) ELSE IF "%~1"=="--colors"     ( call :SUB_SET_COLORS   & SHIFT
 ) ELSE IF "%__ORD__%"=="1" (
 %DL% SET "__VAR__=%~1"
   SET "__VAR__=%~1"
@@ -185,18 +185,18 @@ IF DEFINED __FILTER__ SET __FILTER__=^^^| findstr /I %__FILTER__:\=\\%
   IF %__VERBOSE__% GEQ 3 (
     FOR /F "tokens=1* usebackq delims==" %%a IN (` SET __ `) DO (
       SET _=%%a
-      CALL SET __=%%_str_vars:!_!=%%
+      call SET __=%%_str_vars:!_!=%%
       IF NOT "!__!"=="%_str_vars%" ECHO.%W%%%a%K%=%_y%%%b%N%
-      CALL SET __=%%_bool_vars:!_!=%%
+      call SET __=%%_bool_vars:!_!=%%
       IF NOT "!__!"=="%_bool_vars%" ECHO.%W%%%a%K%=%_c%%%b%N%
-      CALL SET __=%%_num_vars:!_!=%%
+      call SET __=%%_num_vars:!_!=%%
       IF NOT "!__!"=="%_num_vars%" ECHO.%W%%%a%K%=%M%%%b%N%
     )
     IF DEFINED __DL ECHO.%W%__DL%K%=%M%%__DL%%N%
   )
   ENDLOCAL
-IF "%__UNIT_TESTS__%"=="T" CALL :SUB_TESTS
-IF "%__HELP__%"=="T" CALL :SUB_HELP
+IF "%__UNIT_TESTS__%"=="T" call :SUB_TESTS
+IF "%__HELP__%"=="T" call :SUB_HELP
 IF %__ORD__% LEQ 2 GOTO :EOF
 
 :IF_Begin
@@ -291,7 +291,7 @@ IF %__ORD__% LEQ 2 GOTO :EOF
   IF DEFINED __DPNX__ (
     FOR /F "tokens=* usebackq delims=" %%i IN (`ECHO."%__VALUE__%"`) DO (
 	  echo.%%~%__DPNX__%i
-      CALL SET "__VALUE__=%%~%__DPNX__%i"
+      call SET "__VALUE__=%%~%__DPNX__%i"
     )
   )
 %DL% IF DEFINED __p IF NOT DEFINED __n IF NOT DEFINED __x SET

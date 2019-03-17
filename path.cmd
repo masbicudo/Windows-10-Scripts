@@ -4,4 +4,4 @@
 :: path p "D:\Path\file.ext" -> Path\
 :: path n "file.ext" -> file
 @ECHO OFF
-CALL ECHO.%%~%12
+call ECHO.%%~%12

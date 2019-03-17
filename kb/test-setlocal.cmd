@@ -3,9 +3,9 @@ SETLOCAL
 :A
 SET a=1
 ECHO.A:%a%
-CALL :B
+call :B
 ECHO.A:%a%
-CALL :C
+call :C
 ECHO.A:%a%
 GOTO :EOF
 :B

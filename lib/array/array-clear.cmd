@@ -1,5 +1,5 @@
 @ECHO OFF
-CALL CALL :Clear %1 %%%1.length%%
+call call :Clear %1 %%%1.length%%
 SET "%1.length="
 GOTO :EOF
 :Clear

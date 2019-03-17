@@ -1,7 +1,7 @@
 :: HEADER
 @ECHO OFF
 SETLOCAL
-CALL :Sub_Main %*
+call :Sub_Main %*
 ENDLOCAL & IF NOT "%__VAR_VALUE%"=="" SET %__VAR_NAME%=%__VAR_VALUE%
 GOTO :dieerrlvl
 
@@ -44,11 +44,11 @@ GOTO :End_Main
   :End_If
   SET "__VAR_NAME=%_%"
   %DL% %ShFolder%
-  CALL :Sub_HKCU_UserShellFolders && GOTO :End_Main
-  CALL :Sub_HKLM_UserShellFolders && GOTO :End_Main
-  CALL :Sub_HKCU_ShellFolders && GOTO :End_Main
-  CALL :Sub_HKLM_ShellFolders && GOTO :End_Main
-  CALL :Sub_Posh && GOTO :End_Main
+  call :Sub_HKCU_UserShellFolders && GOTO :End_Main
+  call :Sub_HKLM_UserShellFolders && GOTO :End_Main
+  call :Sub_HKCU_ShellFolders && GOTO :End_Main
+  call :Sub_HKLM_ShellFolders && GOTO :End_Main
+  call :Sub_Posh && GOTO :End_Main
   IF /I "%__SPEC_DIR_CL%"=="public" ( SET "__VAR_VALUE=%PUBLIC%"
   ) ELSE IF /I "%__SPEC_DIR_CL%"=="user" ( SET "__VAR_VALUE=%USERPROFILE%"
   ) ELSE IF /I "%__SPEC_DIR_CL%"=="userprofile" ( SET "__VAR_VALUE=%USERPROFILE%"
@@ -87,7 +87,7 @@ GOTO :End_Main
     %DL% exit 0
     %comspec% /c exit 0 & GOTO :End_Main
   )
-  CALL :Sub_NotFound
+  call :Sub_NotFound
   %DL% exit 1
   %comspec% /c exit 1
 :End_Main
@@ -196,7 +196,7 @@ GOTO :End_HKCU_ShellFolders
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKCU_ShellFolders )
   FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
-  CALL :Sub_RegFound
+  call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
 :End_HKCU_ShellFolders
@@ -230,7 +230,7 @@ GOTO :End_HKLM_ShellFolders
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKLM_ShellFolders )
   FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
-  CALL :Sub_RegFound
+  call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
 :End_HKLM_ShellFolders
@@ -271,7 +271,7 @@ GOTO :End_HKLM_UserShellFolders
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKLM_UserShellFolders )
   FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
-  CALL :Sub_RegFound
+  call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
 :End_HKLM_UserShellFolders
@@ -308,7 +308,7 @@ GOTO :End_HKCU_UserShellFolders
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKCU_UserShellFolders )
   FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
-  CALL :Sub_RegFound
+  call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
 :End_HKCU_UserShellFolders
@@ -320,8 +320,8 @@ GOTO :End_RegFound
   FOR %%a IN ("%ShFolder%") DO SET "__temp=%%~a"
   %DL% %__temp%
   %DL% %__VAR_VALUE%
-  CALL SET __VAR_VALUE=%%__VAR_VALUE:%__temp%    REG_EXPAND_SZ    =%%
-  CALL SET __VAR_VALUE=%%__VAR_VALUE:%__temp%    REG_SZ    =%%
+  call SET __VAR_VALUE=%%__VAR_VALUE:%__temp%    REG_EXPAND_SZ    =%%
+  call SET __VAR_VALUE=%%__VAR_VALUE:%__temp%    REG_SZ    =%%
   SET __VAR_VALUE=%__VAR_VALUE%##XP_TO_7123##
   SET __VAR_VALUE=%__VAR_VALUE: ##XP_TO_7123##=##XP_TO_7123##%
   SET __VAR_VALUE=%__VAR_VALUE:##XP_TO_7123##=%

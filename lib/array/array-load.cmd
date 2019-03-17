@@ -14,8 +14,8 @@
 IF NOT DEFINED %1.length SET %1.length=0
 FOR /F "delims=" %%a IN ('TYPE "%2"') DO (
     SET /a %1.length+=1
-    CALL :Set_Item %1 "%%~a"
+    call :Set_Item %1 "%%~a"
 )
 GOTO :EOF
 :Set_Item
-CALL SET "%1[%%%1.length%%]=%2"
+call SET "%1[%%%1.length%%]=%2"

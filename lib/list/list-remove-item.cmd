@@ -25,9 +25,9 @@
 :Main
     @echo off
     SETLOCAL
-    CALL SET __TEMP=%%%1%%
+    call SET __TEMP=%%%1%%
     SET __TEMP=;%__TEMP:;=;;%;
-    CALL SET __TEMP=%%__TEMP:;%~2;=%%
+    call SET __TEMP=%%__TEMP:;%~2;=%%
     SET __TEMP=%__TEMP:~1,-1%
     SET __TEMP=%__TEMP:;;=;%
     ENDLOCAL & SET %1=%__TEMP%

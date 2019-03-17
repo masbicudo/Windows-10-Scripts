@@ -19,7 +19,7 @@ if "%~1" NEQ "" (
   ) ELSE IF /i "%~1"=="/S" (       SET __CLEAR_SYS=1
   ) ELSE IF /i "%~1"=="/U" (       SET __CLEAR_USR=1
   ) ELSE IF /i "%~1"=="/L" (       SET __CLEAR_LOCAL=1
-  ) ELSE (                      CALL list-insert-item __temp %1
+  ) ELSE (                      call list-insert-item __temp %1
   )
   SHIFT
   goto :LOOP

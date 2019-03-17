@@ -31,7 +31,7 @@
         call %~dp0list-print.cmd %1 ^| sort
         `) do (
             SET "litem=%%~a"
-            CALL :proc
+            call :proc
         )
     set __=%__:""="%
     set "__=%__:"=""%"
