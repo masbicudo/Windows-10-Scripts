@@ -1,8 +1,9 @@
 :: HEADER
 @ECHO OFF
 SETLOCAL
+set script_name=%~nx0
 call :Sub_Main %*
-ENDLOCAL & IF NOT "%__VAR_VALUE%"=="" SET %__VAR_NAME%=%__VAR_VALUE%
+ENDLOCAL & IF NOT "%__VALUE__%"=="" SET %__VAR__%=%__VALUE__%
 GOTO :dieerrlvl
 
 :: TODO: temporary internet files
@@ -20,9 +21,109 @@ GOTO :End_Main
     IF "%__TEMP:--colors=%"=="%__TEMP%" (SET DL=ECHO.DEBUG:) ELSE (SET DL=ECHO.[90mDEBUG:[0m)
   )
   %DL% Sub_Main
-  SET "__VAR_NAME=%~1"
-  IF "%~2"=="" SET __NO_SPEC_DIR=1
-  IF "%~2"=="" (SET "__SPEC_DIR=%~1") ELSE (SET "__SPEC_DIR=%~2")
+
+  :: Clearing color variables
+  FOR %%C IN (_k;_r;_g;_y;_b;_m;_c;_w;K;R;G;Y;B;M;C;W;N) DO SET %%C=
+
+  :: Initializing parameter variables
+  SET _num_vars=__VERBOSE__;__ORD__
+  SET _bool_vars=__CLEAR__;__KEEP__;__HELP__;__SET__;__UNIT_TESTS__
+  SET _str_vars=__VAR__;__SEARCH__;__EXT__;__DPNX__;__FILTER__
+  SET _char_vars=__d;__p;__n;__x
+
+  FOR %%C IN (%_num_vars%;%_str_vars%;%_bool_vars%;%_char_vars%) DO SET %%C=
+
+  SET __ORD__=1
+  SET __VERBOSE__=1
+  SET __CLEAR__=F
+  SET __KEEP__=F
+  SET __HELP__=F
+  SET __SET__=T
+  SET __UNIT_TESTS__=F
+  SET __NO_SPEC_DIR=1
+
+  :: Parsing parameters
+  :BEGIN_LOOP_PARAMS
+  %DL% IF "%~1"=="" IF [%1]==[] GOTO :END_LOOP_PARAMS
+  IF "%~1"=="" IF [%1]==[] GOTO :END_LOOP_PARAMS
+  %DL% SET __ARG__=%1
+  SET __ARG__=%1
+  IF "%~1"=="--verbose" (
+    %DL% SET __VERBOSE__=2
+    SET __VERBOSE__=2
+    SHIFT
+    IF "%~2"=="0" ( SET "__VERBOSE__=0" & SHIFT )
+    IF "%~2"=="1" ( SET "__VERBOSE__=1" & SHIFT )
+    IF "%~2"=="2" ( SET "__VERBOSE__=2" & SHIFT )
+    IF "%~2"=="3" ( SET "__VERBOSE__=3" & SHIFT )
+  ) ELSE IF "%~1"=="--clear"      ( SET "__CLEAR__=T"      & SHIFT
+  ) ELSE IF "%~1"=="--debug-lines" (                          SHIFT
+  ) ELSE IF "%~1"=="--keep"       ( SET "__KEEP__=T"       & SHIFT
+  ) ELSE IF "%~1"=="--test"       ( SET "__SET__=F"        & SHIFT
+  ) ELSE IF "%~1"=="--unit-tests" ( SET "__UNIT_TESTS__=T" & SHIFT
+  ) ELSE IF "%~1"=="--help"       ( SET "__HELP__=T"       & SHIFT
+  ) ELSE IF "%~1"=="-help"        ( SET "__HELP__=T"       & SHIFT
+  ) ELSE IF "%~1"=="/?"           ( SET "__HELP__=T"       & SHIFT
+  ) ELSE IF "%~1"=="--filter"     ( SET __FILTER__="%~2"   & SHIFT & SHIFT
+  ) ELSE IF "%~1"=="--colors"     ( call :SUB_SET_COLORS   & SHIFT
+  ) ELSE IF "%__ORD__%"=="1" (
+    %DL% SET "__VAR__=%~1"
+    SET "__VAR__=%~1"
+    SET "__SPEC_DIR=%~1"
+    SET "__ORD__=2"
+    SHIFT
+  ) ELSE IF "%__ORD__%"=="2" (
+    %DL% SET "__SEARCH__=%~1"
+    SET "__SPEC_DIR=%~1"
+    SET __NO_SPEC_DIR=
+    SET "__ORD__=3"
+    SHIFT
+  ) ELSE IF "%__ORD__%"=="3" (
+    %DL% SET "__DPNX__=%~1"
+    SET "__DPNX__=%~1"
+    SET "__ORD__=4"
+    SHIFT
+  ) ELSE GOTO :END_LOOP_PARAMS
+  %DL% GOTO :BEGIN_LOOP_PARAMS
+  GOTO :BEGIN_LOOP_PARAMS
+  :END_LOOP_PARAMS
+
+  :: DPNX parameters (extract path components)
+  %DL% SET __DPNX__=_%__DPNX__%
+  SET __DPNX__=_%__DPNX__%
+  IF NOT "%__DPNX__:d=%" == "%__DPNX__%" SET __d=d
+  IF NOT "%__DPNX__:p=%" == "%__DPNX__%" SET __p=p
+  IF NOT "%__DPNX__:n=%" == "%__DPNX__%" SET __n=n
+  IF NOT "%__DPNX__:x=%" == "%__DPNX__%" SET __x=x
+  FOR %%C IN (__ARG__) DO SET %%C=
+  SET "__DPNX__=%__d%%__p%%__n%%__x%"
+
+  :: Printing parameters
+  %DL% Printing parameters
+  SETLOCAL EnableDelayedExpansion
+  IF %__VERBOSE__% GEQ 3 (
+    FOR /F "tokens=1* usebackq delims==" %%a IN (` SET __ `) DO (
+      SET _=%%a
+      call SET __=%%_str_vars:!_!=%%
+      IF NOT "!__!"=="%_str_vars%" ECHO.%W%%%a%K%=%_y%%%b%N%
+      call SET __=%%_bool_vars:!_!=%%
+      IF NOT "!__!"=="%_bool_vars%" ECHO.%W%%%a%K%=%_c%%%b%N%
+      call SET __=%%_num_vars:!_!=%%
+      IF NOT "!__!"=="%_num_vars%" ECHO.%W%%%a%K%=%M%%%b%N%
+    )
+    IF DEFINED __DL ECHO.%W%__DL%K%=%M%%__DL%%N%
+  )
+  ENDLOCAL
+
+  :: help and unit-tests
+  IF "%__UNIT_TESTS__%"=="T" call :SUB_TESTS
+  IF "%__HELP__%"=="T" call :SUB_HELP
+
+  :: exiting if not enough parameters
+  IF %__ORD__% LEQ 1 GOTO :EOF
+
+  :: __VAR__ must be treated before proceeding
+  %DL% __VAR__ must be treated before proceeding
   SET "_=%__SPEC_DIR%"
   SET "_=%_:_=%"
   SET "_=%_: =%"
@@ -38,64 +139,108 @@ GOTO :End_Main
   SET "_=%_:(=^(%"
   SET "_=%_:)=^)%"
   SET "__SPEC_DIR=%_%"
-  SET "_=%__VAR_NAME%"
+  SET "_=%__VAR__%"
   IF NOT DEFINED __NO_SPEC_DIR GOTO :End_If
     SET "_=%_: =%"
   :End_If
-  SET "__VAR_NAME=%_%"
-  %DL% %ShFolder%
-  call :Sub_HKCU_UserShellFolders && GOTO :End_Main
-  call :Sub_HKLM_UserShellFolders && GOTO :End_Main
-  call :Sub_HKCU_ShellFolders && GOTO :End_Main
-  call :Sub_HKLM_ShellFolders && GOTO :End_Main
-  call :Sub_Posh && GOTO :End_Main
-  IF /I "%__SPEC_DIR_CL%"=="public" ( SET "__VAR_VALUE=%PUBLIC%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="user" ( SET "__VAR_VALUE=%USERPROFILE%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="userprofile" ( SET "__VAR_VALUE=%USERPROFILE%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="profile" ( SET "__VAR_VALUE=%USERPROFILE%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="windir" ( SET "__VAR_VALUE=%windir%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="win" ( SET "__VAR_VALUE=%windir%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="system" ( SET "__VAR_VALUE=%SystemRoot%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="sys" ( SET "__VAR_VALUE=%SystemRoot%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="systemdrive" ( SET "__VAR_VALUE=%SystemDrive%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="sysdrive" ( SET "__VAR_VALUE=%SystemDrive%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="tmp" ( SET "__VAR_VALUE=%TEMP%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="temp" ( SET "__VAR_VALUE=%TEMP%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="temporaryfiles" ( SET "__VAR_VALUE=%TEMP%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramW6432" ( SET "__VAR_VALUE=%ProgramW6432%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramData" ( SET "__VAR_VALUE=%ProgramData%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramFiles" ( SET "__VAR_VALUE=%ProgramFiles%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramFilesx86" ( SET "__VAR_VALUE=%ProgramFiles(x86)%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="OneDrive" ( SET "__VAR_VALUE=%OneDrive%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="OneDriveConsumer" ( SET "__VAR_VALUE=%OneDriveConsumer%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="LOCALAPPDATA" ( SET "__VAR_VALUE=%LOCALAPPDATA%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="DriverData" ( SET "__VAR_VALUE=%DriverData%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="CommonProgramW6432" ( SET "__VAR_VALUE=%CommonProgramW6432%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramData" ( SET "__VAR_VALUE=%ProgramData%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="CommonProgramFilesx86" ( SET "__VAR_VALUE=%CommonProgramFiles(x86)%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ChocolateyInstall" ( SET "__VAR_VALUE=%ChocolateyInstall%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="Chocolatey" ( SET "__VAR_VALUE=%ChocolateyInstall%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="APPDATA" ( SET "__VAR_VALUE=%APPDATA%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ALLUSERSPROFILE" ( SET "__VAR_VALUE=%ALLUSERSPROFILE%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ALLUSERS" ( SET "__VAR_VALUE=%ALLUSERSPROFILE%"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="wintmp" ( SET "__VAR_VALUE=%windir%\Temp"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="wintemp" ( SET "__VAR_VALUE=%windir%\Temp"
-  ) ELSE IF /I "%__SPEC_DIR_CL%"=="windowstemporaryfiles" ( SET "__VAR_VALUE=%windir%\Temp"
+  SET "__VAR__=%_%"
+
+  ::
+  :: Trying to find the special folder name path
+  ::
+  :: Each of these call represents a major way of finding these pathes.
+  :: Each one of them returns indicating whether it succeded or failed.
+  %DL% Trying to find the special folder name path
+  %DL% ShFolder=%ShFolder%
+  call :Sub_HKCU_UserShellFolders && GOTO :ShowResult
+  call :Sub_HKLM_UserShellFolders && GOTO :ShowResult
+  call :Sub_HKCU_ShellFolders && GOTO :ShowResult
+  call :Sub_HKLM_ShellFolders && GOTO :ShowResult
+  call :Sub_Posh && GOTO :ShowResult
+
+  :: Trying some common special folder names
+  %DL% Trying some common special folder names
+  IF /I "%__SPEC_DIR_CL%"=="public" ( SET "__VALUE__=%PUBLIC%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="user" ( SET "__VALUE__=%USERPROFILE%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="userprofile" ( SET "__VALUE__=%USERPROFILE%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="profile" ( SET "__VALUE__=%USERPROFILE%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="windir" ( SET "__VALUE__=%windir%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="win" ( SET "__VALUE__=%windir%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="system" ( SET "__VALUE__=%SystemRoot%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="sys" ( SET "__VALUE__=%SystemRoot%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="systemdrive" ( SET "__VALUE__=%SystemDrive%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="sysdrive" ( SET "__VALUE__=%SystemDrive%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="tmp" ( SET "__VALUE__=%TEMP%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="temp" ( SET "__VALUE__=%TEMP%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="temporaryfiles" ( SET "__VALUE__=%TEMP%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramW6432" ( SET "__VALUE__=%ProgramW6432%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramData" ( SET "__VALUE__=%ProgramData%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramFiles" ( SET "__VALUE__=%ProgramFiles%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramFilesx86" ( SET "__VALUE__=%ProgramFiles(x86)%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="OneDrive" ( SET "__VALUE__=%OneDrive%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="OneDriveConsumer" ( SET "__VALUE__=%OneDriveConsumer%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="LOCALAPPDATA" ( SET "__VALUE__=%LOCALAPPDATA%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="DriverData" ( SET "__VALUE__=%DriverData%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="CommonProgramW6432" ( SET "__VALUE__=%CommonProgramW6432%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ProgramData" ( SET "__VALUE__=%ProgramData%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="CommonProgramFilesx86" ( SET "__VALUE__=%CommonProgramFiles(x86)%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ChocolateyInstall" ( SET "__VALUE__=%ChocolateyInstall%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="Chocolatey" ( SET "__VALUE__=%ChocolateyInstall%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="APPDATA" ( SET "__VALUE__=%APPDATA%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ALLUSERSPROFILE" ( SET "__VALUE__=%ALLUSERSPROFILE%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="ALLUSERS" ( SET "__VALUE__=%ALLUSERSPROFILE%"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="wintmp" ( SET "__VALUE__=%windir%\Temp"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="wintemp" ( SET "__VALUE__=%windir%\Temp"
+  ) ELSE IF /I "%__SPEC_DIR_CL%"=="windowstemporaryfiles" ( SET "__VALUE__=%windir%\Temp"
   )
-  IF NOT "__VAR_VALUE"=="" (
-    ECHO.%__VAR_NAME%=%__VAR_VALUE%
+  IF NOT "%__VALUE__%"=="" (
+    ECHO.%__VAR__%=%__VALUE__%
     %DL% exit 0
-    %comspec% /c exit 0 & GOTO :End_Main
+    %comspec% /c exit 0 & GOTO :ShowResult
   )
-  call :Sub_NotFound
-  %DL% exit 1
-  %comspec% /c exit 1
+  goto :Raise_Error
+
+  :ShowResult
+    %DL% :ShowResult
+    :: DPNX flags
+    %DL% IF DEFINED __DPNX__ ...
+    %DL% ECHO.__VALUE__="%__VALUE__%"
+    IF DEFINED __DPNX__ (
+      FOR /F "tokens=* usebackq delims=" %%i IN (`ECHO."%__VALUE__%"`) DO (
+        call SET "__VALUE__=%%~%__DPNX__%i"
+      )
+    )
+    %DL% IF DEFINED __p IF NOT DEFINED __n IF NOT DEFINED __x SET ...
+    IF DEFINED __p IF NOT DEFINED __n IF NOT DEFINED __x SET "__VALUE__=%__VALUE__:~0,-1%"
+    IF DEFINED __d IF NOT DEFINED __p (
+      IF DEFINED __n ( SET "__VALUE__=%__VALUE__::=:\%"
+      ) ELSE IF DEFINED __x ( SET "__VALUE__=%__VALUE__::=:\%"
+      )
+    )
+
+    %DL% IF %__VERBOSE__% GEQ 1 ECHO.%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
+    IF %__VERBOSE__% GEQ 1 ECHO.%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
+    IF DEFINED %__VAR__% IF "%__KEEP__%"=="T" SET __SET__=F
+    ENDLOCAL & IF "%__SET__%"=="T" SET "%__VAR__%=%__VALUE__%"
+    
+    %DL% exit 0
+    %comspec% /c exit 0
+
+    goto :End_Main
+
+  :Raise_Error
+    %DL% :Raise_Error
+    IF %__VERBOSE__% GEQ 1 ECHO.%R%Special folder not found%N% 1>&2
+    ENDLOCAL & IF "%__SET__%"=="T" IF "%__CLEAR__%"=="T" SET "%__VAR__%="
+    %DL% exit 1
+    %comspec% /c exit 1
+
 :End_Main
 
 :: HELP
 GOTO :END_HELP
 :SUB_HELP
-ECHO.%B%%0 script v0.1.2 by MASBicudo%N%
+ECHO.%B%%script_name% script v0.2.0 by MASBicudo%N%
 ECHO.
 ECHO.This is a tool to locate special folders by name and assign it's location to a variable.
 ECHO.It will use multiple tools to accomplish it's job.
@@ -104,7 +249,7 @@ ECHO.Then, it uses powershell to call the .Net method Environment.GetFolderPath 
 ECHO.And finally, it falls back to using environment variables.
 ECHO.
 ECHO.%R%Command line:%N%
-ECHO.%W%%0 %C%varname%W% [%C%object%W%] [%C%parts%W%] [%C%options%W%]%N%
+ECHO.%W%%script_name% %C%varname%W% [%C%object%W%] [%C%parts%W%] [%C%options%W%]%N%
 ECHO.%C%varname%W%: name of the variable to receive the location of the desired object.
 ECHO.%C%object%W%:  special folder name
 ECHO.         If ommited it will be the same as the variable name.
@@ -118,9 +263,11 @@ ECHO.             e.g.: %Y%pnx%N% will give %_y%\DirA\DirB\file.exe%N%
 ECHO.         %Y%n%N% - file name without extension, e.g.: %_y%file%N%
 ECHO.         %Y%x%N% - extension of the file, preceeded by a dot ".", e.g.: %_y%.exe%N%
 ECHO.         Multiple can be specified, e.g.: %Y%dp%N%, %Y%nx%N%
-ECHO.         Leave it empty to use the default that is the fully qualified name: %Y%dpnx%N%, e.g. %_y%C:\DirA\DirB\file.exe%N%
+ECHO.         When these flags are defined, variables in the path will get expanded:
+ECHO.             %Y%%%%_y%USERPROFILE%Y%%%%_y%\AppData\Roaming%N% --^> %_y%%USERPROFILE%\AppData\Roaming%N%
+ECHO.         Leave it empty to use the value as specified by the source.
 ECHO.%C%options%W%:
-ECHO.         %C%--filter%N% %Y%str%N%: any string to filter the result, useful to select among many possible resulting locations.
+ECHO.         %C%--filter%N% %Y%str%N%: %R%(not implemented)%N% any string to filter the result, useful to select among many possible resulting locations.
 ECHO.         %C%--verbose%N% %Y%[0 ^| 1 ^| 2 ^| 3]%N%:
 ECHO.             %Y%0%N% - no output
 ECHO.             %Y%1%N% - result output
@@ -130,11 +277,8 @@ ECHO.             Each verbose level also prints the previous levels outputs.
 ECHO.         %C%--colors%N%: output with colors
 ECHO.         %C%--clear%N%: allow to undefine variable, if nothing is found.
 ECHO.         %C%--keep%N%: does not allow to redefine the variable, if it is already defined.
-ECHO.         %C%--test%N%: does not set variables, only displays output and returns ERRORLEVEL.
-ECHO.         %C%--unit-tests%N%: runs unit tests.
-ECHO.         %C%--expand%N%: expand environment variables that happen to be in found pathes.
-ECHO.                    This happens when the path comes from the registry, e.g.:
-ECHO.                    %_y%%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE%N%
+ECHO.         %C%--test%N%: %R%(not implemented)%N% does not set variables, only displays output and returns ERRORLEVEL.
+ECHO.         %C%--unit-tests%N%: %R%(not implemented)%N% runs unit tests.
 ECHO.         %C%--debug-lines%N%: debug important lines
 ECHO.
 ECHO.%R%ERRORLEVEL:%N%
@@ -143,18 +287,12 @@ ECHO.If object is not found, it is set to something other than 0 (fail).
 ECHO.Otherwise, ERRORLEVEL is set to 0 (ok).
 ECHO.
 ECHO.%R%Examples:%N%
-ECHO.%N%set-where where_cmd cmd%N%
-ECHO.  %W%where_cmd%K%=%Y%C:\Windows\System32\cmd.exe%N%
-ECHO.%N%set-where where_wordpad wordpad%N%
-ECHO.  %W%where_wordpad%K%=%Y%%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE%N%
-ECHO.%N%set-where where_wordpad wordpad.exe%N%
-ECHO.  %W%where_wordpad%K%=%Y%%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE%N%
-ECHO.%N%set-where where_masbicudo "AppData" dp --filter masbicudo%N%
-ECHO.  %W%where_masbicudo%K%=%Y%C:\Users\masbicudo\%N%
-ECHO.%N%set-where where_vscode "code" --filter microsoft%N%
-ECHO.  %W%where_vscode%K%=%Y%C:\Program Files\Microsoft VS Code\Code.exe%N%
-ECHO.%N%set-where where_vscode "Microsoft VS Code\Code.exe"%N%
-ECHO.  %W%where_vscode%K%=%Y%C:\Program Files\Microsoft VS Code\Code.exe%N%
+ECHO.%N%%script_name% where_appdata appdata%N%
+ECHO.  %W%where_appdata%K%=%Y%%%USERPROFILE%%\AppData\Roaming%N%
+ECHO.%N%%script_name% where_appdata appdata dpnx%N%
+ECHO.  %W%where_appdata%K%=%Y%%USERPROFILE%\AppData\Roaming%N%
+ECHO.%N%%script_name% where_desktop desktop%N%
+ECHO.  %W%where_desktop%K%=%Y%%USERPROFILE%\Desktop%N%
 GOTO :EOF
 :END_HELP
 
@@ -195,7 +333,7 @@ GOTO :End_HKCU_ShellFolders
   :: testing if `reg` can find the registry key
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKCU_ShellFolders )
-  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
+  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VALUE__=%%a
   call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
@@ -229,7 +367,7 @@ GOTO :End_HKLM_ShellFolders
   :: testing if `reg` can find the registry key
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKLM_ShellFolders )
-  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
+  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VALUE__=%%a
   call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
@@ -270,7 +408,7 @@ GOTO :End_HKLM_UserShellFolders
   :: testing if `reg` can find the registry key
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKLM_UserShellFolders )
-  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
+  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VALUE__=%%a
   call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
@@ -307,7 +445,7 @@ GOTO :End_HKCU_UserShellFolders
   :: testing if `reg` can find the registry key
   reg query "%TEMP_Key%" /v "%ShFolder%" 2>NUL | findstr /c:"%ShFolder%" 2>NUL 1>NUL || ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_HKCU_UserShellFolders )
-  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VAR_VALUE=%%a
+  FOR /f "usebackq tokens=*" %%a IN (` reg query "%TEMP_Key%" /v "%ShFolder%" 2^>NUL ^| findstr /c:"%ShFolder%" 2^>NUL `) DO SET __VALUE__=%%a
   call :Sub_RegFound
   %DL% exit 0
   %comspec% /c exit 0
@@ -318,14 +456,14 @@ GOTO :End_RegFound
 :Sub_RegFound
   %DL% Sub_RegFound
   FOR %%a IN ("%ShFolder%") DO SET "__temp=%%~a"
-  %DL% %__temp%
-  %DL% %__VAR_VALUE%
-  call SET __VAR_VALUE=%%__VAR_VALUE:%__temp%    REG_EXPAND_SZ    =%%
-  call SET __VAR_VALUE=%%__VAR_VALUE:%__temp%    REG_SZ    =%%
-  SET __VAR_VALUE=%__VAR_VALUE%##XP_TO_7123##
-  SET __VAR_VALUE=%__VAR_VALUE: ##XP_TO_7123##=##XP_TO_7123##%
-  SET __VAR_VALUE=%__VAR_VALUE:##XP_TO_7123##=%
-  ECHO.%__VAR_NAME%=%__VAR_VALUE%
+  %DL% __temp=%__temp%
+  %DL% __VALUE__=%__VALUE__%
+  call SET __VALUE__=%%__VALUE__:%__temp%    REG_EXPAND_SZ    =%%
+  call SET __VALUE__=%%__VALUE__:%__temp%    REG_SZ    =%%
+  SET __VALUE__=%__VALUE__%##XP_TO_7123##
+  SET __VALUE__=%__VALUE__: ##XP_TO_7123##=##XP_TO_7123##%
+  SET __VALUE__=%__VALUE__:##XP_TO_7123##=%
+  ::::ECHO.%__VAR__%=%__VALUE__%
 :End_RegFound
 
 :: Posh
@@ -338,28 +476,28 @@ GOTO :End_Posh
   SET ENV=Environment
   SET ENUM=%ENV%+SpecialFolder
   for /F "usebackq tokens=1 delims=" %%a in (
-    `powershell [%ENUM%]$x^=0^;switch([%ENUM%]::TryParse('%__SPEC_DIR%'^,$true^,[ref]$x^)^){$true{[%ENV%]::GetFolderPath($x^)}$false{''}}`
-  ) do SET __VAR_VALUE=%%~a
-  IF "%__VAR_VALUE%"=="" (
+    ` powershell [%ENUM%]$x^=0^;switch([%ENUM%]::TryParse('%__SPEC_DIR%'^,$true^,[ref]$x^)^){$true{[%ENV%]::GetFolderPath($x^)}$false{''}}`
+  ) do SET __VALUE__=%%~a
+  IF "%__VALUE__%"=="" (
     for /F "usebackq tokens=1 delims=" %%a in (
-      `powershell [%ENUM%]$x^=0^;switch([%ENUM%]::TryParse('%__SPEC_DIR_CL%'^,$true^,[ref]$x^)^){$true{[%ENV%]::GetFolderPath($x^)}$false{''}}`
-    ) do SET __VAR_VALUE=%%~a
+      ` powershell [%ENUM%]$x^=0^;switch([%ENUM%]::TryParse('%__SPEC_DIR_CL%'^,$true^,[ref]$x^)^){$true{[%ENV%]::GetFolderPath($x^)}$false{''}}`
+    ) do SET __VALUE__=%%~a
   )
-  IF "%__VAR_VALUE%"=="" ( %DL% exit 1
+  IF "%__VALUE__%"=="" ( %DL% exit 1
     %comspec% /c exit 1 & GOTO :End_Posh )
-  ECHO.%__VAR_NAME%=%__VAR_VALUE%
+  ::::ECHO.%__VAR__%=%__VALUE__%
   %DL% exit 0
   %comspec% /c exit 0
 :End_Posh
 
-:: NotFound
-GOTO :End_NotFound
-:Sub_NotFound
-  %DL% Sub_NotFound
-  ECHO.Special folder not found 1>&2
-  :: calling `reg` again to set errorlevel
-  reg query "%TEMP_Key%" /v %ShFolder% 2>NUL | findstr /c:%ShFolder% 2>NUL 1>NUL
-:End_NotFound
+:::: :: NotFound
+:::: GOTO :End_NotFound
+:::: :Sub_NotFound
+::::   %DL% Sub_NotFound
+::::   ECHO.Special folder not found 1>&2
+::::   :: calling `reg` again to set errorlevel
+::::   reg query "%TEMP_Key%" /v %ShFolder% 2>NUL | findstr /c:%ShFolder% 2>NUL 1>NUL
+:::: :End_NotFound
 
 :: FOOTER
 GOTO :EOF
