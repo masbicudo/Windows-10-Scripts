@@ -1,4 +1,4 @@
-call require apps/choco.cmd
+call require apps\choco.cmd
 choco install -y gitextensions
 call set-where where_gitex gitex.exe
 call set-where where_gitextensions GitExtensions.exe

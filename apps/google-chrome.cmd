@@ -1,4 +1,4 @@
-call require apps/choco.cmd
+call require apps\choco.cmd
 choco install -y googlechrome
 call set-where where_chrome chrome.exe
 call MOVE "%where_public_desktop%\Google Chrome.lnk" "%where_shortcuts%\"

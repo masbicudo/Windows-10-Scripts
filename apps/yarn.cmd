@@ -1,2 +1,2 @@
-call require app/node.cmd
+call require apps\node.cmd
 npm install -g yarn

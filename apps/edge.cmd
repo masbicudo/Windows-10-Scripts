@@ -1,4 +1,4 @@
-call require places
+call require places.cmd
 
 setlocal
 

@@ -1,5 +1,5 @@
-call require app/choco.cmd
-call require places
+call require apps\choco.cmd
+call require places.cmd
 
 :: vscode (stable)
     choco install -y vscode

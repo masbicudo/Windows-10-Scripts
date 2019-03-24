@@ -1,4 +1,4 @@
-call require app/choco.cmd
+call require apps\choco.cmd
 
 choco install -y steam
 call rm-desktop-link steam

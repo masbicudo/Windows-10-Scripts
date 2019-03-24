@@ -1,5 +1,5 @@
-call require places
-call require apps/choco.cmd
+call require places.cmd
+call require apps\choco.cmd
 
 choco install -y everything
 call rm-desktop-link everything

@@ -1,2 +1,2 @@
-call require apps/choco.cmd
+call require apps\choco.cmd
 choco install -y git --params "/GitAndUnixToolsOnPath"

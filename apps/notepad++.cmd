@@ -1,8 +1,11 @@
-call require app/choco.cmd
+call require apps\choco.cmd
+
+:: TODO: if is-installed "notepad++" goto :eof
+
 choco install -y notepadplusplus
 call set-where where_npp notepad++
-shortcut-create "%where_shortcuts%\npp.lnk" "%where_npp%"
-shortcut-create "%where_shortcuts%\nppa.lnk" "%where_npp%" -ra
+once -u shortcut-create "%where_shortcuts%\npp.lnk" "%where_npp%"
+once -u shortcut-create "%where_shortcuts%\nppa.lnk" "%where_npp%" -ra
 :: TODO: set font to open monospace
 :: TODO: set vertical line at char 80
 :: TODO: set tabulation with 2 spaces
