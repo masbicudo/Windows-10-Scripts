@@ -50,11 +50,11 @@ regedit /s "utils\cmda_here\Add_Shift+Open_command_window_here_as_administrator.
 :: - add script: set-special-folder variable special_folder
 
 :: - create global shortcuts folder and add it to the system PATH
-call require shortcuts_folder
-call require projects_folder
+call require shortcuts_folder.cmd
+call require projects_folder.cmd
 
 :: installing chocolatey (package manager for Windows)
-call require apps/choco.cmd
+call require apps\choco.cmd
 call require include/places.cmd
 
 ::::::::::::::::::::::::::::
@@ -70,7 +70,7 @@ call require load-msg.cmd
 :: syspin is used to pin programs to the taskbar and startmenu
 call require apps\syspin.cmd
 
-:: everything is used by set-where.bat script
+:: everything is used by set-where.cmd script
 call apps\everything.cmd
 
 call require apps\setdefaultbrowser.cmd

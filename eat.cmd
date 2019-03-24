@@ -18,4 +18,4 @@ set __=
 goto start
 
 :done
-ECHO %__%
+ECHO.%__%

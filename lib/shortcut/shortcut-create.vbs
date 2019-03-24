@@ -7,7 +7,7 @@
 ' -d description
 ' -hk hot key sequence
 ' -ws window style
-' -ws working directory
+' -wd working directory
 ' -ra run as administrator flag
 ' -a arguments to pass to the target (must be last param)
 
@@ -32,6 +32,9 @@ Function GetOrCreateLink
   Set GetOrCreateLink = lnk
 End Function
 
+GetOrCreateLink.TargetPath = target
+GetOrCreateLink.WorkingDirectory = fso.GetParentFolderName(target)
+
 prev_arg = ""
 runas_admin = False
 For Each arg In args
@@ -47,7 +50,7 @@ For Each arg In args
         "  -d description" & vbCrLf & _
         "  -hk hot key sequence" & vbCrLf & _
         "  -ws window style" & vbCrLf & _
-        "  -ws working directory" & vbCrLf & _
+        "  -wd working directory" & vbCrLf & _
         "  -ra run as administrator flag" & vbCrLf & _
         "  -a arguments to pass to the target (must be last param)"
       Wscript.Quit
@@ -83,9 +86,18 @@ For Each arg In args
     prev_arg = arg
   End If
 Next
-GetOrCreateLink.TargetPath = target
-GetOrCreateLink.WorkingDirectory = fso.GetParentFolderName(target)
 GetOrCreateLink.Save
+
+If runas_admin Then
+  data = ReadAllBytes(linkpath)
+  data(21) = data(21) Or 32
+  WriteAllBytes linkpath, data
+End If
+
+'Clean up
+Set lnk = Nothing
+Set fso = Nothing
+Set objShell = Nothing
 
 Function ReadAllBytes(path)
   Dim ts, f, a(), i
@@ -109,14 +121,3 @@ Function WriteAllBytes(path, data)
   Next
   ts.Close
 End Function
-
-If runas_admin Then
-  data = ReadAllBytes(linkpath)
-  data(21) = data(21) Or 32
-  WriteAllBytes linkpath, data
-End If
-
-'Clean up
-Set lnk = Nothing
-Set fso = Nothing
-Set objShell = Nothing
