@@ -9,3 +9,6 @@ conda install -y matplotlib
 conda install -y scikit-learn
 conda install -y py-xgboost
 conda install -y pandas
+
+choco install -y graphviz
+pip install graphviz
