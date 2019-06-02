@@ -18,7 +18,10 @@ call set-where where_noshell "noshell.vbs"
     :skip_settings
 
 :: vscode insiders
-    choco install -y vscode-insiders --version 1.30 --ignore-checksums
+
+    ::choco install -y vscode-insiders --version 1.30 --ignore-checksums
+    :: TODO: use curl to download https://aka.ms/win32-x64-user-insider
+    ::       https://go.microsoft.com/fwlink/?Linkid=852155
     call rm-desktop-link Visual Code
     call set-where where_vsicode "code-insiders.cmd" --filter %ProgramFiles%
     call set-where where_vsicode_exe "Code - Insiders.exe" --filter %ProgramFiles%
