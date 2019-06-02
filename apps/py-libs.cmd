@@ -12,3 +12,5 @@ conda install -y pandas
 
 choco install -y graphviz
 pip install graphviz
+
+conda install -y ipyparallel

@@ -31,7 +31,9 @@ SET proceed=
 :: dev tools
 :: user tools
 
-
+:: TODO - after installing GIT
+:: - clone git-scripts project
+:: - add git-scripts/src to the PATH
 
 :: TODO
 :: - add .LNK to the system PATHEXT

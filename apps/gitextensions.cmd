@@ -1,5 +1,5 @@
 call require apps\choco.cmd
-choco install -y gitextensions
+choco upgrade -y gitextensions
 call set-where where_gitex gitex.exe
 call set-where where_gitextensions GitExtensions.exe
 shortcut-create "%where_shortcuts%\gitex.lnk" "%where_gitex%" -i "%where_gitextensions%,0"
