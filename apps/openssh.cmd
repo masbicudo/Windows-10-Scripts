@@ -1,4 +1,4 @@
-call require posh.cmd
+call require apps\posh.cmd
 
 :: https://docs.microsoft.com/pt-br/windows-server/administration/openssh/openssh_install_firstuse
 poshca "Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0"
