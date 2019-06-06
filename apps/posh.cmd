@@ -1,3 +1,5 @@
+call require places.cmd
+
 :: This is the setup file for PowerShell
 set "where_posh=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
 
