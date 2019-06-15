@@ -2,6 +2,7 @@
 SETLOCAL
 set script_name=%0
 
+:: line debugger
 SET __TEMP=%*
 SET __TEMP=%__TEMP:"=%
 IF "%__TEMP:--debug-lines=%"=="%__TEMP%" (SET DL=REM) ELSE (
@@ -9,6 +10,7 @@ IF "%__TEMP:--debug-lines=%"=="%__TEMP%" (SET DL=REM) ELSE (
   IF "%__TEMP:--colors=%"=="%__TEMP%" (SET DL=ECHO.DEBUG:) ELSE (SET DL=ECHO.[90mDEBUG:[0m)
 )
 
+:: help
 GOTO :END_HELP
 :SUB_HELP
 ECHO.%B%%script_name% script v0.2.8 by MASBicudo%N%
@@ -80,6 +82,7 @@ ECHO.  %W%where_vscode%K%=%Y%C:\Program Files\Microsoft VS Code\Code.exe%N%
 GOTO :EOF
 :END_HELP
 
+:: tests
 GOTO :END_TESTS
 :SUB_TESTS
 SETLOCAL
@@ -111,6 +114,7 @@ ENDLOCAL
 GOTO :EOF
 :END_TESTS
 
+:: colors
 GOTO :END_SET_COLORS
 :SUB_SET_COLORS
 SET _k=[30m&SET _r=[31m&SET _g=[32m&SET _y=[33m&SET _b=[34m&SET _m=[35m&SET _c=[36m&SET _w=[37m&

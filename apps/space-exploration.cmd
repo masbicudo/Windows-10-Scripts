@@ -1,0 +1,36 @@
+
+:: creating links only... these softwares must be installed by hand.
+
+set-where "where_gaiasky" "gaiasky.exe"
+shortcut-create "%where_shortcuts%\gaia.lnk" "%where_gaiasky%"
+shortcut-create "%where_shortcuts%\gaiasky.lnk" "%where_gaiasky%"
+shortcut-create "%where_shortcuts%\gsky.lnk" "%where_gaiasky%"
+shortcut-create "%where_shortcuts%\sky.lnk" "%where_gaiasky%"
+shortcut-create "%where_shortcuts%\gs.lnk" "%where_gaiasky%"
+
+set-where "where_spaceengine" "SpaceEngine.exe"
+shortcut-create "%where_shortcuts%\SpaceEngine.lnk" "%where_spaceengine%"
+shortcut-create "%where_shortcuts%\se.lnk" "%where_spaceengine%"
+shortcut-create "%where_shortcuts%\sengine.lnk" "%where_spaceengine%"
+shortcut-create "%where_shortcuts%\spacee.lnk" "%where_spaceengine%"
+shortcut-create "%where_shortcuts%\spceng.lnk" "%where_spaceengine%"
+shortcut-create "%where_shortcuts%\space.lnk" "%where_spaceengine%"
+
+set-where "where_universe_sandbox" "Universe Sandbox x64.exe" --filter "Universe Sandbox 2"
+shortcut-create "%where_shortcuts%\universe sandbox.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\unisandbox.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\unisbox.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\unibox.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\usbox.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\usandbox.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\usbox.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\us2.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\usb2.lnk" "%where_universe_sandbox%"
+shortcut-create "%where_shortcuts%\universe.lnk" "%where_universe_sandbox%"
+
+set-where "where_celestia" "celestia.exe"
+shortcut-create "%where_shortcuts%\celestia.lnk" "%where_celestia%"
+shortcut-create "%where_shortcuts%\celestial.lnk" "%where_celestia%"
+shortcut-create "%where_shortcuts%\celest.lnk" "%where_celestia%"
+shortcut-create "%where_shortcuts%\cel.lnk" "%where_celestia%"
+shortcut-create "%where_shortcuts%\ceu.lnk" "%where_celestia%"
