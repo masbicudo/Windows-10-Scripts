@@ -2,10 +2,21 @@ What is this?
 =============
 
 This repository contains Windows 10 initialization scripts.
-The purpose is to automate installation of softwares, features and settings to my taste (MASBicudo). At this moment this is far from a fully automated process... but the scripts here can help a lot.
+The purpose is to automate installation of softwares, features and settings to my taste (MASBicudo).
+At this moment this is far from a fully automated process... but the scripts here can help a lot.
 
 Instructions
 ============
+
+## Running GUI
+
+I'm creating a GUI interface for this based on MSHTA.
+Run the following command to start the HTA application:
+
+    mshta https://www.masbicudo.com/Windows-10-Scripts/app.hta
+
+MSHTA is safe as long as you **trust** the source code you are executing.
+Please, read the source code before running, and see for yourself that there is no malicious code inside.
 
 ## Running fully automated setup
 
@@ -24,6 +35,7 @@ They depend on structural scripts and programs that are in the root of the proje
 
 To run any of these, you need to prepare the environment first:
 - run `set-env.cmd`
+- run `places.cmd`
 
 Then you can use `require.cmd` script to call these:
 - for example: `require.cmd apps\openssh.cmd`
