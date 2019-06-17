@@ -1,4 +1,4 @@
-call require apps/choco.cmd
+call require apps\choco.cmd
 
 :: Usefull to create multiboot BIOS bootable USB drives
 choco upgrade -y yumi

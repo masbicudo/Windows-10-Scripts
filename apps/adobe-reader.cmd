@@ -1,4 +1,4 @@
-call require apps/choco.cmd
+call require apps\choco.cmd
 call require places
 
 choco upgrade -y adobereader

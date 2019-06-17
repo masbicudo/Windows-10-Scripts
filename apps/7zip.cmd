@@ -1,4 +1,4 @@
-call require apps/choco.cmd
+call require apps\choco.cmd
 
 choco upgrade -y 7zip
 
