@@ -43,5 +43,4 @@ Then you can use `require.cmd` script to call these:
 To Do
 =====
 
-- After running a package script, running it again should update the package if needed, or reinstall if damaged.
-- A tool to select packages should be provided, and be able to create standalone initialization scripts.
+See [to do lists](todo.md)
