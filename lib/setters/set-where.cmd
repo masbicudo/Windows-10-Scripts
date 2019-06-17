@@ -338,6 +338,7 @@ IF %__ORD__% LEQ 2 GOTO :EOF
     )
   )
 
+  :: Returning value
   %DL% IF %__VERBOSE__% GEQ 1 ECHO.%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
   IF %__VERBOSE__% GEQ 1 ECHO.%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
   IF DEFINED %__VAR__% IF /I "%__KEEP__%"=="T" SET __SET__=F
