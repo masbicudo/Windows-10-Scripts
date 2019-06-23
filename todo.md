@@ -6,6 +6,7 @@ layout: default
 ## Easy
 
 - Add a special folder for trivia on the desktop, and synch it via BitBucket.
+- Customize start menu: [Win10: Start Customization with LayoutModification.xml](https://winpeguy.wordpress.com/2015/10/30/win10-start-customization-with-layoutmodification-xml)
 
 ## Medium
 
