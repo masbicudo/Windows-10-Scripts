@@ -1,9 +1,7 @@
 @ECHO OFF
 
 REM :: removing pathexts to avoid bugs in the code
-REM :: since many of the apps\*.cmd use the names from
-REM :: real applications... only .EXE may be called
-REM :: without extension
+REM :: Major problem: it affects WHERE command
 REM SET PATHEXT=.EXE
 
 :: adding all folders inside .\lib to the
