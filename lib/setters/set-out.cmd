@@ -3,6 +3,7 @@ SETLOCAL DisableDelayedExpansion
 
 SETLOCAL EnableDelayedExpansion
 FOR /f "usebackq tokens=*" %%a IN (` eat %* `) DO SET TEMP_EAT=%%a
+SET TEMP_EAT=%TEMP_EAT:^=^^%
 FOR /f "usebackq tokens=*" %%a IN (` %TEMP_EAT% ^|^| SET _DIE=!errorlevel!`) DO ENDLOCAL & SET "__VALUE=%%a" & goto :next
 :next
 
