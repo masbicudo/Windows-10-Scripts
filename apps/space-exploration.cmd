@@ -18,8 +18,8 @@ echo install-gaiasky
     if exist "%TEMP%\gsdl.html" (
         call set-out gaiasky64 match "https?://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/.*/(.*windows-x64_.*\.exe)" -f "%TEMP%\gsdl.html" -s 1
         call set-out gaiasky32 match "https?://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/.*/(.*windows_.*\.exe)" -f "%TEMP%\gsdl.html" -s 1
-        call set-out www_gaiasky64 match "https?://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/.*/(.*windows-x64_.*\.exe)" -f "%TEMP%\gsdl.html" -s 0
-        call set-out www_gaiasky32 match "https?://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/.*/(.*windows_.*\.exe)" -f "%TEMP%\gsdl.html" -s 0
+        call set-out www_gaiasky64 match "https?://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/.*/(.*windows-x64_.*\.exe)" -f "%TEMP%\gsdl.html"
+        call set-out www_gaiasky32 match "https?://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/.*/(.*windows_.*\.exe)" -f "%TEMP%\gsdl.html"
         call set-where where_gaiasky64_dl "!gaiasky64!" --clear
         if not defined where_gaiasky64_dl (
             curl -L -o "%where_downloads%\!gaiasky64!" !www_gaiasky64!
