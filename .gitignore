@@ -2,3 +2,4 @@
 /.vscode/ipch/
 /*.exe
 /finilize.cmd
+*.bak

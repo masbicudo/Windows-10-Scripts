@@ -4,6 +4,8 @@ REM :: removing pathexts to avoid bugs in the code
 REM :: Major problem: it affects WHERE command
 REM SET PATHEXT=.EXE
 
+SET __COLORS__=T
+
 :: adding all folders inside .\lib to the
 :: PATH variable including .\lib itself
 FOR /D %%D in (lib\*) DO call :Append_Path %%~fD
