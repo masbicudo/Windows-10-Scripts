@@ -1,5 +1,7 @@
 call require apps\choco.cmd
-choco install -y googlechrome
+call require apps\setdefaultbrowser.cmd
+call require apps\syspin.cmd
+choco upgrade -y googlechrome
 call set-where where_chrome chrome.exe
 call MOVE "%where_public_desktop%\Google Chrome.lnk" "%where_shortcuts%\"
 :: chrome links
