@@ -1,6 +1,11 @@
 @ECHO OFF
 
-:main
+::Common colors
+if /i "%1"=="" call :common
+
+:args_loop
+
+  if /i "%1"=="" goto :eof
 
   ::Simple colors (Abbreviations)
   if /i "%1"=="Abbr" call :abbr
@@ -41,10 +46,31 @@
   if /i "%1"=="webgray" call :webgray
   if /i "%1"=="webbrown" call :webbrown
 
-  ::Common colors
-  if /i "%1"=="" call :common
+  if /i "%1"=="common" call :common
+  
+  if /i "%1"=="all" (
+    call :yon
+    call :webred
+    call :weborange
+    call :webyellow
+    call :webgreen
+    call :webcyan
+    call :webblue
+    call :webpurple
+    call :webpink
+    call :webwhite
+    call :webgray
+    call :webbrown
+    call :yon_abbr
+    call :iso_abbr
+    call :abbr
+    call :common
+    goto :eof
+  )
 
-goto :eof
+  shift
+
+goto :args_loop
 
 ::Simple colors (Abbreviations)
 
