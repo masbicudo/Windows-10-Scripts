@@ -3,3 +3,7 @@
 /*.exe
 /finilize.cmd
 *.bak
+/_site/
+Gemfile
+Gemfile.lock
+*.orig
