@@ -79,8 +79,6 @@ call require apps\setdefaultbrowser.cmd
 
 call require apps\git.cmd
 
-::choco install -y wget
-
 :: should I install all vcredists? or only the needed ones?
 call require apps\vcredist.cmd
 

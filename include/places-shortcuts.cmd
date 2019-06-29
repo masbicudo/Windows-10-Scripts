@@ -1,5 +1,4 @@
 @echo off
-call require set-env.cmd
 call require places.cmd
 
 shortcut-create "%where_shortcuts%\shct.lnk" "%where_shortcuts%"
