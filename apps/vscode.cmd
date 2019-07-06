@@ -1,34 +1,104 @@
 call require apps\choco.cmd
 call require places.cmd
+call require iecho.cmd
+
+setlocal
+
+call set-colors.cmd web abbr
+
+set TC=%web_mediumaquamarine%
 
 call set-where where_noshell "noshell.vbs"
-
 call set-where where_wscript "wscript.exe" --filter %windir%
 
+if "%1"=="" goto :-iA
+:next_param
+call :%1
+shift
+if "%1"=="" goto :eof
+goto :next_param
+
+:: install all vscode
+goto :eof
+:-iA
+:install-vscode-all
+iecho %TC%install-vscode-all%N%
+
+    call :-i
+    call :-ix
+    call :-ic
+    call :-is
+
+    call :-iI
+    call :-ixI
+    call :-icI
+    call :-isI
+
 :: vscode (stable)
+goto :eof
+:-i
+:install-vscode
+iecho %TC%install-vscode%N%
+
     choco install -y vscode
-    call set-where where_vscode "Microsoft VS Code\bin\code.cmd" --filter %ProgramFiles%
-    call set-where where_vscode_exe "Microsoft VS Code\code.exe" --filter %ProgramFiles%
-    shortcut-create "%where_shortcuts%\code.lnk" "%where_wscript%" -i "%where_vscode_exe%,0" -a "%where_noshell%" "%where_vscode%"
-    shortcut-create "%where_shortcuts%\coda.lnk" "%where_wscript%" -ra -i "%where_vscode_exe%,0" -a "%where_noshell%" "%where_vscode%"
+
+goto :eof
+:-ix
+:install-vscode-extensions
+iecho %TC%install-vscode-extensions%N%
 
     code --install-extension formulahendry.code-runner
+
+goto :eof
+:-ic
+:install-vscode-config
+iecho %TC%install-vscode-config%N%
 
     if exist "%where_appdata%\Code\User\settings.json" goto :skip_settings
         mkdir "%where_appdata%\Code\User"
         copy "res\vscode.%__user%\settings.json" "%where_appdata%\Code\User"
     :skip_settings
 
+goto :eof
+:-is
+:install-vscode-shortcuts
+iecho %TC%install-vscode-shortcuts%N%
+
+    call set-where where_vscode "Microsoft VS Code\bin\code.cmd" --filter %ProgramFiles%
+    call set-where where_vscode_exe "Microsoft VS Code\code.exe" --filter %ProgramFiles%
+    shortcut-create "%where_shortcuts%\code.lnk" "%where_wscript%" -i "%where_vscode_exe%,0" -a "%where_noshell%" "%where_vscode%"
+    shortcut-create "%where_shortcuts%\coda.lnk" "%where_wscript%" -ra -i "%where_vscode_exe%,0" -a "%where_noshell%" "%where_vscode%"
+
 :: vscode insiders
+goto :eof
+:-iI
+:install-vscode-insiders
+iecho %TC%install-vscode-insiders%N%
 
     ::choco install -y vscode-insiders --version 1.30 --ignore-checksums
     :: TODO: use curl to download https://aka.ms/win32-x64-user-insider
     ::       https://go.microsoft.com/fwlink/?Linkid=852155
+
+goto :eof
+:-ixI
+:install-vscode-insiders-extensions
+iecho %TC%install-vscode-insiders-extensions%N%
+
+goto :eof
+:-isI
+:install-vscode-insiders-shortcuts
+iecho %TC%install-vscode-insiders-shortcuts%N%
+
     call rm-desktop-link Visual Code
     call set-where where_vsicode "code-insiders.cmd" --filter %ProgramFiles%
     call set-where where_vsicode_exe "Code - Insiders.exe" --filter %ProgramFiles%
     shortcut-create "%where_shortcuts%\icode.lnk" "%where_wscript%" -i "%where_vsicode_exe%,0" -a "%where_noshell%" "%where_vsicode%"
     shortcut-create "%where_shortcuts%\icoda.lnk" "%where_wscript%" -ra -i "%where_vsicode_exe%,0" -a "%where_noshell%" "%where_vsicode%"
+
+goto :eof
+:-icI
+:install-vscode-insiders-config
+iecho %TC%install-vscode-insiders-config%N%
 
     if exist "%where_appdata%\Code - Insiders\User\settings.json" goto :skip_settings
         mkdir "%where_appdata%\Code - Insiders\User"
