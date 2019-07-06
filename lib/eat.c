@@ -6,14 +6,14 @@ void read_arg(char * in, int * in_pos, int in_len, char * out, int * out_pos);
 int instr(char ch, char * str);
 int read_sep(char * in, int * in_pos, int in_len, char * out, int * out_pos);
 
-#define ENV_TYPE_DEFAULT 0
 #define ENV_TYPE_BATCH 0
 #define ENV_TYPE_CMDSHELL 1
+#define ENV_TYPE_DEFAULT ENV_TYPE_BATCH
 int env_type = ENV_TYPE_DEFAULT;
 
-#define CALL_TYPE_DEFAULT 0
 #define CALL_TYPE_BATCH 0
 #define CALL_TYPE_OTHER 1
+#define CALL_TYPE_DEFAULT CALL_TYPE_BATCH
 int call_type = CALL_TYPE_DEFAULT;
 
 int main(int argc, char **argv, char **envp) {
