@@ -18,6 +18,9 @@ do
     Yonex-Abbr|yonex-abbr)
     yon_abbr
     ;;
+    Yandex|yandex)
+    yan
+    ;;
     Yonex|yonex)
     yon
     ;;
@@ -95,6 +98,220 @@ do
   shift
 done
 
+#Yandex ( https://gurov.github.io/yandex-colors/index.html )
+
+function yan {
+  yan_black="[38;2;0;0;0m"
+  yan_navy_blue="[38;2;0;0;0m"
+  yan_blue="[38;2;0;0;0m"
+  yan_prussian_blue="[38;2;0;0;0m"
+  yan_midnight_blue="[38;2;0;0;0m"
+  yan_powder_blue="[38;2;0;0;0m"
+  yan_cobalt="[38;2;0;0;0m"
+  yan_cerulean_grey="[38;2;0;0;0m"
+  yan_azure="[38;2;0;0;0m"
+  yan_teal="[38;2;0;0;0m"
+  yan_bondi_blue="[38;2;0;0;0m"
+  yan_jade="[38;2;0;0;0m"
+  yan_robin_egg_blue="[38;2;0;0;0m"
+  yan_aqua="[38;2;0;0;0m"
+  yan_green="[38;2;0;0;0m"
+  yan_spring_green="[38;2;0;0;0m"
+  yan_cyan="[38;2;0;0;0m"
+  yan_dark_green="[38;2;1;1;1m"
+  yan_pine_green="[38;2;1;1;1m"
+  yan_dark_pastel_green="[38;2;3;3;3m"
+  yan_sapphire="[38;2;8;8;8m"
+  yan_dark_cerulean="[38;2;8;8;8m"
+  yan_bright_turquoise="[38;2;8;8;8m"
+  yan_malachite="[38;2;11;11;11m"
+  yan_dark_turquoise="[38;2;17;17;17m"
+  yan_ultramarine="[38;2;18;18;18m"
+  yan_denim="[38;2;21;21;21m"
+  yan_dark_spring_green="[38;2;23;23;23m"
+  yan_moray="[38;2;28;28;28m"
+  yan_dodger_blue="[38;2;30;30;30m"
+  yan_cerulean_blue="[38;2;42;42;42m"
+  yan_sea_green="[38;2;46;46;46m"
+  yan_dark_slate_gray="[38;2;47;47;47m"
+  yan_turquoise="[38;2;48;48;48m"
+  yan_dark_indigo="[38;2;49;49;49m"
+  yan_klein_blue="[38;2;58;58;58m"
+  yan_bistre="[38;2;61;61;61m"
+  yan_royal_blue="[38;2;65;65;65m"
+  yan_dark_violet="[38;2;66;66;66m"
+  yan_light_blue="[38;2;66;66;66m"
+  yan_coffee="[38;2;68;68;68m"
+  yan_fulvous="[38;2;69;69;69m"
+  yan_anthracite="[38;2;70;70;70m"
+  yan_gray_asparagus="[38;2;70;70;70m"
+  yan_steel_blue="[38;2;70;70;70m"
+  yan_indigo="[38;2;75;75;75m"
+  yan_dark_khaki="[38;2;76;76;76m"
+  yan_marengo="[38;2;76;76;76m"
+  yan_fern_green="[38;2;79;79;79m"
+  yan_wet_asphalt="[38;2;80;80;80m"
+  yan_emerald="[38;2;80;80;80m"
+  yan_dark_olive="[38;2;85;85;85m"
+  yan_dark_scarlet="[38;2;86;86;86m"
+  yan_grass="[38;2;93;93;93m"
+  yan_cornflower_blue="[38;2;100;100;100m"
+  yan_dark_brown="[38;2;101;101;101m"
+  yan_plum="[38;2;102;102;102m"
+  yan_purple="[38;2;102;102;102m"
+  yan_persian_blue="[38;2;102;102;102m"
+  yan_bright_green="[38;2;102;102;102m"
+  yan_olive_drab="[38;2;107;107;107m"
+  yan_sepia="[38;2;112;112;112m"
+  yan_slate_gray="[38;2;112;112;112m"
+  yan_umber="[38;2;115;115;115m"
+  yan_russet="[38;2;117;117;117m"
+  yan_pale_green="[38;2;119;119;119m"
+  yan_camouflage_green="[38;2;120;120;120m"
+  yan_cinnamon="[38;2;123;123;123m"
+  yan_fainted_frog="[38;2;123;123;123m"
+  yan_asparagus="[38;2;123;123;123m"
+  yan_electric="[38;2;125;125;125m"
+  yan_sky="[38;2;127;127;127m"
+  yan_viridian="[38;2;127;127;127m"
+  yan_aquamarine="[38;2;127;127;127m"
+  yan_maroon="[38;2;128;128;128m"
+  yan_khaki="[38;2;128;128;128m"
+  yan_olive="[38;2;128;128;128m"
+  yan_gray="[38;2;128;128;128m"
+  yan_brick="[38;2;136;136;136m"
+  yan_burnt_umber="[38;2;138;138;138m"
+  yan_violet="[38;2;139;139;139m"
+  yan_burgundy="[38;2;144;144;144m"
+  yan_terracotta="[38;2;144;144;144m"
+  yan_dark_tan="[38;2;145;145;145m"
+  yan_sanguine="[38;2;146;146;146m"
+  yan_carmine="[38;2;150;150;150m"
+  yan_brown="[38;2;150;150;150m"
+  yan_dark_chestnut="[38;2;152;152;152m"
+  yan_pale_brown="[38;2;152;152;152m"
+  yan_mint_green="[38;2;152;152;152m"
+  yan_eggplant="[38;2;153;153;153m"
+  yan_violet_eggplant="[38;2;153;153;153m"
+  yan_mauve="[38;2;153;153;153m"
+  yan_pale_mauve="[38;2;153;153;153m"
+  yan_amethyst="[38;2;153;153;153m"
+  yan_mountbatten_pink="[38;2;153;153;153m"
+  yan_chartreuse="[38;2;153;153;153m"
+  yan_wine_red="[38;2;155;155;155m"
+  yan_pale_cornflower_blue="[38;2;171;171;171m"
+  yan_swamp_green="[38;2;172;172;172m"
+  yan_celadon="[38;2;172;172;172m"
+  yan_moss_green="[38;2;173;173;173m"
+  yan_green_yellow="[38;2;173;173;173m"
+  yan_pale_carmine="[38;2;175;175;175m"
+  yan_pale_blue="[38;2;175;175;175m"
+  yan_brass="[38;2;181;181;181m"
+  yan_rust="[38;2;183;183;183m"
+  yan_copper="[38;2;184;184;184m"
+  yan_dark_goldenrod="[38;2;184;184;184m"
+  yan_dark_tea_green="[38;2;186;186;186m"
+  yan_light_grey="[38;2;187;187;187m"
+  yan_pistachio="[38;2;190;190;190m"
+  yan_silver="[38;2;192;192;192m"
+  yan_cardinal="[38;2;196;196;196m"
+  yan_red_violet="[38;2;199;199;199m"
+  yan_pang="[38;2;199;199;199m"
+  yan_lilac="[38;2;200;200;200m"
+  yan_wisteria="[38;2;201;201;201m"
+  yan_gray_tea_green="[38;2;202;202;202m"
+  yan_burnt_orange="[38;2;204;204;204m"
+  yan_ochre="[38;2;204;204;204m"
+  yan_puce="[38;2;204;204;204m"
+  yan_periwinkle="[38;2;204;204;204m"
+  yan_lime="[38;2;204;204;204m"
+  yan_bright_violet="[38;2;205;205;205m"
+  yan_tenne="[38;2;205;205;205m"
+  yan_dark_coral="[38;2;205;205;205m"
+  yan_chestnut="[38;2;205;205;205m"
+  yan_bronze="[38;2;205;205;205m"
+  yan_light_brown="[38;2;205;205;205m"
+  yan_old_gold="[38;2;207;207;207m"
+  yan_tea_green="[38;2;208;208;208m"
+  yan_chocolate="[38;2;210;210;210m"
+  yan_tan="[38;2;210;210;210m"
+  yan_titian="[38;2;213;213;213m"
+  yan_cherry="[38;2;214;214;214m"
+  yan_reddish_brown="[38;2;215;215;215m"
+  yan_dark_pear="[38;2;216;216;216m"
+  yan_thistle="[38;2;216;216;216m"
+  yan_orchid="[38;2;218;218;218m"
+  yan_goldenrod="[38;2;218;218;218m"
+  yan_pale_red_violet="[38;2;219;219;219m"
+  yan_crimson="[38;2;220;220;220m"
+  yan_pale_chestnut="[38;2;221;221;221m"
+  yan_cerise="[38;2;222;222;222m"
+  yan_heliotrope="[38;2;223;223;223m"
+  yan_siena="[38;2;226;226;226m"
+  yan_alizarin="[38;2;227;227;227m"
+  yan_gamboge="[38;2;228;228;228m"
+  yan_lavender="[38;2;230;230;230m"
+  yan_dark_pink="[38;2;231;231;231m"
+  yan_burnt_siena="[38;2;233;233;233m"
+  yan_dark_salmon="[38;2;233;233;233m"
+  yan_dark_tangerine="[38;2;234;234;234m"
+  yan_violaceous="[38;2;234;234;234m"
+  yan_zinnwaldite="[38;2;235;235;235m"
+  yan_flax="[38;2;238;238;238m"
+  yan_pear="[38;2;239;239;239m"
+  yan_buff="[38;2;240;240;240m"
+  yan_cream="[38;2;242;242;242m"
+  yan_light_cream="[38;2;242;242;242m"
+  yan_carrot="[38;2;243;243;243m"
+  yan_saffron="[38;2;244;244;244m"
+  yan_wheat="[38;2;245;245;245m"
+  yan_beige="[38;2;245;245;245m"
+  yan_fuchsia="[38;2;247;247;247m"
+  yan_childs_surprise="[38;2;247;247;247m"
+  yan_pale_magenta="[38;2;249;249;249m"
+  yan_pale_pink="[38;2;250;250;250m"
+  yan_peach_yellow="[38;2;250;250;250m"
+  yan_scared_nymph="[38;2;250;250;250m"
+  yan_linen="[38;2;250;250;250m"
+  yan_corn="[38;2;251;251;251m"
+  yan_hot_pink="[38;2;252;252;252m"
+  yan_sandy_brown="[38;2;252;252;252m"
+  yan_lemon="[38;2;253;253;253m"
+  yan_pale_sandy_brown="[38;2;253;253;253m"
+  yan_red="[38;2;255;255;255m"
+  yan_carmine_red="[38;2;255;255;255m"
+  yan_magenta="[38;2;255;255;255m"
+  yan_scarlet="[38;2;255;255;255m"
+  yan_vermilion="[38;2;255;255;255m"
+  yan_international_orange="[38;2;255;255;255m"
+  yan_pumpkin="[38;2;255;255;255m"
+  yan_coral="[38;2;255;255;255m"
+  yan_tangerine="[38;2;255;255;255m"
+  yan_salmon="[38;2;255;255;255m"
+  yan_safety_orange="[38;2;255;255;255m"
+  yan_pink_orange="[38;2;255;255;255m"
+  yan_orange="[38;2;255;255;255m"
+  yan_selective_yellow="[38;2;255;255;255m"
+  yan_amber="[38;2;255;255;255m"
+  yan_pink="[38;2;255;255;255m"
+  yan_yandex="[38;2;255;255;255m"
+  yan_peach_orange="[38;2;255;255;255m"
+  yan_gold="[38;2;255;255;255m"
+  yan_school_bus_yellow="[38;2;255;255;255m"
+  yan_dark_peach="[38;2;255;255;255m"
+  yan_mustard="[38;2;255;255;255m"
+  yan_navajo_white="[38;2;255;255;255m"
+  yan_yellow_pink="[38;2;255;255;255m"
+  yan_peach="[38;2;255;255;255m"
+  yan_papaya_whip="[38;2;255;255;255m"
+  yan_lavender_blush="[38;2;255;255;255m"
+  yan_seashell="[38;2;255;255;255m"
+  yan_lemon_cream="[38;2;255;255;255m"
+  yan_ivory="[38;2;255;255;255m"
+  yan_yellow="[38;2;255;255;255m"
+  yan_white="[38;2;255;255;255m"
+}
+
 #Simple colors (Abbreviations)
 
 function abbr {
@@ -125,7 +342,7 @@ function iso_abbr {
   TK='[38;2;129;192;187m'
 }
 
-#Yonex Color Chart (Abbreviations)
+#Yonex Color Chart (Abbreviations) ( http://shuttle-house.com/page_top_ENGLISH/Guide/color_chart.html )
 
 function yon_abbr {
   R='[38;2;255;0;0m'
@@ -152,7 +369,7 @@ function yon_abbr {
   SX='[38;2;70;72;184m'
   LTG='[38;2;44;209;175m'
   SE='[38;2;20;15;7m'
-  DC='[38;2;0;47;0m'
+  DG='[38;2;0;47;0m' # DarkGreen was DC in the original index, but DarknessCharcoal was DC too
   LB='[38;2;3;177;121m'
   MEGT='[38;2;0;255;153m'
   MB='[38;2;2;159;212m'
@@ -176,8 +393,8 @@ function yon_abbr {
   PG='[38;2;222;214;198m'
   MEBK='[38;2;41;32;35m'
   AB='[38;2;0;183;223m'
-  DBR='[38;2;0;0;139m'
-  IBL='[38;2;14;27;60m'
+  DB='[38;2;0;0;139m' # DarkBlue was DBR in the original index, but DarkBrown was DBR too
+  IKBL='[38;2;14;27;60m' # InkBlue was IBL in the original index, but IndigoBlue was IBL too
   BPU='[38;2;178;0;255m'
   BB='[38;2;25;51;140m'
   MER='[38;2;238;79;111m'
@@ -317,7 +534,7 @@ function yon_abbr {
   DPR='[38;2;160;41;95m'
   IRG='[38;2;126;144;154m'
   MBL='[38;2;114;229;204m'
-  MPU='[38;2;232;158;183m'
+  MPI='[38;2;232;158;183m' # MistoPink was MPU in the original index, but MistPurple was MPU too
   FY='[38;2;241;232;157m'
   MSI='[38;2;214;198;189m'
   PDP='[38;2;246;228;224m'
@@ -341,14 +558,14 @@ function yon_abbr {
   CY='[38;2;239;208;22m'
   DOR='[38;2;255;140;0m'
   DC='[38;2;87;78;81m'
-  LPU='[38;2;255;182;193m'
+  LPI='[38;2;255;182;193m' # LightPink was LPU in the original index, but LightPurple was LPU too
   LFG='[38;2;109;224;81m'
   ICBE='[38;2;217;192;181m'
   RO='[38;2;255;0;55m'
   IMR='[38;2;60;51;82m'
 }
 
-#Yonex Color Chart
+#Yonex Color Chart ( http://shuttle-house.com/page_top_ENGLISH/Guide/color_chart.html )
 
 function yon {
   yon_red='[38;2;255;0;0m'

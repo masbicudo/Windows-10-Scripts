@@ -17,6 +17,9 @@ if /i "%1"=="" call :common
   if /i "%1"=="Yonex-Abbr" call :yon_abbr
 
   ::Yonex Color Chart
+  if /i "%1"=="Yandex" call :yan
+
+  ::Yonex Color Chart
   if /i "%1"=="Yonex" call :yon
 
   ::Web Colors
@@ -48,8 +51,16 @@ if /i "%1"=="" call :common
 
   if /i "%1"=="common" call :common
   
+  if /i "%1"=="all-abbr" (
+    call :yon_abbr
+    call :iso_abbr
+    call :abbr
+    goto :eof
+  )
+
   if /i "%1"=="all" (
     call :yon
+    call :yan
     call :webred
     call :weborange
     call :webyellow
@@ -71,6 +82,220 @@ if /i "%1"=="" call :common
   shift
 
 goto :args_loop
+
+::Yandex ( https://gurov.github.io/yandex-colors/index.html )
+
+:yan
+  SET "yan_black=[38;2;0;0;0m"
+  SET "yan_navy_blue=[38;2;0;0;0m"
+  SET "yan_blue=[38;2;0;0;0m"
+  SET "yan_prussian_blue=[38;2;0;0;0m"
+  SET "yan_midnight_blue=[38;2;0;0;0m"
+  SET "yan_powder_blue=[38;2;0;0;0m"
+  SET "yan_cobalt=[38;2;0;0;0m"
+  SET "yan_cerulean_grey=[38;2;0;0;0m"
+  SET "yan_azure=[38;2;0;0;0m"
+  SET "yan_teal=[38;2;0;0;0m"
+  SET "yan_bondi_blue=[38;2;0;0;0m"
+  SET "yan_jade=[38;2;0;0;0m"
+  SET "yan_robin_egg_blue=[38;2;0;0;0m"
+  SET "yan_aqua=[38;2;0;0;0m"
+  SET "yan_green=[38;2;0;0;0m"
+  SET "yan_spring_green=[38;2;0;0;0m"
+  SET "yan_cyan=[38;2;0;0;0m"
+  SET "yan_dark_green=[38;2;1;1;1m"
+  SET "yan_pine_green=[38;2;1;1;1m"
+  SET "yan_dark_pastel_green=[38;2;3;3;3m"
+  SET "yan_sapphire=[38;2;8;8;8m"
+  SET "yan_dark_cerulean=[38;2;8;8;8m"
+  SET "yan_bright_turquoise=[38;2;8;8;8m"
+  SET "yan_malachite=[38;2;11;11;11m"
+  SET "yan_dark_turquoise=[38;2;17;17;17m"
+  SET "yan_ultramarine=[38;2;18;18;18m"
+  SET "yan_denim=[38;2;21;21;21m"
+  SET "yan_dark_spring_green=[38;2;23;23;23m"
+  SET "yan_moray=[38;2;28;28;28m"
+  SET "yan_dodger_blue=[38;2;30;30;30m"
+  SET "yan_cerulean_blue=[38;2;42;42;42m"
+  SET "yan_sea_green=[38;2;46;46;46m"
+  SET "yan_dark_slate_gray=[38;2;47;47;47m"
+  SET "yan_turquoise=[38;2;48;48;48m"
+  SET "yan_dark_indigo=[38;2;49;49;49m"
+  SET "yan_klein_blue=[38;2;58;58;58m"
+  SET "yan_bistre=[38;2;61;61;61m"
+  SET "yan_royal_blue=[38;2;65;65;65m"
+  SET "yan_dark_violet=[38;2;66;66;66m"
+  SET "yan_light_blue=[38;2;66;66;66m"
+  SET "yan_coffee=[38;2;68;68;68m"
+  SET "yan_fulvous=[38;2;69;69;69m"
+  SET "yan_anthracite=[38;2;70;70;70m"
+  SET "yan_gray_asparagus=[38;2;70;70;70m"
+  SET "yan_steel_blue=[38;2;70;70;70m"
+  SET "yan_indigo=[38;2;75;75;75m"
+  SET "yan_dark_khaki=[38;2;76;76;76m"
+  SET "yan_marengo=[38;2;76;76;76m"
+  SET "yan_fern_green=[38;2;79;79;79m"
+  SET "yan_wet_asphalt=[38;2;80;80;80m"
+  SET "yan_emerald=[38;2;80;80;80m"
+  SET "yan_dark_olive=[38;2;85;85;85m"
+  SET "yan_dark_scarlet=[38;2;86;86;86m"
+  SET "yan_grass=[38;2;93;93;93m"
+  SET "yan_cornflower_blue=[38;2;100;100;100m"
+  SET "yan_dark_brown=[38;2;101;101;101m"
+  SET "yan_plum=[38;2;102;102;102m"
+  SET "yan_purple=[38;2;102;102;102m"
+  SET "yan_persian_blue=[38;2;102;102;102m"
+  SET "yan_bright_green=[38;2;102;102;102m"
+  SET "yan_olive_drab=[38;2;107;107;107m"
+  SET "yan_sepia=[38;2;112;112;112m"
+  SET "yan_slate_gray=[38;2;112;112;112m"
+  SET "yan_umber=[38;2;115;115;115m"
+  SET "yan_russet=[38;2;117;117;117m"
+  SET "yan_pale_green=[38;2;119;119;119m"
+  SET "yan_camouflage_green=[38;2;120;120;120m"
+  SET "yan_cinnamon=[38;2;123;123;123m"
+  SET "yan_fainted_frog=[38;2;123;123;123m"
+  SET "yan_asparagus=[38;2;123;123;123m"
+  SET "yan_electric=[38;2;125;125;125m"
+  SET "yan_sky=[38;2;127;127;127m"
+  SET "yan_viridian=[38;2;127;127;127m"
+  SET "yan_aquamarine=[38;2;127;127;127m"
+  SET "yan_maroon=[38;2;128;128;128m"
+  SET "yan_khaki=[38;2;128;128;128m"
+  SET "yan_olive=[38;2;128;128;128m"
+  SET "yan_gray=[38;2;128;128;128m"
+  SET "yan_brick=[38;2;136;136;136m"
+  SET "yan_burnt_umber=[38;2;138;138;138m"
+  SET "yan_violet=[38;2;139;139;139m"
+  SET "yan_burgundy=[38;2;144;144;144m"
+  SET "yan_terracotta=[38;2;144;144;144m"
+  SET "yan_dark_tan=[38;2;145;145;145m"
+  SET "yan_sanguine=[38;2;146;146;146m"
+  SET "yan_carmine=[38;2;150;150;150m"
+  SET "yan_brown=[38;2;150;150;150m"
+  SET "yan_dark_chestnut=[38;2;152;152;152m"
+  SET "yan_pale_brown=[38;2;152;152;152m"
+  SET "yan_mint_green=[38;2;152;152;152m"
+  SET "yan_eggplant=[38;2;153;153;153m"
+  SET "yan_violet_eggplant=[38;2;153;153;153m"
+  SET "yan_mauve=[38;2;153;153;153m"
+  SET "yan_pale_mauve=[38;2;153;153;153m"
+  SET "yan_amethyst=[38;2;153;153;153m"
+  SET "yan_mountbatten_pink=[38;2;153;153;153m"
+  SET "yan_chartreuse=[38;2;153;153;153m"
+  SET "yan_wine_red=[38;2;155;155;155m"
+  SET "yan_pale_cornflower_blue=[38;2;171;171;171m"
+  SET "yan_swamp_green=[38;2;172;172;172m"
+  SET "yan_celadon=[38;2;172;172;172m"
+  SET "yan_moss_green=[38;2;173;173;173m"
+  SET "yan_green_yellow=[38;2;173;173;173m"
+  SET "yan_pale_carmine=[38;2;175;175;175m"
+  SET "yan_pale_blue=[38;2;175;175;175m"
+  SET "yan_brass=[38;2;181;181;181m"
+  SET "yan_rust=[38;2;183;183;183m"
+  SET "yan_copper=[38;2;184;184;184m"
+  SET "yan_dark_goldenrod=[38;2;184;184;184m"
+  SET "yan_dark_tea_green=[38;2;186;186;186m"
+  SET "yan_light_grey=[38;2;187;187;187m"
+  SET "yan_pistachio=[38;2;190;190;190m"
+  SET "yan_silver=[38;2;192;192;192m"
+  SET "yan_cardinal=[38;2;196;196;196m"
+  SET "yan_red_violet=[38;2;199;199;199m"
+  SET "yan_pang=[38;2;199;199;199m"
+  SET "yan_lilac=[38;2;200;200;200m"
+  SET "yan_wisteria=[38;2;201;201;201m"
+  SET "yan_gray_tea_green=[38;2;202;202;202m"
+  SET "yan_burnt_orange=[38;2;204;204;204m"
+  SET "yan_ochre=[38;2;204;204;204m"
+  SET "yan_puce=[38;2;204;204;204m"
+  SET "yan_periwinkle=[38;2;204;204;204m"
+  SET "yan_lime=[38;2;204;204;204m"
+  SET "yan_bright_violet=[38;2;205;205;205m"
+  SET "yan_tenne=[38;2;205;205;205m"
+  SET "yan_dark_coral=[38;2;205;205;205m"
+  SET "yan_chestnut=[38;2;205;205;205m"
+  SET "yan_bronze=[38;2;205;205;205m"
+  SET "yan_light_brown=[38;2;205;205;205m"
+  SET "yan_old_gold=[38;2;207;207;207m"
+  SET "yan_tea_green=[38;2;208;208;208m"
+  SET "yan_chocolate=[38;2;210;210;210m"
+  SET "yan_tan=[38;2;210;210;210m"
+  SET "yan_titian=[38;2;213;213;213m"
+  SET "yan_cherry=[38;2;214;214;214m"
+  SET "yan_reddish_brown=[38;2;215;215;215m"
+  SET "yan_dark_pear=[38;2;216;216;216m"
+  SET "yan_thistle=[38;2;216;216;216m"
+  SET "yan_orchid=[38;2;218;218;218m"
+  SET "yan_goldenrod=[38;2;218;218;218m"
+  SET "yan_pale_red_violet=[38;2;219;219;219m"
+  SET "yan_crimson=[38;2;220;220;220m"
+  SET "yan_pale_chestnut=[38;2;221;221;221m"
+  SET "yan_cerise=[38;2;222;222;222m"
+  SET "yan_heliotrope=[38;2;223;223;223m"
+  SET "yan_siena=[38;2;226;226;226m"
+  SET "yan_alizarin=[38;2;227;227;227m"
+  SET "yan_gamboge=[38;2;228;228;228m"
+  SET "yan_lavender=[38;2;230;230;230m"
+  SET "yan_dark_pink=[38;2;231;231;231m"
+  SET "yan_burnt_siena=[38;2;233;233;233m"
+  SET "yan_dark_salmon=[38;2;233;233;233m"
+  SET "yan_dark_tangerine=[38;2;234;234;234m"
+  SET "yan_violaceous=[38;2;234;234;234m"
+  SET "yan_zinnwaldite=[38;2;235;235;235m"
+  SET "yan_flax=[38;2;238;238;238m"
+  SET "yan_pear=[38;2;239;239;239m"
+  SET "yan_buff=[38;2;240;240;240m"
+  SET "yan_cream=[38;2;242;242;242m"
+  SET "yan_light_cream=[38;2;242;242;242m"
+  SET "yan_carrot=[38;2;243;243;243m"
+  SET "yan_saffron=[38;2;244;244;244m"
+  SET "yan_wheat=[38;2;245;245;245m"
+  SET "yan_beige=[38;2;245;245;245m"
+  SET "yan_fuchsia=[38;2;247;247;247m"
+  SET "yan_childs_surprise=[38;2;247;247;247m"
+  SET "yan_pale_magenta=[38;2;249;249;249m"
+  SET "yan_pale_pink=[38;2;250;250;250m"
+  SET "yan_peach_yellow=[38;2;250;250;250m"
+  SET "yan_scared_nymph=[38;2;250;250;250m"
+  SET "yan_linen=[38;2;250;250;250m"
+  SET "yan_corn=[38;2;251;251;251m"
+  SET "yan_hot_pink=[38;2;252;252;252m"
+  SET "yan_sandy_brown=[38;2;252;252;252m"
+  SET "yan_lemon=[38;2;253;253;253m"
+  SET "yan_pale_sandy_brown=[38;2;253;253;253m"
+  SET "yan_red=[38;2;255;255;255m"
+  SET "yan_carmine_red=[38;2;255;255;255m"
+  SET "yan_magenta=[38;2;255;255;255m"
+  SET "yan_scarlet=[38;2;255;255;255m"
+  SET "yan_vermilion=[38;2;255;255;255m"
+  SET "yan_international_orange=[38;2;255;255;255m"
+  SET "yan_pumpkin=[38;2;255;255;255m"
+  SET "yan_coral=[38;2;255;255;255m"
+  SET "yan_tangerine=[38;2;255;255;255m"
+  SET "yan_salmon=[38;2;255;255;255m"
+  SET "yan_safety_orange=[38;2;255;255;255m"
+  SET "yan_pink_orange=[38;2;255;255;255m"
+  SET "yan_orange=[38;2;255;255;255m"
+  SET "yan_selective_yellow=[38;2;255;255;255m"
+  SET "yan_amber=[38;2;255;255;255m"
+  SET "yan_pink=[38;2;255;255;255m"
+  SET "yan_yandex=[38;2;255;255;255m"
+  SET "yan_peach_orange=[38;2;255;255;255m"
+  SET "yan_gold=[38;2;255;255;255m"
+  SET "yan_school_bus_yellow=[38;2;255;255;255m"
+  SET "yan_dark_peach=[38;2;255;255;255m"
+  SET "yan_mustard=[38;2;255;255;255m"
+  SET "yan_navajo_white=[38;2;255;255;255m"
+  SET "yan_yellow_pink=[38;2;255;255;255m"
+  SET "yan_peach=[38;2;255;255;255m"
+  SET "yan_papaya_whip=[38;2;255;255;255m"
+  SET "yan_lavender_blush=[38;2;255;255;255m"
+  SET "yan_seashell=[38;2;255;255;255m"
+  SET "yan_lemon_cream=[38;2;255;255;255m"
+  SET "yan_ivory=[38;2;255;255;255m"
+  SET "yan_yellow=[38;2;255;255;255m"
+  SET "yan_white=[38;2;255;255;255m"
+goto :eof
 
 ::Simple colors (Abbreviations)
 
@@ -102,7 +327,7 @@ goto :eof
   SET TK=[38;2;129;192;187m
 goto :eof
 
-::Yonex Color Chart (Abbreviations)
+::Yonex Color Chart (Abbreviations) ( http://shuttle-house.com/page_top_ENGLISH/Guide/color_chart.html )
 
 :yon_abbr
   set "R=[38;2;255;0;0m"
@@ -129,7 +354,8 @@ goto :eof
   set "SX=[38;2;70;72;184m"
   set "LTG=[38;2;44;209;175m"
   set "SE=[38;2;20;15;7m"
-  set "DC=[38;2;0;47;0m"
+  :: DarkGreen was DC in the original index, but DarknessCharcoal was DC too
+  set "DG=[38;2;0;47;0m"
   set "LB=[38;2;3;177;121m"
   set "MEGT=[38;2;0;255;153m"
   set "MB=[38;2;2;159;212m"
@@ -153,8 +379,10 @@ goto :eof
   set "PG=[38;2;222;214;198m"
   set "MEBK=[38;2;41;32;35m"
   set "AB=[38;2;0;183;223m"
-  set "DBR=[38;2;0;0;139m"
-  set "IBL=[38;2;14;27;60m"
+  :: DarkBlue was DBR in the original index, but DarkBrown was DBR too
+  set "DB=[38;2;0;0;139m"
+  :: InkBlue was IBL in the original index, but IndigoBlue was IBL too
+  set "IKBL=[38;2;14;27;60m"
   set "BPU=[38;2;178;0;255m"
   set "BB=[38;2;25;51;140m"
   set "MER=[38;2;238;79;111m"
@@ -294,7 +522,8 @@ goto :eof
   set "DPR=[38;2;160;41;95m"
   set "IRG=[38;2;126;144;154m"
   set "MBL=[38;2;114;229;204m"
-  set "MPU=[38;2;232;158;183m"
+  :: MistoPink was MPU in the original index, but MistPurple was MPU too
+  set "MPI=[38;2;232;158;183m"
   set "FY=[38;2;241;232;157m"
   set "MSI=[38;2;214;198;189m"
   set "PDP=[38;2;246;228;224m"
@@ -318,14 +547,15 @@ goto :eof
   set "CY=[38;2;239;208;22m"
   set "DOR=[38;2;255;140;0m"
   set "DC=[38;2;87;78;81m"
-  set "LPU=[38;2;255;182;193m"
+  :: LightPink was LPU in the original index, but LightPurple was LPU too
+  set "LPI=[38;2;255;182;193m"
   set "LFG=[38;2;109;224;81m"
   set "ICBE=[38;2;217;192;181m"
   set "RO=[38;2;255;0;55m"
   set "IMR=[38;2;60;51;82m"
 goto :eof
 
-::Yonex Color Chart
+::Yonex Color Chart ( http://shuttle-house.com/page_top_ENGLISH/Guide/color_chart.html )
 
 :yon
   set "yon_red=[38;2;255;0;0m"
