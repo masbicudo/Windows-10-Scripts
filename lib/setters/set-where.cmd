@@ -2,6 +2,7 @@
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
 SET script_name=%~nx0
+IF defined __IND ( SET "ECHO=ECHO.%__IND%" ) ELSE ( SET "ECHO=ECHO." )
 CALL :SUB_DEBUG_LINES %*
 CALL :Sub_Main %*
 %DL% __VAR__=%__VAR__%
@@ -15,72 +16,72 @@ GOTO :dieerrlvl
 :: HELP
 GOTO :END_HELP
 :SUB_HELP
-  ECHO.%B%%script_name% script v0.2.9 by MASBicudo%N%
-  ECHO.
-  ECHO.This is a tool to locate a file system object and assign it's location to a variable.
-  ECHO.It will use multiple tools to accomplish it's job.
-  ECHO.First approach will be with the `where` command, to find the object in one of the pathes in %%PATH%% environment variable.
-  ECHO.Then, it looks in the registry inside the "App Paths" key.
-  ECHO.And finally, if Everything tool `es.exe` is installed, it will be used to locate the object using the filesystem journal.
-  ECHO.
-  ECHO.%R%Command line:%N%
-  ECHO.%W%%script_name% %C%varname%W% %C%object%W% [%C%parts%W%] [%C%options%W%]%N%
-  ECHO.%C%varname%W%: name of the variable to receive the location of the desired object.
-  ECHO.%C%object%W%:  %Y%file%N% ^| %Y%file.ext%N% ^| %Y%folder%N%
-  ECHO.         A file without an extension will be searched by adding each extension in the PATHEXT variable.
-  ECHO.         A file with an extension will only be located with that specific extension.
-  ECHO.             (i.e. %_Y%file.ext%N% will not match %_Y%file.ext.xyz%N%)
-  ECHO.         A folder name can be located, if Everything tool 'es.exe' is installed.
-  ECHO.         Env vars %B%__SEARCH__%N% and %B%__EXT__%N% can be used to specify object name and extension.
-  ECHO.%C%parts%W%:   %W%[%Y%d%W%][%Y%p%W%][%Y%n%W%][%Y%x%W%]%N%
-  ECHO.         %Y%d%N% - drive letter followed by double collons ":", e.g.: %_y%C:%N%
-  ECHO.         %Y%p%N% - path of file, starting but not ending with backslash "\", e.g.: %_y%\DirA\DirB%N%
-  ECHO.             unless %Y%n%N% or %Y%x%N% are specified, in which case a backslash is used as connector.
-  ECHO.             e.g.: %Y%pnx%N% will give %_y%\DirA\DirB\file.exe%N%
-  ECHO.         %Y%n%N% - file name without extension, e.g.: %_y%file%N%
-  ECHO.         %Y%x%N% - extension of the file, preceeded by a dot ".", e.g.: %_y%.exe%N%
-  ECHO.         Multiple can be specified, e.g.: %Y%dp%N%, %Y%nx%N%
-  ECHO.         When these flags are defined, variables in the path will get expanded:
-  ECHO.             %Y%%%%_y%USERPROFILE%Y%%%%_y%\AppData\Roaming%N% --^> %_y%%USERPROFILE%\AppData\Roaming%N%
-  ECHO.         Leave it empty to use the value as specified by the source.
-  ECHO.         Can be defined through environment variable %B%__DPNX__%N%.
-  ECHO.%C%options%W%:
-  ECHO.         %C%--filter%N% %Y%str%N%: any string to filter the result, useful to select among many possible resulting locations.
-  ECHO.             Env var %B%__FILTER__%N% can be used to specify the filter.
-  ECHO.         %C%--verbose%N% %W%[ %Y%0 %W%^|%Y% 1 %W%^|%Y% 2 %W%^|%Y% 3%W% ]%N%:
-  ECHO.             %Y%0%N% - no output (default when %B%__VERBOSE__%N% is %Y%F%N%)
-  ECHO.             %Y%1%N% - result output (default if %C%--verbose%N% is not present nor %B%__VERBOSE__%N%)
-  ECHO.             %Y%2%N% - debug output (default when using %C%--verbose%N% alone, or %B%__VERBOSE__%N% is %Y%T%N%)
-  ECHO.             %Y%3%N% - params output
-  ECHO.             Each verbose level also prints the previous levels outputs.
-  ECHO.             Env var %B%__VERBOSE__%N% can be used to specify the verbosity level, in addition to %W%[%Y% T %W%^|%Y% F %W%]%N%
-  ECHO.         %C%--colors%N%: output with colors; Env var: %B%__COLORS__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
-  ECHO.         %C%--no-colors%N%: output without colors, used to override env var %B%__COLORS__%N%
-  ECHO.         %C%--clear%N%: allow to undefine variable, if nothing is found; Env var: %B%__CLEAR__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
-  ECHO.         %C%--keep%N%: does not allow to redefine the variable, if it is already defined; Env var: %B%__KEEP__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
-  ECHO.         %C%--test%N%: does not set variables, only displays output and returns ERRORLEVEL.
-  ECHO.             Env var with oposite meaning: %B%__SET__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
-  ECHO.         %C%--unit-tests%N%: runs unit tests; Env var: %B%__UNIT_TESTS__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
-  ECHO.         %C%--debug-lines%N%: debug important lines
-  ECHO.
-  ECHO.%R%ERRORLEVEL:%N%
-  ECHO.The ERRORLEVEL is set depending on the object being found or not.
-  ECHO.If object is not found, it is set to something other than 0 (fail).
-  ECHO.Otherwise, ERRORLEVEL is set to 0 (ok).
-  ECHO.
-  ECHO.%R%Examples:%N%
-  ECHO.%N%%script_name% where_cmd cmd%N%
-  ECHO.  %W%where_cmd%K%=%Y%C:\Windows\System32\cmd.exe%N%
-  ECHO.%N%%script_name% where_wordpad wordpad%N%
-  ECHO.  %W%where_wordpad%K%=%Y%%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE%N%
-  ECHO.%N%%script_name% where_wordpad wordpad.exe%N%
-  ECHO.  %W%where_wordpad%K%=%Y%%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE%N%
-  ECHO.%N%%script_name% where_masbicudo "AppData" dp --filter masbicudo%N%
-  ECHO.  %W%where_masbicudo%K%=%Y%C:\Users\masbicudo\%N%
-  ECHO.%N%%script_name% where_vscode "code" --filter microsoft%N%
-  ECHO.  %W%where_vscode%K%=%Y%C:\Program Files\Microsoft VS Code\Code.exe%N%
-  ECHO.%N%%script_name% where_vscode "Microsoft VS Code\Code.exe"%N%
-  ECHO.  %W%where_vscode%K%=%Y%C:\Program Files\Microsoft VS Code\Code.exe%N%
+  %ECHO%%B%%script_name% script v0.2.10 by MASBicudo%N%
+  %ECHO%
+  %ECHO%This is a tool to locate a file system object and assign it's location to a variable.
+  %ECHO%It will use multiple tools to accomplish it's job.
+  %ECHO%First approach will be with the `where` command, to find the object in one of the pathes in %%PATH%% environment variable.
+  %ECHO%Then, it looks in the registry inside the "App Paths" key.
+  %ECHO%And finally, if Everything tool `es.exe` is installed, it will be used to locate the object using the filesystem journal.
+  %ECHO%
+  %ECHO%%R%Command line:%N%
+  %ECHO%%W%%script_name% %C%varname%W% %C%object%W% [%C%parts%W%] [%C%options%W%]%N%
+  %ECHO%%C%varname%W%: name of the variable to receive the location of the desired object.
+  %ECHO%%C%object%W%:  %Y%file%N% ^| %Y%file.ext%N% ^| %Y%folder%N%
+  %ECHO%         A file without an extension will be searched by adding each extension in the PATHEXT variable.
+  %ECHO%         A file with an extension will only be located with that specific extension.
+  %ECHO%             (i.e. %_Y%file.ext%N% will not match %_Y%file.ext.xyz%N%)
+  %ECHO%         A folder name can be located, if Everything tool 'es.exe' is installed.
+  %ECHO%         Env vars %B%__SEARCH__%N% and %B%__EXT__%N% can be used to specify object name and extension.
+  %ECHO%%C%parts%W%:   %W%[%Y%d%W%][%Y%p%W%][%Y%n%W%][%Y%x%W%]%N%
+  %ECHO%         %Y%d%N% - drive letter followed by double collons ":", e.g.: %_y%C:%N%
+  %ECHO%         %Y%p%N% - path of file, starting but not ending with backslash "\", e.g.: %_y%\DirA\DirB%N%
+  %ECHO%             unless %Y%n%N% or %Y%x%N% are specified, in which case a backslash is used as connector.
+  %ECHO%             e.g.: %Y%pnx%N% will give %_y%\DirA\DirB\file.exe%N%
+  %ECHO%         %Y%n%N% - file name without extension, e.g.: %_y%file%N%
+  %ECHO%         %Y%x%N% - extension of the file, preceeded by a dot ".", e.g.: %_y%.exe%N%
+  %ECHO%         Multiple can be specified, e.g.: %Y%dp%N%, %Y%nx%N%
+  %ECHO%         When these flags are defined, variables in the path will get expanded:
+  %ECHO%             %Y%%%%_y%USERPROFILE%Y%%%%_y%\AppData\Roaming%N% --^> %_y%%USERPROFILE%\AppData\Roaming%N%
+  %ECHO%         Leave it empty to use the value as specified by the source.
+  %ECHO%         Can be defined through environment variable %B%__DPNX__%N%.
+  %ECHO%%C%options%W%:
+  %ECHO%         %C%--filter%N% %Y%str%N%: any string to filter the result, useful to select among many possible resulting locations.
+  %ECHO%             Env var %B%__FILTER__%N% can be used to specify the filter.
+  %ECHO%         %C%--verbose%N% %W%[ %Y%0 %W%^|%Y% 1 %W%^|%Y% 2 %W%^|%Y% 3%W% ]%N%:
+  %ECHO%             %Y%0%N% - no output (default when %B%__VERBOSE__%N% is %Y%F%N%)
+  %ECHO%             %Y%1%N% - result output (default if %C%--verbose%N% is not present nor %B%__VERBOSE__%N%)
+  %ECHO%             %Y%2%N% - debug output (default when using %C%--verbose%N% alone, or %B%__VERBOSE__%N% is %Y%T%N%)
+  %ECHO%             %Y%3%N% - params output
+  %ECHO%             Each verbose level also prints the previous levels outputs.
+  %ECHO%             Env var %B%__VERBOSE__%N% can be used to specify the verbosity level, in addition to %W%[%Y% T %W%^|%Y% F %W%]%N%
+  %ECHO%         %C%--colors%N%: output with colors; Env var: %B%__COLORS__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
+  %ECHO%         %C%--no-colors%N%: output without colors, used to override env var %B%__COLORS__%N%
+  %ECHO%         %C%--clear%N%: allow to undefine variable, if nothing is found; Env var: %B%__CLEAR__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
+  %ECHO%         %C%--keep%N%: does not allow to redefine the variable, if it is already defined; Env var: %B%__KEEP__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
+  %ECHO%         %C%--test%N%: does not set variables, only displays output and returns ERRORLEVEL.
+  %ECHO%             Env var with oposite meaning: %B%__SET__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
+  %ECHO%         %C%--unit-tests%N%: runs unit tests; Env var: %B%__UNIT_TESTS__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
+  %ECHO%         %C%--debug-lines%N%: debug important lines
+  %ECHO%
+  %ECHO%%R%ERRORLEVEL:%N%
+  %ECHO%The ERRORLEVEL is set depending on the object being found or not.
+  %ECHO%If object is not found, it is set to something other than 0 (fail).
+  %ECHO%Otherwise, ERRORLEVEL is set to 0 (ok).
+  %ECHO%
+  %ECHO%%R%Examples:%N%
+  %ECHO%%N%%script_name% where_cmd cmd%N%
+  %ECHO%  %W%where_cmd%K%=%Y%C:\Windows\System32\cmd.exe%N%
+  %ECHO%%N%%script_name% where_wordpad wordpad%N%
+  %ECHO%  %W%where_wordpad%K%=%Y%%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE%N%
+  %ECHO%%N%%script_name% where_wordpad wordpad.exe%N%
+  %ECHO%  %W%where_wordpad%K%=%Y%%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE%N%
+  %ECHO%%N%%script_name% where_masbicudo "AppData" dp --filter masbicudo%N%
+  %ECHO%  %W%where_masbicudo%K%=%Y%C:\Users\masbicudo\%N%
+  %ECHO%%N%%script_name% where_vscode "code" --filter microsoft%N%
+  %ECHO%  %W%where_vscode%K%=%Y%C:\Program Files\Microsoft VS Code\Code.exe%N%
+  %ECHO%%N%%script_name% where_vscode "Microsoft VS Code\Code.exe"%N%
+  %ECHO%  %W%where_vscode%K%=%Y%C:\Program Files\Microsoft VS Code\Code.exe%N%
 GOTO :EOF
 :END_HELP
 
@@ -88,30 +89,30 @@ GOTO :EOF
 GOTO :END_TESTS
 :SUB_TESTS
 SETLOCAL
-  ECHO.%R%Unit tests:%N%
+  %ECHO%%R%Unit tests:%N%
   ::Testing known target `cmd`, will be handled by `where` command, to find it in one of the pathes in %%PATH%% environment variable
-  ECHO.%Y%where%N%
-  call %script_name% where_cmd cmd && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
-  IF /I "%where_cmd%"=="C:\Windows\System32\cmd.exe" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
+  %ECHO%%Y%where%N%
+  call %script_name% where_cmd cmd && %ECHO%[%G% OK %N%] || %ECHO%[%R%FAIL%N%]
+  IF /I "%where_cmd%"=="C:\Windows\System32\cmd.exe" ( %ECHO%[%G% OK %N%] ) ELSE %ECHO%[%R%FAIL%N%]
   ::Testing known target `wordpad`, will be handled by `reg` command, to find it the registry inside the "App Paths" key
-  ECHO.%Y%reg%N%
-  call %script_name% where_pbrush pbrush && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
-  IF /I "%where_pbrush%"=="%%SystemRoot%%\System32\mspaint.exe" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
-  call %script_name% where_wordpad_exe wordpad.exe && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
-  IF /I "%where_wordpad_exe%"=="%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
-  call %script_name% where_wordpad_exe_dpnx wordpad.exe dpnx && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
-  IF /I "%where_wordpad_exe_dpnx%"=="%ProgramFiles%\Windows NT\Accessories\WORDPAD.EXE" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
+  %ECHO%%Y%reg%N%
+  call %script_name% where_pbrush pbrush && %ECHO%[%G% OK %N%] || %ECHO%[%R%FAIL%N%]
+  IF /I "%where_pbrush%"=="%%SystemRoot%%\System32\mspaint.exe" ( %ECHO%[%G% OK %N%] ) ELSE %ECHO%[%R%FAIL%N%]
+  call %script_name% where_wordpad_exe wordpad.exe && %ECHO%[%G% OK %N%] || %ECHO%[%R%FAIL%N%]
+  IF /I "%where_wordpad_exe%"=="%%ProgramFiles%%\Windows NT\Accessories\WORDPAD.EXE" ( %ECHO%[%G% OK %N%] ) ELSE %ECHO%[%R%FAIL%N%]
+  call %script_name% where_wordpad_exe_dpnx wordpad.exe dpnx && %ECHO%[%G% OK %N%] || %ECHO%[%R%FAIL%N%]
+  IF /I "%where_wordpad_exe_dpnx%"=="%ProgramFiles%\Windows NT\Accessories\WORDPAD.EXE" ( %ECHO%[%G% OK %N%] ) ELSE %ECHO%[%R%FAIL%N%]
   ::Testing known target `test-set-where-empty`, will be handled by `es` command from Everything by VoidTools
-  ECHO.%Y%es%N%
+  %ECHO%%Y%es%N%
   MKDIR __test_set_where
   COPY NUL __test_set_where\test-set-where-file.exe
   rem misusing ping command to sleep for 1s
   ping 127.0.0.1 -n 2 > nul
-  call %script_name% where_some test-set-where-file && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
-  call %script_name% where_some_exe test-set-where-file.exe && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  call %script_name% where_some test-set-where-file && %ECHO%[%G% OK %N%] || %ECHO%[%R%FAIL%N%]
+  call %script_name% where_some_exe test-set-where-file.exe && %ECHO%[%G% OK %N%] || %ECHO%[%R%FAIL%N%]
   DEL __test_set_where\test-set-where-file.exe
   RMDIR __test_set_where
-  call %script_name% where_random kHuQQPTHZlswRR3J9jPz67sn-0-O0v09IkyaFGyJwyVbE5BkwTlnJPLr16IgFiLZPK3DarlhjGu9aCE5JJASww && ECHO.[%R%FAIL%N%] || ECHO.[%G% OK %N%]
+  call %script_name% where_random kHuQQPTHZlswRR3J9jPz67sn-0-O0v09IkyaFGyJwyVbE5BkwTlnJPLr16IgFiLZPK3DarlhjGu9aCE5JJASww && %ECHO%[%R%FAIL%N%] || %ECHO%[%G% OK %N%]
 ENDLOCAL
 GOTO :EOF
 :END_TESTS
@@ -130,7 +131,7 @@ GOTO :END_DEBUG_LINES
     SET DL=REM
   ) ELSE (
     SET __DL=1
-    IF "%__TEMP:--colors=%"=="%__TEMP%" (SET DL=ECHO.DEBUG:) ELSE (SET DL=ECHO.[90mDEBUG:[0m)
+    IF "%__TEMP:--colors=%"=="%__TEMP%" (SET DL=%ECHO%DEBUG:) ELSE (SET DL=%ECHO%[90mDEBUG:[0m)
   )
 GOTO :EOF
 :END_DEBUG_LINES
@@ -236,13 +237,13 @@ SETLOCAL
     FOR /F "tokens=1* usebackq delims==" %%a IN (` SET __ `) DO (
       SET _=%%a
       call SET __=%%_str_vars:!_!=%%
-      IF NOT "!__!"=="%_str_vars%" ECHO.%W%%%a%K%=%_y%%%b%N%
+      IF NOT "!__!"=="%_str_vars%" %ECHO%%W%%%a%K%=%_y%%%b%N%
       call SET __=%%_bool_vars:!_!=%%
-      IF NOT "!__!"=="%_bool_vars%" ECHO.%W%%%a%K%=%_c%%%b%N%
+      IF NOT "!__!"=="%_bool_vars%" %ECHO%%W%%%a%K%=%_c%%%b%N%
       call SET __=%%_num_vars:!_!=%%
-      IF NOT "!__!"=="%_num_vars%" ECHO.%W%%%a%K%=%M%%%b%N%
+      IF NOT "!__!"=="%_num_vars%" %ECHO%%W%%%a%K%=%M%%%b%N%
     )
-    IF DEFINED __DL ECHO.%W%__DL%K%=%M%%__DL%%N%
+    IF DEFINED __DL %ECHO%%W%__DL%K%=%M%%__DL%%N%
   )
   ENDLOCAL
 
@@ -262,7 +263,7 @@ SETLOCAL
   :Where_Then
     %DL% SET __Where_Found=0
     SET __Where_Found=0
-    IF %__VERBOSE__% GEQ 2 ECHO.%C% where "%__SEARCH__%" 2^>NUL %__FILTER__%%N%
+    IF %__VERBOSE__% GEQ 2 %ECHO%%C% where "%__SEARCH__%" 2^>NUL %__FILTER__%%N%
     FOR /F "tokens=* usebackq" %%F IN (` where "%__SEARCH__%" 2^>NUL %__FILTER__% `) DO (
       SET "__VALUE__=%%F"
       SET __Where_Found=1
@@ -280,7 +281,7 @@ SETLOCAL
     SET __Reg_Found=0
     IF "%__EXT__%"=="" (
       FOR %%e IN (%PATHEXT%) DO (
-        IF %__VERBOSE__% GEQ 2 ECHO.%C% reg query "%__Search_Key%%%e" /ve 2^>NUL ^| findstr REG_ 2^>NUL %__FILTER__%%N%
+        IF %__VERBOSE__% GEQ 2 %ECHO%%C% reg query "%__Search_Key%%%e" /ve 2^>NUL ^| findstr REG_ 2^>NUL %__FILTER__%%N%
         FOR /F "tokens=2* usebackq" %%a IN (` reg query "%__Search_Key%%%e" /ve 2^>NUL ^| findstr REG_ 2^>NUL %__FILTER__% `) DO (
           SET "__VALUE__=%%~b"
           SET __Reg_Found=1
@@ -289,7 +290,7 @@ SETLOCAL
         )
       )
     ) ELSE (
-      IF %__VERBOSE__% GEQ 2 ECHO.%C% reg query "%__Search_Key%" /ve 2^>NUL ^| findstr REG_ 2^>NUL %__FILTER__%%N%
+      IF %__VERBOSE__% GEQ 2 %ECHO%%C% reg query "%__Search_Key%" /ve 2^>NUL ^| findstr REG_ 2^>NUL %__FILTER__%%N%
       FOR /F "tokens=2* usebackq" %%a IN (` reg query "%__Search_Key%" /ve 2^>NUL ^| findstr REG_ 2^>NUL %__FILTER__% `) DO (
         SET "__VALUE__=%%~b"
         SET __Reg_Found=1
@@ -311,7 +312,7 @@ SETLOCAL
     IF "%__EXT__%"=="" (
       :: File search with each PATHEXT extension
       FOR %%e IN (%PATHEXT%) DO (
-        IF %__VERBOSE__% GEQ 2 ECHO.%C% es.exe "%__SEARCH__%%%e" "*%%e" ^| findstr /I /E "\\%__SEARCH__%%%e" 2^>NUL %__FILTER__%%N%
+        IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe "%__SEARCH__%%%e" "*%%e" ^| findstr /I /E "\\%__SEARCH__%%%e" 2^>NUL %__FILTER__%%N%
         FOR /F "tokens=* usebackq" %%a IN (` es.exe "%__SEARCH__%%%e" "*%%e" ^| findstr /I /E "\\%__SEARCH__%%%e" 2^>NUL %__FILTER__% `) DO (
           SET "__VALUE__=%%a"
           SET __ES_Found=1
@@ -320,7 +321,7 @@ SETLOCAL
         )
       )
       :: File search without extension
-      IF %__VERBOSE__% GEQ 2 ECHO.%C% es.exe "%__SEARCH__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
+      IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe "%__SEARCH__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
       FOR /F "tokens=* usebackq" %%a IN (` es.exe "%__SEARCH__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__% `) DO (
         SET "__VALUE__=%%a"
         SET __ES_Found=1
@@ -329,7 +330,7 @@ SETLOCAL
       )
     ) ELSE (
       :: File search with extension
-      IF %__VERBOSE__% GEQ 2 ECHO.%C% es.exe "%__SEARCH__%" "*%__EXT__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
+      IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe "%__SEARCH__%" "*%__EXT__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
       FOR /F "tokens=* usebackq" %%a IN (` es.exe "%__SEARCH__%" "*%__EXT__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__% `) DO (
         SET "__VALUE__=%%a"
         SET __ES_Found=1
@@ -349,10 +350,10 @@ SETLOCAL
     %DL% :ShowResult
     :: DPNX flags
     %DL% IF DEFINED __DPNX__ ...
-    %DL% ECHO.__VALUE__="%__VALUE__%"
+    %DL% %ECHO%__VALUE__="%__VALUE__%"
     IF DEFINED __DPNX__ (
-      FOR /F "tokens=* usebackq delims=" %%i IN (`ECHO."%__VALUE__%"`) DO (
-        %DL% ECHO.DPNX: %Y%%%~%__DPNX__%i%N%
+      FOR /F "tokens=* usebackq delims=" %%i IN (`%ECHO%"%__VALUE__%"`) DO (
+        %DL% %ECHO%DPNX: %Y%%%~%__DPNX__%i%N%
         call SET "__VALUE__=%%~%__DPNX__%i"
       )
     )
@@ -366,8 +367,8 @@ SETLOCAL
 
     :: Returning value
     %DL% :: Returning value
-    %DL% IF %__VERBOSE__% GEQ 1 ECHO.%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
-    IF %__VERBOSE__% GEQ 1 ECHO.%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
+    %DL% IF %__VERBOSE__% GEQ 1 %ECHO%%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
+    IF %__VERBOSE__% GEQ 1 %ECHO%%W%%__VAR__%%K%=%Y%%__VALUE__%%N%
     IF DEFINED %__VAR__% IF /I "%__KEEP__%"=="T" SET __SET__=F
     %DL% ENDLOCAL ^& ( IF /I "%__SET__%"=="T" SET "%__VAR__%=%__VALUE__%" ) ^& SET __VAR__=%__VAR__%
     ENDLOCAL & ( IF /I "%__SET__%"=="T" SET "%__VAR__%=%__VALUE__%" ) & SET __VAR__=%__VAR__%
@@ -379,7 +380,7 @@ SETLOCAL
 
   :Raise_Error
     %DL% :Raise_Error
-    IF %__VERBOSE__% GEQ 1 ECHO.%R%File not found%N% 1>&2
+    IF %__VERBOSE__% GEQ 1 %ECHO%%R%File not found%N% 1>&2
     ENDLOCAL & ( IF /I "%__SET__%"=="T" IF /I "%__CLEAR__%"=="T" SET "%__VAR__%=" ) & SET __VAR__=%__VAR__%
     %DL% exit 1
     %comspec% /c exit 1
@@ -389,7 +390,7 @@ SETLOCAL
 ::
 :: Set_Colors
 ::
-::  Sets variables that can be used to colorize echoed text on screen
+::  Sets variables that can be used to colorize %ECHO%ed text on screen
 GOTO :End_Set_Colors
 :Sub_Set_Colors
   SET _k=[30m&SET _r=[31m&SET _g=[32m&SET _y=[33m&SET _b=[34m&SET _m=[35m&SET _c=[36m&SET _w=[37m&
