@@ -352,7 +352,7 @@ SETLOCAL
     %DL% IF DEFINED __DPNX__ ...
     %DL% %ECHO%__VALUE__="%__VALUE__%"
     IF DEFINED __DPNX__ (
-      FOR /F "tokens=* usebackq delims=" %%i IN (`%ECHO%"%__VALUE__%"`) DO (
+      FOR /F "tokens=* usebackq delims=" %%i IN (` ECHO "%__VALUE__%"`) DO (
         %DL% %ECHO%DPNX: %Y%%%~%__DPNX__%i%N%
         call SET "__VALUE__=%%~%__DPNX__%i"
       )
