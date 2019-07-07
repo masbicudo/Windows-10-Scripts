@@ -308,6 +308,26 @@ goto :eof
   SET C=[96m
   SET W=[97m
   SET N=[0m
+  
+  SET K=[90m
+
+  SET LK=[90m
+  SET LR=[91m
+  SET LG=[92m
+  SET LY=[93m
+  SET LB=[94m
+  SET LM=[95m
+  SET LC=[96m
+  SET LW=[97m
+
+  SET DK=[30m
+  SET DR=[31m
+  SET DG=[32m
+  SET DY=[33m
+  SET DB=[34m
+  SET DM=[35m
+  SET DC=[36m
+  SET DW=[37m
 goto :eof
 
 ::ISO (Abbreviations)

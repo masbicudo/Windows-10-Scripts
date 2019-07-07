@@ -323,6 +323,26 @@ function abbr {
   C='[96m'
   W='[97m'
   N='[0m'
+  
+  K='[90m'
+
+  LK='[90m'
+  LR='[91m'
+  LG='[92m'
+  LY='[93m'
+  LB='[94m'
+  LM='[95m'
+  LC='[96m'
+  LW='[97m'
+
+  DK='[30m'
+  DR='[31m'
+  DG='[32m'
+  DY='[33m'
+  DB='[34m'
+  DM='[35m'
+  DC='[36m'
+  DW='[37m'
 }
 
 #ISO (Abbreviations)
