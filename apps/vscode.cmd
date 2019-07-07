@@ -78,6 +78,18 @@ iecho %TC%install-vscode-insiders%N%
     ::choco install -y vscode-insiders --version 1.30 --ignore-checksums
     :: TODO: use curl to download https://aka.ms/win32-x64-user-insider
     ::       https://go.microsoft.com/fwlink/?Linkid=852155
+    SET url_x64_user_insider=https://aka.ms/win32-x64-user-insider
+    SET url_x86_user_insider=https://aka.ms/win32-user-insider
+    SET url_x64_system_insider=https://go.microsoft.com/fwlink/?Linkid=852155
+    SET url_x86_system_insider=https://go.microsoft.com/fwlink/?LinkId=723965
+    echo x
+    pushd %where_downloads%
+    IF     DEFINED ProgramFiles^(x86^) call dl.cmd "%url_x64_system_insider%"
+    IF NOT DEFINED ProgramFiles^(x86^) call dl.cmd "%url_x86_system_insider%"
+    popd
+    echo x2
+    call set-out.cmd where_vscode_insiders_installer es.exe "VSCodeSetup-" "-insider" *.exe
+    %where_vscode_insiders_installer% /CLOSEAPPLICATIONS /VERYSILENT /MERGETASKS=!runcode
 
 goto :eof
 :-ixI
