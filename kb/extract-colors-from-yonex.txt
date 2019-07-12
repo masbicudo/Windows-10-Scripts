@@ -1,0 +1,247 @@
+navigate to:
+    http://shuttle-house.com/page_top_ENGLISH/Guide/color_chart.html
+
+in chrome dev-tools enter this code:
+    function extractText() {
+        return [...document.querySelectorAll("tbody td[valign='top']:first-child tr")]
+        .filter(tr => tr.children.length==4)
+        .filter(tr => tr.children[1].getAttribute("bgcolor")!=null)
+        .map(tr => tr.innerText + "\t" + (c=>c?[c.r,c.g,c.b].join(";"):"NULL")(hexToRgb(tr.children[1].getAttribute("bgcolor").replace(/#+/,"#"))))
+        .join("\n")
+        .replace(/\s*[\/\.\- ]\s*/g,"")
+    }
+    function hexToRgb(hex) {
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{1,2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+    console.log(extractText())
+
+then look at the console output:
+    001		R	red	255;0;0
+    002		BL	blue	0;0;187
+    003		G	green	0;128;0
+    004		Y	yellow	255;255;0
+    005		OR	orange	239;129;15
+    007		BK	black	0;0;0
+    008		LG	limegreen	50;205;50
+    009		IV	ivory	221;222;211
+    010		GR	gray	113;120;110
+    012		AM	american	214;182;65
+    013		PW	pearlwhite	196;197;182
+    015		BR	brown	109;76;51
+    016		GO	gold	248;199;1
+    017		SI	silver	136;146;141
+    018		SB	skyblue	0;195;207
+    019		NB	navyblue	16;48;132
+    021		WI	wine	112;0;61
+    022		LV	lavender	91;145;242
+    024		SG	silvergray	164;164;164
+    025		PE	peach	220;140;160
+    026		P	pink	200;140;180
+    027		SX	sax	70;72;184
+    028		LTG	lightgreen	44;209;175
+    030		SE	sepia	20;15;7
+    031		DC	darkgreen	0;47;0
+    033		LB	lightblue	3;177;121
+    034		MEGT	metallicgreen	0;255;153
+    035		MB	marineblue	2;159;212
+    036		CGR	charcoalgray	37;52;56
+    037		WR	winered	128;39;63
+    038		MU	mustard	226;184;38
+    039		PU	purple	38;0;140
+    040		DBR	darkbrown	128;0;0
+    041		SP	salmonpink	235;164;149
+    042		EM	emerald	0;89;38
+    044		VI	violet	51;25;229
+    045		CR	cream	255;232;175
+    046		LY	lemonyellow	217;202;0
+    047		PM	plum	100;39;76
+    048		WG	watergreen	178;178;151
+    049		CB	crystalblue	41;113;182
+    060		COB	cobaltblue	0;153;255
+    066		RB	royalblue	19;68;157
+    074		MEBK	metallicblue	200;202;225
+    075		C	charcoal	41;40;41
+    092		PG	platinumgold	222;214;198
+    101		MEBK	metallicblack	41;32;35
+    111		AB	aquabule	0;183;223
+    112		DBR	darkblue	0;0;139
+    113		IBL	inkblue	14;27;60
+    117		BPU	bluepurple	178;0;255
+    118		BB	blueberry	25;51;140
+    121		MER	metallicred	238;79;111
+    122		BP	blightpink	253;50;239
+    123		ROP	rosepink	238;142;160
+    124		RUP	rougepink	254;39;128
+    128		FP	frenchpink	255;50;95
+    131		MIG	mintgreen	0;145;92
+    133		BG	blightgreen	0;197;150
+    134		MS	muscat	90;199;41
+    140		RG	royalgreen	33;162;123
+    142		LBR	lightbrown	206;110;64
+    143		MEGR	metallicgray	172;203;195
+    144		DGR	darkgray	63;70;70
+    146		SAB	sable	210;147;93
+    147		BE	beige	159;130;87
+    148		LGR	lightgray	244;236;248
+    149		OL	olive	153;153;0
+    150		MHG	mahogany	31;39;31
+    151		BY	blightyellow	239;254;154
+    160		BO	blightorange	200;57;41
+    161		TQ	turquoise	64;224;208
+    164		FBL	frenchblue	42;70;145
+    165		LPU	lightpurple	206;117;223
+    167		PBL	peacockblue	0;110;123
+    168		BLGR	bluegray	103;117;126
+    169		IBL	indigoblue	54;127;159
+    170		MN	midnight	0;0;51
+    180		MOC	mossgreen	71;78;69
+    183		CM	camel	149;92;58
+    186		BZ	bronze	122;89;47
+    189		ABK	ashgray	79;32;35
+    190		PMT	peppermint	136;179;110
+    191		K	khaki	66;63;21
+    192		OM	oatmeal	228;215;194
+    193		CMGO	camelgold	244;215;175
+    194		SDBE	sandbeige	165;150;123
+    195		MO	mocha	168;107;65
+    196		NOR	neonorange	255;123;44
+    197		MBBL	marbleblue	74;189;239
+    198		LSX	lightsax	76;229;255
+    200		OW	offwhite	255;255;230
+    201		CL	clear	222;222;222
+    206		NA	natural	255;250;210
+    212		BRR	blightred	187;13;2
+    213		FUC	fuchira	255;0;255
+    214		CP	cherrypink	211;88;137
+    215		LI	lilac	213;132;224
+    220		PO	paleorange	247;191;177
+    221		YM	japaneseyellowrose	217;142;25
+    222		LTO	lightorange	255;174;90
+    223		RE	brick	141;30;22
+    224		SMR	smokered	145;60;73
+    239		DR	darkred	139;0;0
+    240		DPU	darkpurple	107;14;104
+    246		OLGR	olivegray	119;113;119
+    247		MDGR	middlegray	90;113;116
+    248		DP	darkpink	231;33;82
+    249		CLBK	clearblack	90;90;99
+    255		NEWR	newred	221;17;0
+    256		NEWBU	newblue	85;89;159
+    257		NEWG	newgreen	99;181;107
+    258		NEWOR	neworange	252;74;48
+    259		NEWTQ	newturquoise	104;187;201
+    266		DWI	darkwine	103;45;50
+    267		GRG	grayishgreen	91;164;162
+    268		OLG	olivegreen	23;69;20
+    269		DEG	deepgreen	16;73;41
+    270		GRNB	grayishnavy	51;68;136
+    271		GRBEN	grayishblue	205;222;231
+    275		GRM	heathergray	148;132;148
+    276		BEM	heatherbeige	172;158;152
+    277		DGU	darkgun	63;70;70
+    278		GT	grafight	69;50;46
+    279		LTY	lightyellow	255;255;224
+    280		SOY	softyellow	255;250;195
+    281		LM	lime	0;255;0
+    291		WGR	warmgray	195;195;189
+    292		COR	copperorange	204;51;0
+    293		CHP	champagne	233;215;163
+    295		RTR	rustyred	145;23;38
+    299		COP	coralpink	244;210;204
+    301		AQA	aqua	0;255;255
+    302		GRP	grape	247;226;0
+    305		GRB	grayishwhite	196;206;208
+    306		PP	pearlpink	206;142;156
+    307		PRO	pearlrose	238;157;189
+    308		ICB	iceblue	178;229;242
+    309		CTG	citrusgreen	143;163;74
+    310		RTBK	lastblack	119;69;36
+    311		SIM	heathersilver	214;210;208
+    312		WAR	warmred	186;56;79
+    313		AGR	ashgray	143;143;143
+    320		COOR	coralorange	247;190;107
+    321		PRLGW	pearlred	206;40;44
+    322		VBL	venusblue	98;217;225
+    323		DM	darkmarine	35;36;40
+    324		LOL	lightolive	201;211;197
+    325		PY	purpleyellow	255;255;0
+    326		ICGR	icegray	216;219;222
+    327		MG	magenta	204;0;204
+    328		DOL	darkolive	85;107;47
+    329		SPHB	sapphireblue	0;76;97
+    338		RBYR	rubyred	185;11;80
+    339		MNPA	midnightpurple	87;77;88
+    340		MBFP	marblefrenchpink	255;222;255
+    341		MBSX	marblesax	206;222;255
+    342		PLG	palegreen	206;213;172
+    343		LBE	lightbeige	255;232;181
+    350		CA	camelot	205;48;48
+    351		PK	pumpkin	255;63;0
+    352		SF	saffron	247;158;33
+    353		INB	indigonavy	0;51;102
+    354		MPU	mistpurple	230;204;230
+    355		SMC	smokegreen	85;121;145
+    359		FLG	freshgreen	20;230;74
+    363		BRBK	brilliantblack	0;0;1
+    364		JPR	japanred	144;37;29
+    367		DIR	diamondred	206;40;41
+    369		AMB	americanblue	77;26;230
+    370		PLY	paleyellow	246;225;134
+    373		SHO	sherbetorange	231;138;132
+    374		GN	gun	159;172;178
+    375		CTO	citrusorange	235;168;75
+    376		SMBL	smokeblue	85;119;145
+    377		SK	sky	110;190;205
+    378		PDBL	powderblue	160;175;232
+    379		PDG	powdergreen	181;210;130
+    380		MAOR	mandarinorange	255;83;43
+    382		GM	gunmetallic	98;86;86
+    384		MT	mint	104;152;112
+    387		BD	bordeaux	35;0;10
+    388		PSD	palesand	102;102;102
+    393		OK	Oak	227;165;98
+    402		SHIY	shineyellow	255;245;0
+    403		FRBL	frostyblue	187;201;209
+    404		DPR	deepred	160;41;95
+    405		IRG	irongray	126;144;154
+    406		MBL	mistoblue	114;229;204
+    407		MPU	mistopink	232;158;183
+    409		FY	frenchyellow	241;232;157
+    419		MSI	madsilver	214;198;189
+    421		PDP	powderpink	246;228;224
+    422		DES	deepsee	99;78;109
+    423		PLP	perpink	195;112;122
+    424		MR	marine	16;90;172
+    425		DSK	deepsky	0;191;255
+    426		MUP	maddepink	249;192;211
+    427		AMT	aquamint	0;203;195
+    428		FAO	finenessorange	232;109;29
+    429		PLB	perblue	77;188;192
+    430		MEW	metallicwhite	240;239;234
+    432		SHIS	shinesilver	129;129;129
+    433		ASH	ash	196;202;207
+    435		SW	snowwhite	240;240;240
+    436		SSO	sunsetorange	223;147;32
+    440		CTY	citrusyellow	234;168;75
+    441		AP	apricot	216;159;109
+    443		BGD	burgundy	102;0;0
+    449		CBL	ceruleanblue	6;88;190
+    450		CY	cornyellow	239;208;22
+    451		DOR	darknessorange	255;140;0
+    453		DC	darknesscharcoal	87;78;81
+    454		LPU	lightpink	255;182;193
+    455		LFG	leafgreen	109;224;81
+    456		ICBE	icebeige	217;192;181
+    457		RO	rose	255;0;55
+    458		IMR	Indigomarine	60;51;82
