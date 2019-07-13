@@ -64,6 +64,13 @@ GOTO :END_HELP
   %ECHO%         %C%--unit-tests%N%: runs unit tests; Env var: %B%__UNIT_TESTS__%N% = %W%[%Y% T %W%^|%Y% F %W%]%Y%%N%
   %ECHO%         %C%--debug-lines%N%: debug important lines
   %ECHO%
+  %ECHO%%G%Notes:%N%
+  %ECHO%If multiple files with the same name exists in the system, they will be resolved first with some preferred paths.
+  %ECHO%- Program files folders
+  %ECHO%- Windows directory
+  %ECHO%- System drive
+  %ECHO%if nothing was found it will allow any path
+  %ECHO%
   %ECHO%%R%ERRORLEVEL:%N%
   %ECHO%The ERRORLEVEL is set depending on the object being found or not.
   %ECHO%If object is not found, it is set to something other than 0 (fail).
@@ -248,7 +255,7 @@ SETLOCAL
   ENDLOCAL
 
   :: global filters using findstr
-  IF DEFINED __FILTER__ SET __FILTER__=^^^| findstr /I %__FILTER__:\=\\%
+  IF DEFINED __FILTER__ SET __FILTER__=^^^| findstr /I /C:%__FILTER__:\=\\%
 
   :: help and unit-tests
   IF  /I "%__UNIT_TESTS__%"=="T" call :SUB_TESTS
@@ -309,11 +316,18 @@ SETLOCAL
     SET "__Search_Findstr=\%__SEARCH__%"
     SET "__Search_Findstr=%__Search_Findstr:\=\\%"
     SET __ES_Found=0
+    :: If multiple files with the same name exists in the system,
+    :: they will be resolved first with some preferred paths.
+    :: - Program files folders
+    :: - Windows directory
+    :: - System drive
+    :: if nothing was found it will allow any path
+    FOR %%s IN ("%ProgramFiles%";"%ProgramFiles(x86)%";"%SystemRoot%";"%SystemDrive%";"") DO (
     IF "%__EXT__%"=="" (
       :: File search with each PATHEXT extension
       FOR %%e IN (%PATHEXT%) DO (
-        IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe "%__SEARCH__%%%e" "*%%e" ^| findstr /I /E "\\%__SEARCH__%%%e" 2^>NUL %__FILTER__%%N%
-        FOR /F "tokens=* usebackq" %%a IN (` es.exe "%__SEARCH__%%%e" "*%%e" ^| findstr /I /E "\\%__SEARCH__%%%e" 2^>NUL %__FILTER__% `) DO (
+        IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe %%s "%__SEARCH__%%%e" "*%%e" ^| findstr /I /E /C:"\\%__SEARCH__%%%e" 2^>NUL %__FILTER__%%N%
+        FOR /F "tokens=* usebackq" %%a IN (` es.exe %%s "%__SEARCH__%%%e" "*%%e" ^| findstr /I /E /C:"\\%__SEARCH__%%%e" 2^>NUL %__FILTER__% `) DO (
           SET "__VALUE__=%%a"
           SET __ES_Found=1
           %DL% GOTO Exit_ES_For
@@ -321,8 +335,8 @@ SETLOCAL
         )
       )
       :: File search without extension
-      IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe "%__SEARCH__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
-      FOR /F "tokens=* usebackq" %%a IN (` es.exe "%__SEARCH__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__% `) DO (
+      IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe %%s "%__SEARCH__%" ^| findstr /I /E /C:"%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
+      FOR /F "tokens=* usebackq" %%a IN (` es.exe %%s "%__SEARCH__%" ^| findstr /I /E /C:"%__Search_Findstr%" 2^>NUL %__FILTER__% `) DO (
         SET "__VALUE__=%%a"
         SET __ES_Found=1
         %DL% GOTO Exit_ES_For
@@ -330,13 +344,14 @@ SETLOCAL
       )
     ) ELSE (
       :: File search with extension
-      IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe "%__SEARCH__%" "*%__EXT__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
-      FOR /F "tokens=* usebackq" %%a IN (` es.exe "%__SEARCH__%" "*%__EXT__%" ^| findstr /I /E "%__Search_Findstr%" 2^>NUL %__FILTER__% `) DO (
+      IF %__VERBOSE__% GEQ 2 %ECHO%%C% es.exe %%s "%__SEARCH__%" "*%__EXT__%" ^| findstr /I /E /C:"%__Search_Findstr%" 2^>NUL %__FILTER__%%N%
+      FOR /F "tokens=* usebackq" %%a IN (` es.exe %%s "%__SEARCH__%" "*%__EXT__%" ^| findstr /I /E /C:"%__Search_Findstr%" 2^>NUL %__FILTER__% `) DO (
         SET "__VALUE__=%%a"
         SET __ES_Found=1
         %DL% GOTO Exit_ES_For
         GOTO Exit_ES_For
       )
+    )
     )
     :Exit_ES_For
     IF "%__ES_Found%"=="1" GOTO ShowResult
