@@ -5,30 +5,33 @@
 ::      runs some.cmd a single time, even if the same command is called again
 @echo off
 setlocal
-call set-colors abbr
+call set-colors abbr weborange
 set PATHEXT=
 
+set CStr=%web_darkorange%
+IF defined __IND ( SET "ECHO=ECHO.%__IND%" ) ELSE ( SET "ECHO=ECHO." )
+
 :retry
-echo %N%looking for %Y%%1%N%
+%ECHO%%W%Looking for %Y%%1%N%
 where %1 1>nul 2>&1 && set __FOUND=1
 if exist %1 set __FOUND=1
 if not defined __FOUND (
-    echo %R%not found%N%
+    %ECHO%  %DR%Not found%N%
     if exist ".git" (
-        echo .git
-        echo %R%"%1" not found, please make sure to require files with extension%N%
+        %ECHO%  .git
+        %ECHO%  %R%Not found, please make sure to require files with extension%N%
         goto :end_script
     ) else if defined __PUSHD (
-        echo cd..
+        %ECHO%  cd..
         cd ..
     ) else (
-        echo pushd ..
+        %ECHO%  pushd ..
         set __PUSHD=1
         pushd ..
     )
     goto :retry
 )
-echo %G%found%N%
+%ECHO%  %G%Found%N%
 
 :: composing key of the requirement
 :: e.g.:
@@ -47,20 +50,20 @@ set __REQ_VALUE=0
 if defined %__VAR__% call set __REQ_VALUE=%%%__VAR__%%%
 
 if "%__REQ_VALUE%"=="2" (
-    echo %LK%already executed %DY%%*%N%
+    %ECHO%  %LK%Already executed %CStr%%*%N%
     goto :end_script
 )
 if "%__REQ_VALUE%"=="1" (
-    echo %LK%recursively executing %DY%%*%N%
+    %ECHO%  %LK%Recursively executing %CStr%%*%N%
     goto :end_script
 )
 set %__VAR__%=1
 if errorlevel 1 goto :end_script
-echo %LK%execute %DY%%*%N%
+%ECHO%  %LK%Execute %DY%%*%N%
 endlocal & set "%__VAR__%=1" & (
     %*
 ) & set "%__VAR__%=2"
 goto :eof
 :end_script
-if defined __PUSHD echo popd
+if defined __PUSHD %ECHO%  popd
 if defined __PUSHD popd

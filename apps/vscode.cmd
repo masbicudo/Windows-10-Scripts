@@ -20,37 +20,55 @@ goto :next_param
 
 :: install all vscode
 goto :eof
+:-i
 :-iA
 :install-vscode-all
 iecho %TC%install-vscode-all%N%
 
-    call :-i
-    call :-ix
-    call :-ic
-    call :-is
+    call :-ifS
+    call :-ifI
 
-    call :-iI
+:: install vscode (stable) and all complements
+goto :eof
+:-iS
+:-ifS
+:install-vscode-all
+iecho %TC%install-vscode-all%N%
+
+    call :-ibS
+    call :-ixS
+    call :-icS
+    call :-isS
+
+:: install vscode insiders and all complements
+goto :eof
+:-iI
+:-ifI
+:install-vscode-all
+iecho %TC%install-vscode-all%N%
+
+    call :-ibI
     call :-ixI
     call :-icI
     call :-isI
 
 :: vscode (stable)
 goto :eof
-:-i
+:-ibS
 :install-vscode
 iecho %TC%install-vscode%N%
 
-    choco install -y vscode
+    choco upgrade -y vscode
 
 goto :eof
-:-ix
+:-ixS
 :install-vscode-extensions
 iecho %TC%install-vscode-extensions%N%
 
     code --install-extension formulahendry.code-runner
 
 goto :eof
-:-ic
+:-icS
 :install-vscode-config
 iecho %TC%install-vscode-config%N%
 
@@ -60,10 +78,11 @@ iecho %TC%install-vscode-config%N%
     :skip_settings
 
 goto :eof
-:-is
+:-isS
 :install-vscode-shortcuts
 iecho %TC%install-vscode-shortcuts%N%
 
+    call rm-desktop-link Visual Code
     call set-where where_vscode "Microsoft VS Code\bin\code.cmd" --filter %ProgramFiles%
     call set-where where_vscode_exe "Microsoft VS Code\code.exe" --filter %ProgramFiles%
     shortcut-create "%where_shortcuts%\code.lnk" "%where_wscript%" -i "%where_vscode_exe%,0" -a "%where_noshell%" "%where_vscode%"
@@ -71,7 +90,7 @@ iecho %TC%install-vscode-shortcuts%N%
 
 :: vscode insiders
 goto :eof
-:-iI
+:-ibI
 :install-vscode-insiders
 iecho %TC%install-vscode-insiders%N%
 
@@ -101,7 +120,6 @@ goto :eof
 :install-vscode-insiders-shortcuts
 iecho %TC%install-vscode-insiders-shortcuts%N%
 
-    call rm-desktop-link Visual Code
     call set-where where_vsicode "code-insiders.cmd" --filter %ProgramFiles%
     call set-where where_vsicode_exe "Code - Insiders.exe" --filter %ProgramFiles%
     shortcut-create "%where_shortcuts%\icode.lnk" "%where_wscript%" -i "%where_vsicode_exe%,0" -a "%where_noshell%" "%where_vsicode%"
