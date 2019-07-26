@@ -7,6 +7,7 @@ layout: default
 
 - Add a special folder for trivia on the desktop, and synch it via BitBucket.
 - Customize start menu: [Win10: Start Customization with LayoutModification.xml](https://winpeguy.wordpress.com/2015/10/30/win10-start-customization-with-layoutmodification-xml)
+- Disable listing files in Quick-Access: https://www.tenforums.com/tutorials/3469-turn-off-recent-items-frequent-places-windows-10-a.html
 
 ## Medium
 
