@@ -1,4 +1,5 @@
 call require apps\choco.cmd
+call require places.cmd
 
 choco install -y paint.net
 

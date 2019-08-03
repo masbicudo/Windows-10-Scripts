@@ -1,3 +1,6 @@
+@echo off
+meta title "Space Exploration"
+
 if not "%1"=="" goto :%1
 
 call :install-gaiasky
@@ -7,7 +10,7 @@ call :install-spaceengine
 
 goto :eof
 :install-gaiasky
-echo install-gaiasky
+meta install "Gaia Sky"
 
     :: https://zah.uni-heidelberg.de/institutes/ari/gaia/outreach/gaiasky/downloads
     :: http://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/2.1.7.a67779dc/gaiasky_windows-x64_2_1_7_a67779dc.exe
@@ -40,6 +43,7 @@ echo install-gaiasky
 goto :eof
 :install-celestia
 echo install-celestia
+meta install "Celestia"
 
     set-where "where_celestia" "celestia.exe"
     shortcut-create "%where_shortcuts%\celestia.lnk" "%where_celestia%"
@@ -52,6 +56,7 @@ echo install-celestia
 goto :eof
 :install-spaceengine
 echo install-spaceengine
+meta create-links "Space Engine"
 
     :: creating links only... this softwares must be installed by hand via steam
     :: #TODO - should I install the game using the command 'steam steam://install/appid'?
@@ -69,6 +74,7 @@ echo install-spaceengine
 goto :eof
 :install-universe_sandbox
 echo install-universe_sandbox
+meta create-links "Universe Sandbox"
 
     :: creating links only... this softwares must be installed by hand via steam
     :: #TODO - should I install the game using the command 'steam steam://install/appid'?
@@ -85,3 +91,10 @@ echo install-universe_sandbox
     shortcut-create "%where_shortcuts%\usb2.lnk" "%where_universe_sandbox%"
     shortcut-create "%where_shortcuts%\universe.lnk" "%where_universe_sandbox%"
     rm-desktop-link "Universe Sandbox.url"
+
+goto :eof
+:install-google_earth
+echo install-google_earth
+meta install "Google Earth"
+
+    choco install -y googleearth
