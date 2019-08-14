@@ -1,12 +1,8 @@
 call require apps\choco.cmd
 call require apps\python.cmd
 
-:: NOTE: cannot install latest because of this bug:
-:: - https://github.com/jupyter/help/issues/537
-:: - https://github.com/jupyter/notebook/issues/4467
-
 ::conda install -y jupyter
-conda install -y -c anaconda notebook=5.7.4
+conda install -y -c anaconda notebook
 
 call set-where where_jupyter "jupyter"
 shortcut-create "%where_shortcuts%\jn.lnk" "%where_jupyter%" -wd "" -a notebook
