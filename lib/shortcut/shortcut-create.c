@@ -7,6 +7,15 @@
 int main (int argc, char *argv[]) {
     char *target = "shortcut-create.cmd";
 
+    for (int it = 1; it < argc; it++)
+    {
+        if (strcmpi(argv[it], "--version") == 0)
+        {
+            printf("shortcut-create.exe v0.0.1");
+            return 0;
+        }
+    }
+
     char *exe_fullpath, *exe_dirname, *exe_filename;
     {
         char path[10240];
@@ -32,7 +41,10 @@ int main (int argc, char *argv[]) {
     int target_len = strlen(target);
     int max_len = exe_dirname_len + 1 + target_len;
     for (int it = 1; it < argc; it++)
-        max_len += 3 + strlen(argv[it]);
+    {
+        // each char may need an escape char, and the string may need '"' surrounding it
+        max_len += 3 + 2*strlen(argv[it]);
+    }
 
     char *command = malloc(sizeof(char) * (max_len + 1));
     strncpy(command, exe_dirname, exe_dirname_len);
