@@ -6,6 +6,7 @@
 
 int main (int argc, char *argv[]) {
     char *target = "shortcut-create.cmd";
+    int verbose = FALSE;
 
     for (int it = 1; it < argc; it++)
     {
@@ -13,6 +14,10 @@ int main (int argc, char *argv[]) {
         {
             printf("shortcut-create.exe v0.0.1");
             return 0;
+        }
+        if (strcmpi(argv[it], "--verbose") == 0)
+        {
+            verbose = TRUE;
         }
     }
 
@@ -68,8 +73,9 @@ int main (int argc, char *argv[]) {
             pos += len + 1;
         }
     }
-    command[max_len] = 0;
+    command[pos] = 0;
     
+    if (verbose) printf("%s\n", command);
     system(command);
 
     free(exe_fullpath);
