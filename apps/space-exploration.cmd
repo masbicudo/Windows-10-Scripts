@@ -1,5 +1,5 @@
 @echo off
-meta title "Space Exploration"
+call meta title "Space Exploration"
 
 if not "%1"=="" goto :%1
 
@@ -10,7 +10,7 @@ call :install-spaceengine
 
 goto :eof
 :install-gaiasky
-meta install "Gaia Sky"
+call meta install "Gaia Sky"
 
     :: https://zah.uni-heidelberg.de/institutes/ari/gaia/outreach/gaiasky/downloads
     :: http://gaia.ari.uni-heidelberg.de/gaiasky/files/releases/2.1.7.a67779dc/gaiasky_windows-x64_2_1_7_a67779dc.exe
@@ -43,7 +43,7 @@ meta install "Gaia Sky"
 goto :eof
 :install-celestia
 echo install-celestia
-meta install "Celestia"
+call meta install "Celestia"
 
     set-where "where_celestia" "celestia.exe"
     shortcut-create "%where_shortcuts%\celestia.lnk" "%where_celestia%"
@@ -56,7 +56,7 @@ meta install "Celestia"
 goto :eof
 :install-spaceengine
 echo install-spaceengine
-meta create-links "Space Engine"
+call meta create-links "Space Engine"
 
     :: creating links only... this softwares must be installed by hand via steam
     :: #TODO - should I install the game using the command 'steam steam://install/appid'?
@@ -74,7 +74,7 @@ meta create-links "Space Engine"
 goto :eof
 :install-universe_sandbox
 echo install-universe_sandbox
-meta create-links "Universe Sandbox"
+call meta create-links "Universe Sandbox"
 
     :: creating links only... this softwares must be installed by hand via steam
     :: #TODO - should I install the game using the command 'steam steam://install/appid'?
@@ -95,6 +95,6 @@ meta create-links "Universe Sandbox"
 goto :eof
 :install-google_earth
 echo install-google_earth
-meta install "Google Earth"
+call meta install "Google Earth"
 
     choco install -y googleearth
