@@ -1,45 +1,63 @@
 Windows Registry Editor Version 5.00
 
 ; Created by: Shawn Brink
+;             Miguel Angelo - using original windows message @shell32.dll,-8506
 ; Created on: August 10th 2016
+; Tutorial: http://www.sevenforums.com/tutorials/47415-open-command-window-here-administrator.html
 ; Tutorial: http://www.tenforums.com/tutorials/59686-open-command-window-here-administrator-add-windows-10-a.html
 
 
 
-[HKEY_CLASSES_ROOT\Directory\shell\OpenCmdHereAsAdmin]
-@="Open command window here as administrator"
+
+[-HKEY_CLASSES_ROOT\Directory\shell\runas]
+
+[HKEY_CLASSES_ROOT\Directory\shell\runas]
+@="@shell32.dll,-8506"
+"HasLUAShield"=""
 "Extended"=""
 "Icon"="imageres.dll,-5324"
 
-[HKEY_CLASSES_ROOT\Directory\shell\OpenCmdHereAsAdmin\command]
-@="PowerShell -windowstyle hidden -Command \"Start-Process cmd -ArgumentList '/s,/k,pushd,%V' -Verb RunAs\""
+[HKEY_CLASSES_ROOT\Directory\shell\runas\command]
+@="cmd.exe /s /k pushd \"%V\""
 
 
 
-[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenCmdHereAsAdmin]
-@="Open command window here as administrator"
+
+[-HKEY_CLASSES_ROOT\Directory\Background\shell\runas]
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\runas]
+@="@shell32.dll,-8506"
+"HasLUAShield"=""
 "Extended"=""
 "Icon"="imageres.dll,-5324"
 
-[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenCmdHereAsAdmin\command]
-@="PowerShell -windowstyle hidden -Command \"Start-Process cmd -ArgumentList '/s,/k,pushd,%V' -Verb RunAs\""
+[HKEY_CLASSES_ROOT\Directory\Background\shell\runas\command]
+@="cmd.exe /s /k pushd \"%V\""
 
 
 
-[HKEY_CLASSES_ROOT\Drive\shell\OpenCmdHereAsAdmin]
-@="Open command window here as administrator"
+
+[-HKEY_CLASSES_ROOT\Drive\shell\runas]
+
+[HKEY_CLASSES_ROOT\Drive\shell\runas]
+@="@shell32.dll,-8506"
+"HasLUAShield"=""
 "Extended"=""
 "Icon"="imageres.dll,-5324"
 
-[HKEY_CLASSES_ROOT\Drive\shell\OpenCmdHereAsAdmin\command]
-@="PowerShell -windowstyle hidden -Command \"Start-Process cmd -ArgumentList '/s,/k,pushd,%V' -Verb RunAs\""
+[HKEY_CLASSES_ROOT\Drive\shell\runas\command]
+@="cmd.exe /s /k pushd \"%V\""
 
 
 
-[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\OpenCmdHereAsAdmin]
-@="Open command window here as administrator"
+
+[-HKEY_CLASSES_ROOT\LibraryFolder\background\shell\runas]
+
+[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\runas]
+@="@shell32.dll,-8506"
+"HasLUAShield"=""
 "Extended"=""
 "Icon"="imageres.dll,-5324"
 
-[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\OpenCmdHereAsAdmin\command]
+[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\runas\command]
 @="PowerShell -windowstyle hidden -Command \"Start-Process cmd -ArgumentList '/s,/k,pushd,%V' -Verb RunAs\""
