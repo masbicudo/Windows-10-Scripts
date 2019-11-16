@@ -1,0 +1,24 @@
+Windows Registry Editor Version 5.00
+
+; Created by: Miguel Angelo
+
+[HKEY_CLASSES_ROOT\Directory\shell\git_gui]
+"Extended"=""
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\git_gui]
+"Extended"=""
+
+[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_gui]
+"Extended"=""
+
+
+
+
+[HKEY_CLASSES_ROOT\Directory\shell\git_shell]
+"Extended"=""
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\git_shell]
+"Extended"=""
+
+[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_shell]
+"Extended"=""
