@@ -22,7 +22,12 @@ FOR /D %%D in (include\*) DO call :Append_Path %%~fD
 ::  and run all apps listed in there)
 set __user=masbicudo
 
-GOTO :EOF
+call lib\require.cmd places.cmd
 
+
+:: PROC Append_Path
+GOTO :End_Append_Path
 :Append_Path
-SET PATH=%PATH%;%1
+    SET PATH=%PATH%;%1
+GOTO :EOF
+:End_Append_Path
