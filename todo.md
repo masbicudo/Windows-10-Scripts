@@ -18,7 +18,8 @@ layout: default
 
 ## Hard
 
-- A tool to select packages should be provided, and be able to create standalone initialization scripts.
+- A tool to select packages should be provided, and be able to create standalone initialization scripts, resilient to computer restarts,
+and other system instabilities or natural events.
 
 ## Apps to add
 - O&O ShutUp10

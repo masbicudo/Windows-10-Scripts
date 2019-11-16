@@ -52,7 +52,7 @@ int main (int argc, char *argv[]) {
     }
 
     char *command = malloc(sizeof(char) * (max_len + 1));
-    strncpy(command, exe_dirname, exe_dirname_len);
+    memcpy(command, exe_dirname, exe_dirname_len);
     command[exe_dirname_len] = '\\';
     strncpy(command + exe_dirname_len + 1, target, target_len);
     int pos = exe_dirname_len + 1 + target_len;

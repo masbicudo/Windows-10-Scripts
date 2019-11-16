@@ -1,15 +1,15 @@
 ' Arguments
 ' Link File Path
 ' Target Path
-' -h --help           print help
-' -i --icon           icon_path
-' -i --icon           icon_number
-' -d --desc           description
-' -hk --hot-key       hot key sequence
-' -ws --window-style  window style
-' -wd --work-dir      working directory
-' -ra --run-as-admin  run as administrator flag
-' -a --args           arguments to pass to the target (must be last param)
+' -h, --help           print help
+' -i, --icon           icon_path
+' -i, --icon           icon_number
+' -d, --desc           description
+' -hk, --hot-key       hot key sequence
+' -ws, --window-style  window style
+' -wd, --work-dir      working directory
+' -ra, --run-as-admin  run as administrator flag
+' -a, --args           arguments to pass to the target (must be last param)
 
 Set args = Wscript.Arguments
 Set fso = CreateObject("Scripting.FileSystemObject")

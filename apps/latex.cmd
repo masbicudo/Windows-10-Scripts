@@ -27,4 +27,4 @@ goto :eof
 :update-texlive
 call meta update "TeX Live"
 
-    tlmgr update --self
+    call tlmgr update --self --all --reinstall-forcibly-removed
