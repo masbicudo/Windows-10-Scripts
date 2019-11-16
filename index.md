@@ -10,6 +10,15 @@ This repository contains Windows 10 initialization scripts.
 The purpose is to automate installation of softwares, features and settings to my taste (MASBicudo).
 At this moment this is far from a fully automated process... but the scripts here can help a lot.
 
+Most scripts are based on Chocolatey, a package manager for Windows,
+and also a miriad of other scripts and utilities either gathered from the Internet or made by me.
+Also, native Windows features can be used, if present.
+
+There is no intention on using a specific coding language here.
+Most is writen in Windows Batch Script language, but there is also C, VBScript, JScript, Bash, MSHTA,
+and there may be anything that comes in handy at each situation.
+
+
 Instructions
 ============
 
@@ -57,6 +66,20 @@ To run any of these, you need to prepare the environment first:
 
 Then you can use `require.cmd` script to call these:
 - for example: `call require.cmd apps\openssh.cmd`
+
+
+## Authoring package installers and custom system settings
+
+Creating new procedures to install and/or customize the system is very simple.
+Just create a new `.cmd` file inside the `apps` folder.
+The manager application will read the available files and display them to the user.
+Inside each file, there can be meta information to give further info:
+
+    meta option action "Program Name"
+
+These are used as markers inside the file to locate different options.
+They must follow a label that will be used as argument for the script
+to go to that option.
 
 To Do
 =====
