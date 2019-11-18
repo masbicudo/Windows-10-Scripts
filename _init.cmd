@@ -39,7 +39,8 @@ SET proceed=
 :: - add .LNK to the system PATHEXT
 
 :: context menu for Open Command Prompt with Administrator Privileges Anywhere
-regedit /s "utils\cmda_here\Add_Shift+Open_command_window_here_as_administrator.reg"
+regedit /s "res\cmda_here\Remove_Open_command_window_here_as_Administrator_via_posh.reg"
+regedit /s "res\cmda_here\Add_Shift+Open_command_window_here_as_administrator.reg"
 
 :: unpin all elements from start menu
 :: pin `computer` to start menu
@@ -72,8 +73,8 @@ call require load-msg.cmd
 :: syspin is used to pin programs to the taskbar and startmenu
 call require apps\syspin.cmd
 
-:: everything is used by set-where.cmd script
-call apps\everything.cmd
+:: everything can be used by set-where.cmd script
+call require apps\everything.cmd
 
 call require apps\setdefaultbrowser.cmd
 
