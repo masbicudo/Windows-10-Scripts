@@ -85,8 +85,8 @@ iecho %TC%install-vscode-shortcuts%N%
     call rm-desktop-link Visual Code
     call set-where where_vscode "Microsoft VS Code\bin\code.cmd" --filter %ProgramFiles%
     call set-where where_vscode_exe "Microsoft VS Code\code.exe" --filter %ProgramFiles%
-    shortcut-create "%where_shortcuts%\code.lnk" "%where_wscript%" -i "%where_vscode_exe%,0" -a "%where_noshell%" "%where_vscode%"
-    shortcut-create "%where_shortcuts%\coda.lnk" "%where_wscript%" -ra -i "%where_vscode_exe%,0" -a "%where_noshell%" "%where_vscode%"
+    shortcut-create "%where_shortcuts%\code.lnk" "%where_wscript%" -i "%where_vscode_exe%,0" -wd "" -a "%where_noshell%" "%where_vscode%"
+    shortcut-create "%where_shortcuts%\coda.lnk" "%where_wscript%" -ra -i "%where_vscode_exe%,0" -wd "" -a "%where_noshell%" "%where_vscode%"
 
 :: vscode insiders
 goto :eof
@@ -122,8 +122,8 @@ iecho %TC%install-vscode-insiders-shortcuts%N%
 
     call set-where where_vsicode "code-insiders.cmd" --filter %ProgramFiles%
     call set-where where_vsicode_exe "Code - Insiders.exe" --filter %ProgramFiles%
-    shortcut-create "%where_shortcuts%\icode.lnk" "%where_wscript%" -i "%where_vsicode_exe%,0" -a "%where_noshell%" "%where_vsicode%"
-    shortcut-create "%where_shortcuts%\icoda.lnk" "%where_wscript%" -ra -i "%where_vsicode_exe%,0" -a "%where_noshell%" "%where_vsicode%"
+    shortcut-create "%where_shortcuts%\icode.lnk" "%where_wscript%" -i "%where_vsicode_exe%,0" -wd "" -a "%where_noshell%" "%where_vsicode%"
+    shortcut-create "%where_shortcuts%\icoda.lnk" "%where_wscript%" -ra -i "%where_vsicode_exe%,0" -wd "" -a "%where_noshell%" "%where_vsicode%"
 
 goto :eof
 :-icI
