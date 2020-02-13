@@ -1,13 +1,32 @@
+@echo off
+if not "%1"=="--help" goto :skip_help
+echo.Parameters:
+echo.-iA  install vscode stable and insiders, and their options
+echo.-iS  install vscode stable, and it's options
+echo.-iI  install vscode insiders, and it's options
+echo.-ibS install vscode stable only
+echo.-ixS install vscode stable extensions only
+echo.-icS install vscode stable config only
+echo.-isS install vscode stable shortcuts only
+echo.-ibI install vscode insiders only
+echo.-ixI install vscode insiders extensions only
+echo.-icI install vscode insiders config only
+echo.-isI install vscode insiders shortcuts only
+goto :eof
+:skip_help
+
+
 call require apps\choco.cmd
 call require places.cmd
 call require iecho.cmd
 
 setlocal
 
+:: colors
 call set-colors.cmd web abbr
-
 set TC=%web_mediumaquamarine%
 
+:: locations
 call set-where where_noshell "noshell.vbs"
 call set-where where_wscript "wscript.exe" --filter %windir%
 
@@ -18,7 +37,7 @@ shift
 if "%1"=="" goto :eof
 goto :next_param
 
-:: install all vscode
+:: install all vscode options, including insiders
 goto :eof
 :-i
 :-iA
@@ -32,8 +51,8 @@ iecho %TC%install-vscode-all%N%
 goto :eof
 :-iS
 :-ifS
-:install-vscode-all
-iecho %TC%install-vscode-all%N%
+:install-vscode-stable-full
+iecho %TC%install-vscode-stable-full%N%
 
     call :-ibS
     call :-ixS
@@ -44,8 +63,8 @@ iecho %TC%install-vscode-all%N%
 goto :eof
 :-iI
 :-ifI
-:install-vscode-all
-iecho %TC%install-vscode-all%N%
+:install-vscode-insiders-full
+iecho %TC%install-vscode-insiders-full%N%
 
     call :-ibI
     call :-ixI
