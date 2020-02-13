@@ -1,5 +1,11 @@
 @ECHO OFF
 
+if not "%1"=="--reset" goto :no_reset
+  echo.Reseting variables
+  for /f "tokens=1* delims==" %%a in ('set __REQ_') do set %%a=
+  for /f "tokens=1* delims==" %%a in ('set where_') do set %%a=
+:no_reset
+
 REM :: removing pathexts to avoid bugs in the code
 REM :: Major problem: it affects WHERE command
 REM SET PATHEXT=.EXE
@@ -28,6 +34,13 @@ call lib\require.cmd places.cmd
 :: PROC Append_Path
 GOTO :End_Append_Path
 :Append_Path
-    SET PATH=%PATH%;%1
-GOTO :EOF
+  SETLOCAL EnableDelayedExpansion
+    SET __TEMP=%PATH%
+    SET __TEMP=;%__TEMP:;=;;%;
+    CALL SET __TEMP=%%__TEMP:;%~1;=%%
+    SET __TEMP=%__TEMP:~1,-1%
+    SET __TEMP=%__TEMP:;;=;%
+    IF "%PATH%"=="%__TEMP%" SET "PATH=!PATH!;%~1"
+  ENDLOCAL & SET PATH=%PATH%
+  GOTO :EOF
 :End_Append_Path
