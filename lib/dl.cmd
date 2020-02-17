@@ -6,7 +6,7 @@ set http_proxy=127.0.0.1:8888
 set https_proxy=127.0.0.1:8888
 :no_fiddler
 pushd "%where_downloads%"
-echo.1st try (HEAD,GET?)
+echo.1st try (HEAD + optional GET)
 :: 1st try
 :: - using -N to avoid getting a file that was already downloaded
 :: - wget will first do a HEAD request to get info about the file
