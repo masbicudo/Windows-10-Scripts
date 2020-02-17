@@ -28,8 +28,9 @@ FOR /D %%D in (include\*) DO call :Append_Path %%~fD
 ::  and run all apps listed in there)
 set __user=masbicudo
 
-call lib\require.cmd places.cmd
+set "__PROJECT_ROOT=%~dp0"
 
+call lib\require.cmd places.cmd
 
 :: PROC Append_Path
 GOTO :End_Append_Path

@@ -3,33 +3,31 @@
 :: Example:
 ::  require some.cmd
 ::      runs some.cmd a single time, even if the same command is called again
+:: The path of the required script must be relative to the project folder,
+:: defined in the variable __PROJECT_ROOT
 @echo off
 setlocal
+SET R=[91m
+SET web_orange=[38;2;255;165;0m
+SET N=[0m
+if not defined __PROJECT_ROOT (
+    echo  %R%Cannot use %web_orange%require.cmd%R% without first defining the %web_orange%__PROJECT_ROOT%R% variable%N%
+    goto :end_script
+)
+
 call set-colors abbr weborange
 set PATHEXT=
 
 set CStr=%web_darkorange%
 IF defined __IND ( SET "ECHO=ECHO.%__IND%" ) ELSE ( SET "ECHO=ECHO." )
 
-:retry
 %ECHO%%W%Looking for %Y%%1%N%
-where %1 1>nul 2>&1 && set __FOUND=1
-if exist %1 set __FOUND=1
+where %1 1>nul 2>&1 && set "__FOUND=1" & set "__PREPEND="
+if exist "%__PROJECT_ROOT%%1" set "__FOUND=1" & set "__PREPEND=%__PROJECT_ROOT%"
 if not defined __FOUND (
     %ECHO%  %DR%Not found%N%
-    if exist ".git" (
-        %ECHO%  .git
-        %ECHO%  %R%Not found, please make sure to require files with extension%N%
-        goto :end_script
-    ) else if defined __PUSHD (
-        %ECHO%  cd..
-        cd ..
-    ) else (
-        %ECHO%  pushd ..
-        set __PUSHD=1
-        pushd ..
-    )
-    goto :retry
+    %ECHO%  %R%Not found, please make sure to require files with extension%N%
+    goto :end_script
 )
 %ECHO%  %G%Found%N%
 
@@ -61,7 +59,7 @@ set %__VAR__%=1
 if errorlevel 1 goto :end_script
 %ECHO%  %LK%Execute %DY%%*%N%
 endlocal & set "%__VAR__%=1" & (
-    %*
+    %__PREPEND%%*
 ) & set "%__VAR__%=2"
 goto :eof
 :end_script
