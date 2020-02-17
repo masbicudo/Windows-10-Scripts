@@ -101,12 +101,19 @@ goto :eof
 :-isS
 :install-vscode-shortcuts
 iecho %TC%install-vscode-shortcuts%N%
-
     call rm-desktop-link Visual Code
     call set-where where_vscode "Microsoft VS Code\bin\code.cmd" --filter %ProgramFiles%
     call set-where where_vscode_exe "Microsoft VS Code\code.exe" --filter %ProgramFiles%
-    shortcut-create "%where_shortcuts%\code.lnk" "%where_wscript%" -i "%where_vscode_exe%,0" -wd "" -a "%where_noshell%" "%where_vscode%"
-    shortcut-create "%where_shortcuts%\coda.lnk" "%where_wscript%" -ra -i "%where_vscode_exe%,0" -wd "" -a "%where_noshell%" "%where_vscode%"
+echo 4
+echo where_shortcuts=%where_shortcuts%
+echo where_wscript=%where_wscript%
+echo where_vscode_exe=%where_vscode_exe%
+echo where_noshell=%where_noshell%
+echo where_vscode=%where_vscode%
+    call shortcut-create "%where_shortcuts%\code.lnk" "%where_wscript%" -i "%where_vscode_exe%,0" -wd "" -a "%where_noshell%" "%where_vscode%"
+echo 5
+    call shortcut-create "%where_shortcuts%\coda.lnk" "%where_wscript%" -ra -i "%where_vscode_exe%,0" -wd "" -a "%where_noshell%" "%where_vscode%"
+echo 6
 
 :: vscode insiders
 goto :eof
@@ -117,18 +124,19 @@ iecho %TC%install-vscode-insiders%N%
     ::choco install -y vscode-insiders --version 1.30 --ignore-checksums
     :: TODO: use curl to download https://aka.ms/win32-x64-user-insider
     ::       https://go.microsoft.com/fwlink/?Linkid=852155
-    SET url_x64_user_insider=https://aka.ms/win32-x64-user-insider
-    SET url_x86_user_insider=https://aka.ms/win32-user-insider
-    SET url_x64_system_insider=https://go.microsoft.com/fwlink/?Linkid=852155
-    SET url_x86_system_insider=https://go.microsoft.com/fwlink/?LinkId=723965
-    echo x
-    pushd %where_downloads%
-    IF     DEFINED ProgramFiles^(x86^) call dl.cmd "%url_x64_system_insider%"
-    IF NOT DEFINED ProgramFiles^(x86^) call dl.cmd "%url_x86_system_insider%"
+    SET url_insider_x64_user=https://aka.ms/win32-x64-user-insider
+    SET url_insider_x86_user=https://aka.ms/win32-user-insider
+    SET url_insider_x64_system=https://go.microsoft.com/fwlink/?Linkid=852155
+    SET url_insider_x86_system=https://go.microsoft.com/fwlink/?LinkId=723965
+    SET url_insider_
+    pushd "%where_downloads%"
+    IF     DEFINED ProgramFiles^(x86^) call dl.cmd "%url_insider_x64_system%"6.
+    IF NOT DEFINED ProgramFiles^(x86^) call dl.cmd "%url_insider_x86_system%"
     popd
-    echo x2
-    call set-out.cmd where_vscode_insiders_installer es.exe "VSCodeSetup-" "-insider" *.exe
-    %where_vscode_insiders_installer% /CLOSEAPPLICATIONS /VERYSILENT /MERGETASKS=!runcode
+    call set-out.cmd "where_vscode_insiders_installer" es.exe "VSCodeSetup-" "-insider" *.exe -parent "%where_downloads%"
+    call set-out.cmd "where_vscode_x86_insiders_uninstaller" es.exe "%ProgramFiles(x86)%" "\Microsoft VS Code Insiders\unins000.exe"
+    if defined where_vscode_x86_insiders_uninstaller "%where_vscode_x86_insiders_uninstaller%" /SILENT
+    "%where_vscode_insiders_installer%" /CLOSEAPPLICATIONS /VERYSILENT /SUPPRESSMSGBOXES /MERGETASKS="!runcode"
 
 goto :eof
 :-ixI
@@ -142,8 +150,8 @@ iecho %TC%install-vscode-insiders-shortcuts%N%
 
     call set-where where_vsicode "code-insiders.cmd" --filter %ProgramFiles%
     call set-where where_vsicode_exe "Code - Insiders.exe" --filter %ProgramFiles%
-    shortcut-create "%where_shortcuts%\icode.lnk" "%where_wscript%" -i "%where_vsicode_exe%,0" -wd "" -a "%where_noshell%" "%where_vsicode%"
-    shortcut-create "%where_shortcuts%\icoda.lnk" "%where_wscript%" -ra -i "%where_vsicode_exe%,0" -wd "" -a "%where_noshell%" "%where_vsicode%"
+    call shortcut-create "%where_shortcuts%\icode.lnk" "%where_wscript%" -i "%where_vsicode_exe%,0" -wd "" -a "%where_noshell%" "%where_vsicode%"
+    call shortcut-create "%where_shortcuts%\icoda.lnk" "%where_wscript%" -ra -i "%where_vsicode_exe%,0" -wd "" -a "%where_noshell%" "%where_vsicode%"
 
 goto :eof
 :-icI
