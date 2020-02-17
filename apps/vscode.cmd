@@ -1,5 +1,6 @@
 @echo off
-if not "%1"=="--help" goto :skip_help
+if not "%1"=="" if not "%1"=="--help" if not "%1"=="-h" if not "%1"=="/?" if not "%1"=="?" goto :skip_help
+:help
 echo.Parameters:
 echo.-iA  install vscode stable and insiders, and their options
 echo.-iS  install vscode stable, and it's options
