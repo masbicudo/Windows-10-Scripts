@@ -1,9 +1,25 @@
-:: list-remove-contains
+:: path-remove-contains v0.1.0-beta by MASBicudo
 ::
-:: Removes items from a list where the item contains one of the listed strings.
+:: Removes items from Path environment variable where the item
+:: contains one of the listed strings.
 ::
 :: Example:
-::  list-remove-contains PATH ^%windir^%\;"Program Files"
+::   path-remove-contains ^%windir^%\;"Program Files"
+::
+:: #List of substrings
+::   Each string must be separated by semicolon character ';'.
+::   If the substring contains special characters such as space ' ',
+::   parentheses '(' or ')', and some other, it must be enclosed
+::   in double quotes. e.g. "Program Files (x86)"
+::
+:: #Simulated run
+::   Simulating is useful to get the list of entries that would
+::   be removed, before doing the real operation.
+::
+::   Example:
+::     path-remove-contains --simulate ^%windir^%\;"Program Files"
+::     path-remove-contains -s ^%windir^%\;"Program Files"
+::
 
 :Header
   @echo off
@@ -16,20 +32,51 @@
   if "%arg_1%"=="-h" SET __HELP=1
   if "%arg_1%"=="--help" SET __HELP=1
   if not defined __HELP goto :no_help
+  set text_color=%W%
   for /f "delims=" %%a in (%~dpnx0) do (
       set __=%%a
       IF not "!__:~0,2!"=="::" goto :eof
-      echo.%G%!__:~3!%N%
+      set "__=!__:~3!"
+      if not defined __ (
+        echo.
+      ) else (
+        if not defined not_first_line (
+          call :find_ver
+          call set "__=%%__:v!__ver!=%M%v!__ver!%N%%%"
+        )
+        call set "__=%%__:!__prog_name!=%B%!__prog_name!%Y%%%"
+        set "__=!__:Example:=%G%Example:%N%!"
+        set "__=!__:#=%W%!"
+        if not "!__:Example:=!"=="!__!" set text_color=%N%
+        echo.!text_color!!__!%N%
+      )
+      set not_first_line=1
   )
+  goto :eof
+  :find_ver
+    set __prog_name=
+    for %%s in ("!__: =";"!") do (
+      if not defined __prog_name set "__prog_name=%%~s"
+      set "__str=%%s"
+      rem echo !__str!:EOL
+      for /f "usebackq" %%v in (` echo.!__str!:EOL ^| findstr /r "^.[0-9][0-9]*\.[0-9][0-9]*[-\.a-zA-Z]*.:EOL" `) do (
+        set "__ver=%%v"
+        set "__ver=!__ver:~2,-5!"
+        rem echo !__ver!
+        goto :eof
+      )
+    )
   goto :eof
   :no_help
 
 :Main
-  @ECHO OFF
-  SetLocal EnableDelayedExpansion
-
   SET __VAR__=Path
   SET "__TO_REMOVE=%*"
+  if "%arg_1%"=="-s" SET __SIMULATE=1
+  if "%arg_1%"=="--simulate" SET __SIMULATE=1
+  IF defined __SIMULATE FOR /f "tokens=1*delims= " %%a IN ("%*") DO set "__TO_REMOVE=%%b"
+  ::echo __SIMULATE=%__SIMULATE%
+  ::echo __TO_REMOVE=%__TO_REMOVE%
   call :normalize __TO_REMOVE
 
   SET "__src_name=local %__VAR__%"
@@ -51,7 +98,7 @@
   call :remove_from_list __REG_USER_VAR
   call :write_reg_path __REG_USER_VAR
 
-  EndLocal & SET "%__VAR__%=%__COPY%"
+  EndLocal & IF not defined __SIMULATE SET "%__VAR__%=%__COPY%"
 
   goto :EOF
   :read_reg
@@ -95,6 +142,8 @@
   goto :EOF
   :append_to_result
     SET "_TEMP=%_INPUT%"
+    if defined __SIMULATE ( set "__msg=would remove" ) else set "__msg=removed"
+        ::echo __TO_REMOVE=%__TO_REMOVE%
     for %%b in (%__TO_REMOVE%) do (
       if %%b neq "" (
         SET "_TEMP=!_TEMP:%%~b=%Y%%%~b%W%!"
@@ -107,14 +156,14 @@
         SET "_RESULT=%_INPUT%"
       )
     ) else (
-      echo %R%removed from %__src_name%: %W%"%_TEMP%"%N%
+      echo %R%%__msg% from %__src_name%: %W%"%_TEMP%"%N%
     )
   goto :EOF
   :write_reg_path
     CALL SET "_RESULT=%%%1%%"
     REM IF _RESULT ENDS WITH "\", MUST DOUBLE IT (e.g. "\\")
     IF "%_RESULT:~-1%"=="\" (
-        REG ADD "%__KEY%" /v %__VAR__% /t REG_EXPAND_SZ /f /d "%_RESULT:~0,-1%\\" > nul
+        IF not defined __SIMULATE REG ADD "%__KEY%" /v %__VAR__% /t REG_EXPAND_SZ /f /d "%_RESULT:~0,-1%\\" > nul
     ) ELSE (
-        REG ADD "%__KEY%" /v %__VAR__% /t REG_EXPAND_SZ /f /d "%_RESULT%" > nul
+        IF not defined __SIMULATE REG ADD "%__KEY%" /v %__VAR__% /t REG_EXPAND_SZ /f /d "%_RESULT%" > nul
     )
