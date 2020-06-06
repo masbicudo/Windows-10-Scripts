@@ -9,7 +9,7 @@ where tlmgr >nul 2>&1 && call :update-texlive || call :install-texlive
 
 goto :eof
 :install-texlive
-call meta install "TeX Live"
+call meta option install "TeX Live"
 
     :: ISO installer
     if exist "%SystemDrive%\texlive\iso" goto :skip_dl_extract_iso
@@ -25,6 +25,6 @@ call meta install "TeX Live"
 
 goto :eof
 :update-texlive
-call meta update "TeX Live"
+call meta option update "TeX Live"
 
     call tlmgr update --self --all --reinstall-forcibly-removed

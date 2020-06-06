@@ -7,7 +7,7 @@ if not "%1"=="" goto :%1
 call :install-gaia_sky
 call :install-celestia
 call :install-universe_sandbox
-call :install-spaceengine
+call :install-space_engine
 
 goto :eof
 :install-gaia_sky
@@ -43,7 +43,6 @@ call meta option install "Gaia Sky"
 
 goto :eof
 :install-celestia
-echo install-celestia
 call meta option install "Celestia"
 
     set-where "where_celestia" "celestia.exe"
@@ -55,9 +54,8 @@ call meta option install "Celestia"
     rm-desktop-link "Celestia.lnk"
 
 goto :eof
-:install-spaceengine
-echo install-spaceengine
-call meta option create-links "Space Engine"
+:install-space_engine
+call meta option install "Space Engine"
 
     :: creating links only... this softwares must be installed by hand via steam
     :: #TODO - should I install the game using the command 'steam steam://install/appid'?
@@ -74,8 +72,7 @@ call meta option create-links "Space Engine"
 
 goto :eof
 :install-universe_sandbox
-echo install-universe_sandbox
-call meta option create-links "Universe Sandbox"
+call meta option install "Universe Sandbox"
 
     :: creating links only... this softwares must be installed by hand via steam
     :: #TODO - should I install the game using the command 'steam steam://install/appid'?
@@ -95,7 +92,6 @@ call meta option create-links "Universe Sandbox"
 
 goto :eof
 :install-google_earth
-echo install-google_earth
 call meta option install "Google Earth"
 
     choco install -y googleearth

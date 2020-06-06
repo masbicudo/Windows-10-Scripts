@@ -1,6 +1,6 @@
 call require apps\choco.cmd
 
-dl.cmd "https://cloud.bluestacks.com/api/getdownloadnow?platform=win&win_version=10"
+call dl.cmd "https://cloud.bluestacks.com/api/getdownloadnow?platform=win&win_version=10"
 
 :: TODO: after downloading, locate the downloaded file
 :: TODO: execute the downloaded file to install

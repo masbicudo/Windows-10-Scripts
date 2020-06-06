@@ -2,7 +2,13 @@ call require apps\choco.cmd
 call require places.cmd
 call require apps\7zip.cmd
 
-poshca "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux"
+meta incompatible "apps\virtualbox.cmd" && goto :eof
+
+::poshca "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux"
+
+:: ref: https://docs.microsoft.com/en-us/windows/wsl/wsl2-install
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 
 ::choco upgrade -y wsl
 ::choco upgrade -y wsl-archlinux
