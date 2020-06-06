@@ -29,7 +29,7 @@ ECHO.             e.g.: %Y%pnx%N% will give %_y%\DirA\DirB\file.exe%N%
 ECHO.         %Y%n%N% - file name without extension, e.g.: %_y%file%N%
 ECHO.         %Y%x%N% - extension of the file, preceeded by a dot ".", e.g.: %_y%.exe%N%
 ECHO.         Multiple can be specified, e.g.: %Y%dp%N%, %Y%nx%N%
-ECHO.         Nota that variables in the path will get expanded:
+ECHO.         Note that variables in the path will get expanded:
 ECHO.             %Y%%%%_y%USERPROFILE%Y%%%%_y%\AppData\Roaming%N% --^> %_y%%USERPROFILE%\AppData\Roaming%N%
 ECHO.         Can be defined through environment variable %B%__DPNX__%N%.
 ECHO.%C%options%W%:
@@ -50,9 +50,9 @@ ECHO.         %C%--unit-tests%N%: runs unit tests; Env var: %B%__UNIT_TESTS__%N%
 ECHO.         %C%--debug-lines%N%: debug important lines
 ECHO.
 ECHO.%R%ERRORLEVEL:%N%
-ECHO.The ERRORLEVEL is set depending on the source variable having a path or not.
-ECHO.If it is a path, it is set to something other than 0 (fail).
-ECHO.Otherwise, ERRORLEVEL is set to 0 (ok).
+ECHO.The ERRORLEVEL is set depending on the path argument provided.
+ECHO.If it is a valid path, i.e. file or folder exists, it is set to 0 (ok).
+ECHO.Otherwise, ERRORLEVEL is set to a value other than 0 (fail).
 ECHO.
 ECHO.%R%Examples:%N%
 ECHO.%N%%script_name% nx_cmd_exe "C:\Windows\System32\cmd.exe" nx%N%
@@ -61,19 +61,22 @@ GOTO :EOF
 :END_HELP
 
 :: tests
-GOTO :END_TESTS
-:SUB_TESTS
-SETLOCAL
+GOTO :SKIP_TESTS
+:DO_TESTS
+ENDLOCAL && SETLOCAL EnableDelayedExpansion && set "script_name=%script_name%" && set "__COLORS__=%__COLORS__%"
   ECHO.%R%Unit tests:%N%
 
+  IF /I "%__COLORS__%"=="T" call :SUB_SET_COLORS
+
   ::Test #1 - nx
-  ECHO.%Y%where%N%
-  call %script_name% nx_cmd_exe "C:\Windows\System32\cmd.exe" nx && ECHO.[%G% OK %N%] || ECHO.[%R%FAIL%N%]
+  ECHO.%Y%Test #1 - nx%N%
+  call %script_name% nx_cmd_exe "C:\Windows\System32\cmd.exe" nx
+  ECHO.ErrorLevel: %M%%ERRORLEVEL%%N%
   IF /I "%nx_cmd_exe%"=="cmd.exe" ( ECHO.[%G% OK %N%] ) ELSE ECHO.[%R%FAIL%N%]
 
 ENDLOCAL
 GOTO :EOF
-:END_TESTS
+:SKIP_TESTS
 
 :: colors
 GOTO :END_SET_COLORS
@@ -183,7 +186,7 @@ IF %__VERBOSE__% GEQ 3 (
 )
 ENDLOCAL
 
-IF  /I "%__UNIT_TESTS__%"=="T" call :SUB_TESTS
+IF  /I "%__UNIT_TESTS__%"=="T" goto :DO_TESTS
 IF  /I "%__HELP__%"=="T" call :SUB_HELP
 IF %__ORD__% LEQ 3 GOTO :EOF
 

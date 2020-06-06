@@ -860,7 +860,7 @@ Indigomarine="[38;2;60;51;82m"' | sed "s/^/$__NS/"
 function webred {
 #Red colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_lightsalmon="[38;2;255;160;122m"
+echo 'lightsalmon="[38;2;255;160;122m"
 salmon="[38;2;250;128;114m"
 darksalmon="[38;2;233;150;122m"
 lightcoral="[38;2;240;128;128m"
@@ -874,7 +874,7 @@ darkred="[38;2;139;0;0m"' | sed "s/^/$__NS/"
 function weborange {
 #Orange colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_coral="[38;2;255;127;80m"
+echo 'coral="[38;2;255;127;80m"
 tomato="[38;2;255;99;71m"
 orangered="[38;2;255;69;0m"
 gold="[38;2;255;215;0m"
@@ -885,7 +885,7 @@ darkorange="[38;2;255;140;0m"' | sed "s/^/$__NS/"
 function webyellow {
 #Yellow colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_lightyellow="[38;2;255;255;224m"
+echo 'lightyellow="[38;2;255;255;224m"
 lemonchiffon="[38;2;255;250;205m"
 lightgoldenrodyellow="[38;2;250;250;210m"
 papayawhip="[38;2;255;239;213m"
@@ -900,7 +900,7 @@ yellow="[38;2;255;255;0m"' | sed "s/^/$__NS/"
 function webgreen {
 #Green colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_lawngreen="[38;2;124;252;0m"
+echo 'lawngreen="[38;2;124;252;0m"
 chartreuse="[38;2;127;255;0m"
 limegreen="[38;2;50;205;50m"
 lime="[38;2;0;255;0m"
@@ -924,7 +924,7 @@ olivedrab="[38;2;107;142;35m"' | sed "s/^/$__NS/"
 function webcyan {
 #Cyan colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_lightcyan="[38;2;224;255;255m"
+echo 'lightcyan="[38;2;224;255;255m"
 cyan="[38;2;0;255;255m"
 aqua="[38;2;0;255;255m"
 aquamarine="[38;2;127;255;212m"
@@ -942,7 +942,7 @@ teal="[38;2;0;128;128m"' | sed "s/^/$__NS/"
 function webblue {
 #Blue colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_powderblue="[38;2;176;224;230m"
+echo 'powderblue="[38;2;176;224;230m"
 lightblue="[38;2;173;216;230m"
 lightskyblue="[38;2;135;206;250m"
 skyblue="[38;2;135;206;235m"
@@ -965,7 +965,7 @@ darkslateblue="[38;2;72;61;139m"' | sed "s/^/$__NS/"
 function webpurple {
 #Purple colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_lavender="[38;2;230;230;250m"
+echo 'lavender="[38;2;230;230;250m"
 thistle="[38;2;216;191;216m"
 plum="[38;2;221;160;221m"
 violet="[38;2;238;130;238m"
@@ -985,7 +985,7 @@ indigo="[38;2;75;0;130m"' | sed "s/^/$__NS/"
 function webpink {
 #Pink colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_pink="[38;2;255;192;203m"
+echo 'pink="[38;2;255;192;203m"
 lightpink="[38;2;255;182;193m"
 hotpink="[38;2;255;105;180m"
 deeppink="[38;2;255;20;147m"
@@ -996,7 +996,7 @@ mediumvioletred="[38;2;199;21;133m"' | sed "s/^/$__NS/"
 function webwhite {
 #White colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_white="[38;2;255;255;255m"
+echo 'white="[38;2;255;255;255m"
 snow="[38;2;255;250;250m"
 honeydew="[38;2;240;255;240m"
 mintcream="[38;2;245;255;250m"
@@ -1018,7 +1018,7 @@ mistyrose="[38;2;255;228;225m"' | sed "s/^/$__NS/"
 function webgray {
 #Gray colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_gainsboro="[38;2;220;220;220m"
+echo 'gainsboro="[38;2;220;220;220m"
 lightgray="[38;2;211;211;211m"
 silver="[38;2;192;192;192m"
 darkgray="[38;2;169;169;169m"
@@ -1033,7 +1033,7 @@ black="[38;2;0;0;0m"' | sed "s/^/$__NS/"
 function webbrown {
 #Brown colors
 [ ! -v __NS ] && local __NS="$NS_WEB"
-echo 'web_cornsilk="[38;2;255;248;220m"
+echo 'cornsilk="[38;2;255;248;220m"
 blanchedalmond="[38;2;255;235;205m"
 bisque="[38;2;255;228;196m"
 navajowhite="[38;2;255;222;173m"
