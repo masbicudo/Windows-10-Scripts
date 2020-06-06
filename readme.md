@@ -63,20 +63,14 @@ Then you can use `require.cmd` script to call these:
 - for example: `call require.cmd apps\openssh.cmd`
 
 
-## Authoring package installers and custom system settings
+## Creating package installers and custom system settings
 
 Creating new procedures to install and/or customize the system is very simple.
 Just create a new `.cmd` file inside the `apps` folder.
 The manager application will read the available files and display them to the user.
-Inside each file, there can be meta information to give further info:
 
-    meta option action "Program Name"
+See [Creating Packages](docs/creating-packages)
 
-These are used as markers inside the file to locate different options.
-They must follow a label that will be used as argument for the script
-to go to that option.
-
-To Do
-=====
+## To Do
 
 See [to do lists](todo.md)
